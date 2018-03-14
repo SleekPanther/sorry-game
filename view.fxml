@@ -12,8 +12,24 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<VBox fx:controller='SorryController' fx:id='mainPane' stylesheets='css/board.css' xmlns='http://javafx.com/javafx/8' xmlns:fx='http://javafx.com/fxml' >
+<Pane fx:controller='SorryController' fx:id='mainPane' stylesheets='css/board.css' xmlns='http://javafx.com/javafx/8' xmlns:fx='http://javafx.com/fxml' >
 
-	
+	<BorderPane>
+		<top>
+			<HBox styleClass='red' fx:id='topRow'></HBox>
+		</top>
+		<left>
+			<VBox styleClass='green' fx:id='leftColumn'></VBox>
+		</left>
+		<center>
+			<Pane styleClass='middle' fx:id='middle'></Pane>
+		</center>
+		<right>
+			<VBox styleClass='blue' fx:id='rightColumn'></VBox>
+		</right>
+		<bottom>
+			<HBox styleClass='yellow' fx:id='bottomRow'></HBox>
+		</bottom>
+	</BorderPane>
 
-</VBox>
+</VBox></Pane>

@@ -1,0 +1,26 @@
+.red{
+	-fx-background-color: #ff5555;
+}
+
+.green{
+	-fx-background-color: #94ff71;
+
+}
+
+.blue{
+	-fx-background-color: #7371ff;
+}
+
+.yellow{
+	-fx-background-color: #fffb71;
+}
+
+.middle{
+	-fx-background-color: #be55ff;
+}
+
+BorderPane > HBox > StackPane, BorderPane > VBox > StackPane{
+	-fx-border-width: 1;
+	-fx-border-color: black;
+	-fx-border-style: solid;
+}
