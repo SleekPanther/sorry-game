@@ -19,7 +19,17 @@
 	-fx-background-color: #be55ff;
 }
 
-BorderPane > HBox > StackPane, BorderPane > VBox > StackPane{
+BorderPane > HBox > Square, BorderPane > VBox > Square{
+	-fx-border-width: 1;
+	-fx-border-color: black;
+	-fx-border-style: solid;
+}
+
+#drawCards{
+	-fx-pref-width: 200;
+	-fx-pref-height: 50;
+	-fx-background-color: #00ff00;
+
 	-fx-border-width: 1;
 	-fx-border-color: black;
 	-fx-border-style: solid;

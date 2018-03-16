@@ -22,7 +22,10 @@
 			<VBox styleClass='green' fx:id='leftColumn'></VBox>
 		</left>
 		<center>
-			<Pane styleClass='middle' fx:id='middle'></Pane>
+			<FlowPane styleClass='middle' fx:id='middle'>
+				<Button text='Click for card' fx:id='drawCards' />
+				<Label text='Your number appears here' fx:id='numberArea'></Label>
+			</FlowPane>
 		</center>
 		<right>
 			<VBox styleClass='blue' fx:id='rightColumn'></VBox>
@@ -32,4 +35,4 @@
 		</bottom>
 	</BorderPane>
 
-</VBox></Pane>
+</Pane>

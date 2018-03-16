@@ -27,6 +27,10 @@ public class SorryController implements Initializable {
 	@FXML private VBox rightColumn;
 	@FXML private Pane middle;
 
+	@FXML private Button drawCards;
+	@FXML private Label numberArea;
+
+
 	private ArrayList<HBox> horizontalRows = new ArrayList<HBox>();
 	private ArrayList<VBox> verticalColumns = new ArrayList<VBox>();
 
@@ -53,6 +57,10 @@ public class SorryController implements Initializable {
 		createVerticalColumn(leftColumn);
 		createVerticalColumn(rightColumn);
 
+		drawCards.setOnAction((event) -> {
+			int number = (int)(Math.random() * 12) +1;
+			numberArea.setText(number+"");
+		});
 	}
 
 	private void createHorizontalRow(HBox containingRow){
@@ -69,19 +77,7 @@ public class SorryController implements Initializable {
 
 	private void createSquares(int numberOfSquares, Pane containingPane){
 		for(int i=0; i<numberOfSquares; i++){
-			StackPane square = new StackPane();
-			square.setPrefWidth(squareHeightWidth);
-			square.setPrefHeight(squareHeightWidth);
-
-			//Set black overlay semi-transparent, becomes completely transparent on hover
-			square.setStyle("-fx-background-color: rgba(0, 0, 0, .2);");
-			square.hoverProperty().addListener((observable, oldValue, hover)->{
-				if(hover){
-					square.setStyle("-fx-background-color: rgba(0, 0, 0, 0);");
-				}else{
-					square.setStyle("-fx-background-color: rgba(0, 0, 0, .2);");
-				}
-			});
+			Square square = new Square(squareHeightWidth);
 			containingPane.getChildren().add(square);
 		}
 	}
