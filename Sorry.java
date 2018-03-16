@@ -14,7 +14,7 @@ public class Sorry extends Application {
 		primaryStage.setResizable(false);
 		primaryStage.setScene(new Scene(root));
 
-		primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {	//Destroy on key PRESS ESC
+		primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {	//Destroy window on key PRESS ESC
 			if (KeyCode.ESCAPE == event.getCode()) {
 				primaryStage.close();
 			}

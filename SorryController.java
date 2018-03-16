@@ -47,30 +47,46 @@ public class SorryController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		preConstructor();
 
-		for(int i=0; i<horizontalRows.size(); i++){
-			for(int j=0; j<horizontalSpaceCount; j++){
-				StackPane square = new StackPane();
-				square.setPrefWidth(squareHeightWidth);
-				square.setPrefHeight(squareHeightWidth);
-				horizontalRows.get(i).getChildren().add(square);
-			}
-			horizontalRows.get(i).setPrefHeight(squareHeightWidth);
-			horizontalRows.get(i).setPrefWidth(boardWidth);
-		}
+		createHorizontalRow(topRow);
+		createHorizontalRow(bottomRow);
 
-		for(int i=0; i<verticalColumns.size(); i++){
-			for(int j=0; j<verticalSpaceCount; j++){
-				StackPane square = new StackPane();
-				square.setPrefWidth(squareHeightWidth);
-				square.setPrefHeight(squareHeightWidth);
-				// square.setStyle("-fx-background-color: #94ff71;");
-				
-				verticalColumns.get(i).getChildren().add(square);
-			}
-			verticalColumns.get(i).setPrefHeight(verticalColumnHeight);
-			verticalColumns.get(i).setPrefWidth(squareHeightWidth);
+		createVerticalColumn(leftColumn);
+		createVerticalColumn(rightColumn);
+
+	}
+
+	private void createHorizontalRow(HBox containingRow){
+		createSquares(horizontalSpaceCount, containingRow);
+		containingRow.setPrefHeight(squareHeightWidth);
+		containingRow.setPrefWidth(boardWidth);
+	}
+
+	private void createVerticalColumn(VBox containingColumn){
+		createSquares(verticalSpaceCount, containingColumn);
+		containingColumn.setPrefHeight(verticalColumnHeight);
+		containingColumn.setPrefWidth(squareHeightWidth);
+	}
+
+	private void createSquares(int numberOfSquares, Pane containingPane){
+		for(int i=0; i<numberOfSquares; i++){
+			StackPane square = new StackPane();
+			square.setPrefWidth(squareHeightWidth);
+			square.setPrefHeight(squareHeightWidth);
+
+			//Set black overlay semi-transparent, becomes completely transparent on hover
+			square.setStyle("-fx-background-color: rgba(0, 0, 0, .2);");
+			square.hoverProperty().addListener((observable, oldValue, hover)->{
+				if(hover){
+					square.setStyle("-fx-background-color: rgba(0, 0, 0, 0);");
+				}else{
+					square.setStyle("-fx-background-color: rgba(0, 0, 0, .2);");
+				}
+			});
+			containingPane.getChildren().add(square);
 		}
 	}
 
+	private void setUpEventHandlers(){
+	}
 
 }
