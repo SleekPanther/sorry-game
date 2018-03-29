@@ -19,7 +19,7 @@ import javafx.scene.input.MouseEvent;
 public class SorryController extends BaseController implements Initializable {
 	private static final int horizontalSpaceCount = 16;
 	private static final int verticalSpaceCount = horizontalSpaceCount-2;
-	private static final int boardWidth = 800;
+	private static final int boardWidth = 700;
 	private static final int squareHeightWidth = boardWidth/horizontalSpaceCount;
 	private static final int rowHeight = squareHeightWidth;
 	private static final int verticalColumnHeight = verticalSpaceCount * squareHeightWidth;

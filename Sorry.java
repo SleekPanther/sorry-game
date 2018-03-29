@@ -12,29 +12,55 @@ public class Sorry extends Application {
 	private static final Map<String, String> viewFilenames = new HashMap<String, String>();;
 
 	public Sorry(){
+		viewFilenames.put("menu", fxmlFolderPath+"menu.fxml");
 		viewFilenames.put("game", fxmlFolderPath+"game.fxml");
-		viewFilenames.put("help", fxmlFolderPath+"help.fxml");
+		viewFilenames.put("helpStart", fxmlFolderPath+"helpStart.fxml");
+		viewFilenames.put("helpGame", fxmlFolderPath+"helpGame.fxml");
+		viewFilenames.put("stats", fxmlFolderPath+"stats.fxml");
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception{
 		// getting loader and a pane for the first scene. loader will then give a possibility to get related controller
+		FXMLLoader menuLoader = new FXMLLoader(getClass().getResource(viewFilenames.get("menu")));
+		Parent menuParent = menuLoader.load();
+		Scene menuScene = new Scene(menuParent);
+
 		FXMLLoader gameLoader = new FXMLLoader(getClass().getResource(viewFilenames.get("game")));
 		Parent gameParent = gameLoader.load();
 		Scene gameScene = new Scene(gameParent);
 
+		FXMLLoader helpStartLoader = new FXMLLoader(getClass().getResource(viewFilenames.get("helpStart")));
+		Parent helpStartParent = helpStartLoader.load();
+		Scene helpStartScene = new Scene(helpStartParent);
+
 		// getting loader and a pane for the second scene
-		FXMLLoader helpLoader = new FXMLLoader(getClass().getResource(viewFilenames.get("help")));
-		Parent helpParent = helpLoader.load();
-		Scene helpScene = new Scene(helpParent);
+		FXMLLoader helpGameLoader = new FXMLLoader(getClass().getResource(viewFilenames.get("helpGame")));
+		Parent helpGameParent = helpGameLoader.load();
+		Scene helpGameScene = new Scene(helpGameParent);
+
+		FXMLLoader statsLoader = new FXMLLoader(getClass().getResource(viewFilenames.get("stats")));
+		Parent statsParent = statsLoader.load();
+		Scene statsScene = new Scene(statsParent);
+
 
 		// injecting second scene into the controller of the first scene
-		SorryController gameController = (SorryController) gameLoader.getController();
-		gameController.setHelpScene(helpScene);
+		MenuController menuController = (MenuController) menuLoader.getController();
+		menuController.setGameScene(gameScene);
+		menuController.setStatsScene(statsScene);
+		menuController.setHelpScene(helpStartScene);
 
-		// injecting first scene into the controller of the second scene
-		HelpController helpController = (HelpController) helpLoader.getController();
-		helpController.setGameScene(gameScene);
+		SorryController gameController = (SorryController) gameLoader.getController();
+		gameController.setHelpScene(helpGameScene);
+
+		HelpStartController helpStartController = (HelpStartController) helpStartLoader.getController();
+		helpStartController.setMenuScene(menuScene);
+
+		HelpGameController helpGameController = (HelpGameController) helpGameLoader.getController();
+		helpGameController.setGameScene(gameScene);
+
+		StatsController statsController = (StatsController) statsLoader.getController();
+		statsController.setMenuScene(menuScene);
 		
 
 		primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {	//Destroy window on key PRESS ESC
@@ -45,7 +71,7 @@ public class Sorry extends Application {
 		
 		primaryStage.setTitle("Sorry");
 		primaryStage.setResizable(false);
-		primaryStage.setScene(gameScene);
+		primaryStage.setScene(menuScene);
 		primaryStage.show();
 	}
 

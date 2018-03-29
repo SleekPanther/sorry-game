@@ -12,9 +12,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<FlowPane fx:controller='HelpController' xmlns='http://javafx.com/javafx/8' xmlns:fx='http://javafx.com/fxml' >
+<FlowPane fx:controller='MenuController' stylesheets='css/menu.css' xmlns='http://javafx.com/javafx/8' xmlns:fx='http://javafx.com/fxml' >
 
-	<Button text='Go back to board scene' fx:id='switchButton' />
-	<TextField text='Text saves when switched '/>
+	<Button text='Start Game' fx:id='newGameButton' />
+	<Button text='Stats' fx:id='statsButton' />
+	<Button text='Help' fx:id='helpButton' />
 
 </FlowPane>
