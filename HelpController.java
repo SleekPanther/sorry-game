@@ -16,23 +16,18 @@ import java.text.DecimalFormat;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
-public class HelpController implements Initializable{
-	private Scene firstScene;
+public class HelpController extends BaseController implements Initializable{
+	private Scene gameScene;
 	
 	@FXML private Button switchButton;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		switchButton.setOnAction((event) -> openFirstScene(event));
+		switchButton.setOnAction((event) -> changeScene(gameScene, event));
 	}
 	
-	public void setFirstScene(Scene scene) {
-		firstScene = scene;
-	}
-
-	public void openFirstScene(ActionEvent actionEvent) {    
-		Stage primaryStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-		primaryStage.setScene(firstScene);
+	public void setGameScene(Scene scene) {
+		gameScene = scene;
 	}
 
 }

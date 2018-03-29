@@ -16,7 +16,7 @@ import java.text.DecimalFormat;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
-public class SorryController implements Initializable {
+public class SorryController extends BaseController implements Initializable {
 	private static final int horizontalSpaceCount = 16;
 	private static final int verticalSpaceCount = horizontalSpaceCount-2;
 	private static final int boardWidth = 800;
@@ -25,7 +25,7 @@ public class SorryController implements Initializable {
 	private static final int verticalColumnHeight = verticalSpaceCount * squareHeightWidth;
 
 
-	private Scene secondScene;
+	private Scene helpScene;
 
 	@FXML private HBox topRow;
 	@FXML private HBox bottomRow;
@@ -60,6 +60,9 @@ public class SorryController implements Initializable {
 		verticalColumns.add(rightColumn);
 	}
 	
+	public void setHelpScene(Scene scene) {
+		helpScene = scene; 
+	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -78,7 +81,7 @@ public class SorryController implements Initializable {
 
 		setUpBoardSquareSequence();
 
-		switchButton.setOnAction((event) -> openSecondScene(event));
+		switchButton.setOnAction((event) -> changeScene(helpScene, event));
 	}
 
 	private void createHorizontalRow(HBox containingRow){
@@ -148,14 +151,5 @@ public class SorryController implements Initializable {
 		});
 		squaresInOrder.add(square);
 	}
-
-	public void setSecondScene(Scene scene) {
-		secondScene = scene; 
-	}
-	
-	public void openSecondScene(ActionEvent actionEvent) {
-        Stage primaryStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        primaryStage.setScene(secondScene);
-    }
 
 }
