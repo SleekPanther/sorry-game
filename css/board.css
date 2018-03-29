@@ -1,0 +1,36 @@
+.red{
+	-fx-background-color: #ff5555;
+}
+
+.green{
+	-fx-background-color: #94ff71;
+
+}
+
+.blue{
+	-fx-background-color: #7371ff;
+}
+
+.yellow{
+	-fx-background-color: #fffb71;
+}
+
+.middle{
+	-fx-background-color: #be55ff;
+}
+
+BorderPane > HBox > Square, BorderPane > VBox > Square{
+	-fx-border-width: 1;
+	-fx-border-color: black;
+	-fx-border-style: solid;
+}
+
+#drawCards{
+	-fx-pref-width: 200;
+	-fx-pref-height: 50;
+	-fx-background-color: #00ff00;
+
+	-fx-border-width: 1;
+	-fx-border-color: black;
+	-fx-border-style: solid;
+}

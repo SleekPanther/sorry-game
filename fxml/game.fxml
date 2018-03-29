@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<Pane fx:controller='SorryController' fx:id='mainPane' stylesheets='css/board.css' xmlns='http://javafx.com/javafx/8' xmlns:fx='http://javafx.com/fxml' >
+
+	<BorderPane>
+		<top>
+			<HBox styleClass='red' fx:id='topRow'></HBox>
+		</top>
+		<left>
+			<VBox styleClass='green' fx:id='leftColumn'></VBox>
+		</left>
+		<center>
+			<FlowPane styleClass='middle' fx:id='middle'>
+				<Button text='Click for card' fx:id='drawCards' />
+				<Label text='Your number appears here' fx:id='numberArea'></Label>
+				<Button text='Go to help' fx:id='switchButton' />
+			</FlowPane>
+		</center>
+		<right>
+			<VBox styleClass='blue' fx:id='rightColumn'></VBox>
+		</right>
+		<bottom>
+			<HBox styleClass='yellow' fx:id='bottomRow'></HBox>
+		</bottom>
+	</BorderPane>
+
+</Pane>
