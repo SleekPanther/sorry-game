@@ -3,6 +3,7 @@ import javafx.fxml.*;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
@@ -24,6 +25,8 @@ public class SorryController implements Initializable {
 	private static final int verticalColumnHeight = verticalSpaceCount * squareHeightWidth;
 
 
+	private Scene secondScene;
+
 	@FXML private HBox topRow;
 	@FXML private HBox bottomRow;
 	@FXML private VBox leftColumn;
@@ -32,6 +35,8 @@ public class SorryController implements Initializable {
 
 	@FXML private Button drawCards;
 	@FXML private Label numberArea;
+
+	@FXML private Button switchButton;
 
 
 	private ArrayList<HBox> horizontalRows = new ArrayList<HBox>();
@@ -72,6 +77,8 @@ public class SorryController implements Initializable {
 		});
 
 		setUpBoardSquareSequence();
+
+		switchButton.setOnAction((event) -> openSecondScene(event));
 	}
 
 	private void createHorizontalRow(HBox containingRow){
@@ -141,5 +148,14 @@ public class SorryController implements Initializable {
 		});
 		squaresInOrder.add(square);
 	}
+
+	public void setSecondScene(Scene scene) {
+		secondScene = scene; 
+	}
+	
+	public void openSecondScene(ActionEvent actionEvent) {
+        Stage primaryStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        primaryStage.setScene(secondScene);
+    }
 
 }

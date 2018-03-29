@@ -25,6 +25,7 @@
 			<FlowPane styleClass='middle' fx:id='middle'>
 				<Button text='Click for card' fx:id='drawCards' />
 				<Label text='Your number appears here' fx:id='numberArea'></Label>
+				<Button text='Go to help' fx:id='switchButton' />
 			</FlowPane>
 		</center>
 		<right>
