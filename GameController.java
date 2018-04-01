@@ -219,7 +219,7 @@ public class GameController extends BaseController implements Initializable {
 		addCornerSquaresToAllSquares();
 	}
 
-	public void addCornerSquaresToAllSquares(){
+	private void addCornerSquaresToAllSquares(){
 		for(Square square : cornersSquares){
 			allSquares.add(square);
 		}
