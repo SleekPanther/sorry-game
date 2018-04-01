@@ -17,14 +17,11 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
 public class SorryController extends BaseController implements Initializable {
-	// private static final int horizontalSpaceCount = 16;
 	private static final int squaresPerSideExcludingCornersCount = 14;
-	// private static final int verticalSpaceCount = horizontalSpaceCount-2;
 	private static final int boardWidth = 700;
 	private static final int squareHeightWidth = boardWidth/squaresPerSideExcludingCornersCount;
 	private static final int rowHeight = squareHeightWidth;
 	private static final int columnWidth = squareHeightWidth;
-	// private static final int verticalColumnHeight = squaresPerSideExcludingCornersCount * squareHeightWidth;
 
 	private static final int slideSquareDestinationForwardOffset = 4;	//how many squares ahead the slide destination is
 	private static final int slideSquare2Offset = 8;
@@ -46,10 +43,6 @@ public class SorryController extends BaseController implements Initializable {
 	@FXML private Button switchButton;
 
 
-	private ArrayList<HBox> horizontalRows = new ArrayList<HBox>();
-	private ArrayList<VBox> verticalColumns = new ArrayList<VBox>();
-
-
 	private static final int totalSquaresOnBoard = 4*squaresPerSideExcludingCornersCount + 4;	//+4 for corners
 	private ArrayList<Square> squaresInOrder = new ArrayList<Square>();
 
@@ -57,25 +50,12 @@ public class SorryController extends BaseController implements Initializable {
 	private int currentPosition = 0;
 
 
-	public SorryController(){
-	}
-
-	private void preConstructor(){
-		horizontalRows.add(topRow);
-		horizontalRows.add(bottomRow);
-
-		verticalColumns.add(leftColumn);
-		verticalColumns.add(rightColumn);
-	}
-	
 	public void setHelpScene(Scene scene) {
 		helpScene = scene; 
 	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		preConstructor();
-
 		createHorizontalRow(topRow, topRowContainer, Color.RED, false);
 		createVerticalColumn(rightColumn, Color.BLUE, false);
 		createHorizontalRow(bottomRow, bottomRowContainer, Color.YELLOW, true);
@@ -152,6 +132,10 @@ public class SorryController extends BaseController implements Initializable {
 		}
 
 		ObservableList<Node> squares = containingPane.getChildren();
+		// for(Node s : squares){
+		// 	System.out.println(s);
+		// }
+		// System.out.println();
 		Square slide1Destination = (Square)squares.get(slideSquareDestinationForwardOffset);
 		Square slide2Destination = (Square)squares.get(slideSquare2Offset+slideSquareDestinationForwardOffset);
 		
