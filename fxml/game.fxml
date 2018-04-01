@@ -12,11 +12,13 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<Pane fx:controller='SorryController' fx:id='mainPane' stylesheets='css/board.css' xmlns='http://javafx.com/javafx/8' xmlns:fx='http://javafx.com/fxml' >
+<Pane fx:controller='GameController' fx:id='mainPane' stylesheets='css/game.css' xmlns='http://javafx.com/javafx/8' xmlns:fx='http://javafx.com/fxml' >
 
 	<BorderPane>
 		<top>
-			<HBox styleClass='red' fx:id='topRow'></HBox>
+			<HBox styleClass='' fx:id='topRowContainer'>
+				<HBox styleClass='red' fx:id='topRow'></HBox>
+			</HBox>
 		</top>
 		<left>
 			<VBox styleClass='green' fx:id='leftColumn'></VBox>
@@ -24,7 +26,7 @@
 		<center>
 			<FlowPane styleClass='middle' fx:id='middle'>
 				<Button text='Click for card' fx:id='drawCards' />
-				<Label text='Your number appears here' fx:id='numberArea'></Label>
+				<Label text='1' fx:id='numberArea'></Label>
 				<Button text='Go to help' fx:id='switchButton' />
 			</FlowPane>
 		</center>
@@ -32,7 +34,9 @@
 			<VBox styleClass='blue' fx:id='rightColumn'></VBox>
 		</right>
 		<bottom>
-			<HBox styleClass='yellow' fx:id='bottomRow'></HBox>
+			<HBox styleClass='' fx:id='bottomRowContainer'>
+				<HBox styleClass='yellow' fx:id='bottomRow'></HBox>
+			</HBox>
 		</bottom>
 	</BorderPane>
 
