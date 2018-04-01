@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.beans.value.ChangeListener;
@@ -242,7 +243,8 @@ public class SorryController extends BaseController implements Initializable {
 			public void handle(MouseEvent e) {
 				//Skip empty squares, only allow movement if a pawn in on the space
 				if(!square.isOccupied()){
-					System.out.println("Square occupied can't move");
+					Popup alert = new Popup(AlertType.INFORMATION, "Square occupied, can't move");
+					alert.show();
 					return;
 				}
 
