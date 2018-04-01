@@ -46,6 +46,8 @@ public class SorryController extends BaseController implements Initializable {
 	private static final int totalSquaresOnBoard = 4*squaresPerSideExcludingCornersCount + 4;	//+4 for corners
 	private ArrayList<Square> squaresInOrder = new ArrayList<Square>();
 
+	private LinkedList<Card> cards;
+	private LinkedList<Card> discards;
 	private int currentCard = 0;
 	private int currentPosition = 0;
 
@@ -56,6 +58,8 @@ public class SorryController extends BaseController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		createCards();
+
 		createHorizontalRow(topRow, topRowContainer, Color.RED, false);
 		createVerticalColumn(rightColumn, Color.BLUE, false);
 		createHorizontalRow(bottomRow, bottomRowContainer, Color.YELLOW, true);
@@ -69,6 +73,30 @@ public class SorryController extends BaseController implements Initializable {
 		setUpBoardSquareSequence();
 
 		switchButton.setOnAction((event) -> changeScene(helpScene, event));
+	}
+
+	private void createCards(){
+		cards = new LinkedList<Card>();
+		discards = new LinkedList<Card>();
+
+
+		for(int cardType=0; cardType<=5; cardType++){
+			if(cardType!=6 && cardType!=9){		//Create 4 of each type except 6 & 9
+				for(int j=0; j<4; j++){
+					cards.add(new Card(cardType));
+				}
+			}
+		}
+		cards.add(new Card(1));		//There are 4 1 cards, so add one more after 4 exist in the deck
+
+		Collections.shuffle(cards);
+	}
+
+	private void swapDecks(){
+		cards=discards;
+		Collections.shuffle(cards);
+
+		discards = new LinkedList<Card>();
 	}
 
 	private void createHorizontalRow(HBox containingRow, HBox parentContainer, Color slideColor, boolean reverseCreationDirection){
