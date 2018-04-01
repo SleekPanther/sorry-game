@@ -1,4 +1,3 @@
-
 public class Card {
 	private int type;
 	

@@ -2,6 +2,7 @@ import javafx.scene.layout.StackPane;
 
 public class Square extends StackPane {
 	protected Color color;
+	protected Square immediateNextSquare;
 	private boolean isOccupied = false;
 	private int globalSequencePosition;
 
@@ -54,6 +55,13 @@ public class Square extends StackPane {
 		return color;
 	}
 	
+	public void setImmediateNextSquare(Square square){
+		immediateNextSquare=square;
+	}
+
+	public Square getImmediateNextSquare(){
+		return immediateNextSquare;
+	}
 
 	public boolean isOccupied(){
 		return isOccupied;
@@ -75,7 +83,13 @@ public class Square extends StackPane {
 	
 	@Override
 	public String toString(){
-		return "Id="+id+""+"\tcolor="+color;
+		String next = "empty";
+		if(immediateNextSquare!=null){
+			next=immediateNextSquare.getSquareId()+"";
+		}
+		
+		return "Id="+id+""+"\tcolor="+color+"\tnext="+next;
+		// return "Id="+id+""+"\tcolor="+color;
 	}
 
 }
