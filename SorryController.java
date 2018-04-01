@@ -17,16 +17,23 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
 public class SorryController extends BaseController implements Initializable {
-	private static final int horizontalSpaceCount = 16;
-	private static final int verticalSpaceCount = horizontalSpaceCount-2;
+	// private static final int horizontalSpaceCount = 16;
+	private static final int squaresPerSideExcludingCornersCount = 14;
+	// private static final int verticalSpaceCount = horizontalSpaceCount-2;
 	private static final int boardWidth = 700;
-	private static final int squareHeightWidth = boardWidth/horizontalSpaceCount;
+	private static final int squareHeightWidth = boardWidth/squaresPerSideExcludingCornersCount;
 	private static final int rowHeight = squareHeightWidth;
-	private static final int verticalColumnHeight = verticalSpaceCount * squareHeightWidth;
+	private static final int columnWidth = squareHeightWidth;
+	// private static final int verticalColumnHeight = squaresPerSideExcludingCornersCount * squareHeightWidth;
+
+	private static final int slideSquareDestinationForwardOffset = 4;	//how many squares ahead the slide destination is
+	private static final int slideSquare2Offset = 8;
 
 
 	private Scene helpScene;
 
+	@FXML private HBox topRowContainer;
+	@FXML private HBox bottomRowContainer;
 	@FXML private HBox topRow;
 	@FXML private HBox bottomRow;
 	@FXML private VBox leftColumn;
@@ -42,7 +49,8 @@ public class SorryController extends BaseController implements Initializable {
 	private ArrayList<HBox> horizontalRows = new ArrayList<HBox>();
 	private ArrayList<VBox> verticalColumns = new ArrayList<VBox>();
 
-	private static final int totalSquaresOnBoard = 2*horizontalSpaceCount + 2*verticalSpaceCount;
+
+	private static final int totalSquaresOnBoard = 4*squaresPerSideExcludingCornersCount + 4;	//+4 for corners
 	private ArrayList<Square> squaresInOrder = new ArrayList<Square>();
 
 	private int currentCard = 0;
@@ -68,11 +76,10 @@ public class SorryController extends BaseController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		preConstructor();
 
-		createHorizontalRow(topRow);
-		createHorizontalRow(bottomRow);
-
-		createVerticalColumn(leftColumn);
-		createVerticalColumn(rightColumn);
+		createHorizontalRow(topRow, topRowContainer, Color.RED, false);
+		createVerticalColumn(rightColumn, Color.BLUE, false);
+		createHorizontalRow(bottomRow, bottomRowContainer, Color.YELLOW, true);
+		createVerticalColumn(leftColumn, Color.GREEN, true);
 
 		drawCards.setOnAction((event) -> {
 			currentCard = (int)(Math.random() * 12) +1;
@@ -84,23 +91,72 @@ public class SorryController extends BaseController implements Initializable {
 		switchButton.setOnAction((event) -> changeScene(helpScene, event));
 	}
 
-	private void createHorizontalRow(HBox containingRow){
-		createSquares(horizontalSpaceCount, containingRow);
-		containingRow.setPrefHeight(squareHeightWidth);
-		containingRow.setPrefWidth(boardWidth);
-	}
-
-	private void createVerticalColumn(VBox containingColumn){
-		createSquares(verticalSpaceCount, containingColumn);
-		containingColumn.setPrefHeight(verticalColumnHeight);
-		containingColumn.setPrefWidth(squareHeightWidth);
-	}
-
-	private void createSquares(int numberOfSquares, Pane containingPane){
-		for(int i=0; i<numberOfSquares; i++){
-			Square square = new Square(squareHeightWidth);
-			containingPane.getChildren().add(square);
+	private void createHorizontalRow(HBox containingRow, HBox parentContainer, Color slideColor, boolean reverseCreationDirection){
+		Square cornerSquare1 = new Square(squareHeightWidth);
+		if(reverseCreationDirection){
+			parentContainer.getChildren().add(cornerSquare1);
 		}
+		else{
+			parentContainer.getChildren().add(0, cornerSquare1);
+		}
+
+		createSquares(squaresPerSideExcludingCornersCount, containingRow, slideColor, reverseCreationDirection);
+
+		Square cornerSquare2 = new Square(squareHeightWidth);
+		if(reverseCreationDirection){
+			parentContainer.getChildren().add(0, cornerSquare2);
+		}
+		else{
+			parentContainer.getChildren().add(cornerSquare2);
+		}
+	}
+
+	private void createVerticalColumn(VBox containingColumn, Color slideColor, boolean reverseCreationDirection){
+		createSquares(squaresPerSideExcludingCornersCount, containingColumn, slideColor, reverseCreationDirection);
+	}
+
+	private void createSquares(int numberOfSquares, Pane containingPane, Color slideColor, boolean reverseCreationDirection){
+		SlideStartSquare slideSquare1 = new SlideStartSquare(squareHeightWidth, slideColor);
+		containingPane.getChildren().add(slideSquare1);
+
+		SafetyEntrySquare safetyEntrySquare = new SafetyEntrySquare(squareHeightWidth, slideColor);
+		if(reverseCreationDirection){
+			containingPane.getChildren().add(0, safetyEntrySquare);	//insert at the head of the list
+		}
+		else{	//else add the the end
+			containingPane.getChildren().add(safetyEntrySquare);
+		}
+		
+		SlideStartSquare slideSquare2=null;
+		for(int i=2; i<numberOfSquares; i++){
+			if(reverseCreationDirection){		//insert at the head of the list (add(0, item)) adds at position 0
+				if(i==slideSquare2Offset){
+					slideSquare2 = new SlideStartSquare(squareHeightWidth, slideColor);
+					containingPane.getChildren().add(0, slideSquare2);
+				}
+				else{
+					Square square = new Square(squareHeightWidth);
+					containingPane.getChildren().add(0, square);
+				}
+			}
+			else{	//else add the the end
+				if(i==slideSquare2Offset){
+					slideSquare2 = new SlideStartSquare(squareHeightWidth, slideColor);
+					containingPane.getChildren().add(slideSquare2);
+				}
+				else{
+					Square square = new Square(squareHeightWidth);
+					containingPane.getChildren().add(square);
+				}
+			}
+		}
+
+		ObservableList<Node> squares = containingPane.getChildren();
+		Square slide1Destination = (Square)squares.get(slideSquareDestinationForwardOffset);
+		Square slide2Destination = (Square)squares.get(slideSquare2Offset+slideSquareDestinationForwardOffset);
+		
+		slideSquare1.setDestinationSquare(slide1Destination);
+		slideSquare2.setDestinationSquare(slide2Destination);
 	}
 
 	private void setUpBoardSquareSequence(){

@@ -16,7 +16,9 @@
 
 	<BorderPane>
 		<top>
-			<HBox styleClass='red' fx:id='topRow'></HBox>
+			<HBox styleClass='' fx:id='topRowContainer'>
+				<HBox styleClass='red' fx:id='topRow'></HBox>
+			</HBox>
 		</top>
 		<left>
 			<VBox styleClass='green' fx:id='leftColumn'></VBox>
@@ -32,7 +34,9 @@
 			<VBox styleClass='blue' fx:id='rightColumn'></VBox>
 		</right>
 		<bottom>
-			<HBox styleClass='yellow' fx:id='bottomRow'></HBox>
+			<HBox styleClass='' fx:id='bottomRowContainer'>
+				<HBox styleClass='yellow' fx:id='bottomRow'></HBox>
+			</HBox>
 		</bottom>
 	</BorderPane>
 
