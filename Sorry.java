@@ -50,7 +50,7 @@ public class Sorry extends Application {
 		menuController.setStatsScene(statsScene);
 		menuController.setHelpScene(helpStartScene);
 
-		SorryController gameController = (SorryController) gameLoader.getController();
+		GameController gameController = (GameController) gameLoader.getController();
 		gameController.setHelpScene(helpGameScene);
 
 		HelpStartController helpStartController = (HelpStartController) helpStartLoader.getController();

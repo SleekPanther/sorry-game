@@ -17,7 +17,7 @@ import java.text.DecimalFormat;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
-public class SorryController extends BaseController implements Initializable {
+public class GameController extends BaseController implements Initializable {
 	private static final int squaresPerSideExcludingCornersCount = 14;
 	private static final int boardWidth = 700;
 	private static final int squareHeightWidth = boardWidth/squaresPerSideExcludingCornersCount;
