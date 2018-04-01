@@ -17,6 +17,7 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
 public class HelpStartController extends BaseController implements Initializable{
+	private static final int boardWidth = 700;
 	private Scene menuScene;
 	
 	@FXML private Button switchButton;
