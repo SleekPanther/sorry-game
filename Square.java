@@ -4,6 +4,7 @@ public class Square extends StackPane {
 	protected Color color;
 	protected Square immediateNextSquare;
 	protected Pawn pawn;
+	protected boolean highlighted=false;
 	private boolean isOccupied = false;
 	private int globalSequencePosition;
 
@@ -30,18 +31,32 @@ public class Square extends StackPane {
 		//Set black overlay semi-transparent, becomes completely transparent on hover
 		setStyle("-fx-background-color: rgba(0, 0, 0, .2);");
 		hoverProperty().addListener((observable, oldValue, hover)->{
-			if(hover){
-				setStyle("-fx-background-color: rgba(0, 0, 0, 0);");
-			}else{
-				setStyle("-fx-background-color: rgba(0, 0, 0, .2);");
+			if(!highlighted){	//don't change hover if a square is highlighted
+				if(hover){
+					setStyle("-fx-background-color: rgba(0, 0, 0, 0);");
+				}
+				else{
+					setStyle("-fx-background-color: rgba(0, 0, 0, .2);");
+				}
 			}
 		});
 		
+		//Square ID's for testing display on hover
 		hoverProperty().addListener((observable, oldValue, hover)->{
 			if(hover){
 				System.out.print("\n"+this);
 			}
 		});
+	}
+
+	public void highlight(){
+		setStyle("-fx-background-color: rgba(0, 0, 0, 0);");
+		highlighted=true;
+	}
+
+	public void unHighlight(){
+		setStyle("-fx-background-color: rgba(0, 0, 0, .2);");
+		highlighted=false;
 	}
 
 	public int getSquareId(){

@@ -54,6 +54,8 @@ public class GameController extends BaseController implements Initializable {
 	private int currentCard = 1;
 	private int currentPosition = 0;
 
+	private Human human;
+
 
 	public void setHelpScene(Scene scene) {
 		helpScene = scene; 
@@ -63,6 +65,8 @@ public class GameController extends BaseController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		createCards();
 
+		human = new Human("Name", Color.RED);
+
 		createHorizontalRow(topRow, topRowContainer, Color.RED, false);
 		createVerticalColumn(rightColumn, Color.BLUE, false);
 		createHorizontalRow(bottomRow, bottomRowContainer, Color.YELLOW, true);
@@ -70,12 +74,24 @@ public class GameController extends BaseController implements Initializable {
 
 		linkCornerSquaresToSequence();
 
+		List[] listOfListsOfSquares = new List[]{
+			topRow.getChildren(), 
+			rightColumn.getChildren(), 
+			bottomRow.getChildren(), 
+			leftColumn.getChildren(), 
+			cornersSquares, 
+		};
+		createSquareClickHandlers(listOfListsOfSquares);
+
+
+		ObservableList<Node> topSquares = topRow.getChildren();
+		((Square)topSquares.get(0)).add(new Pawn(10, Color.RED));
+
+
 		drawCards.setOnAction((event) -> {
 			currentCard = (int)(Math.random() * 12) +1;
 			numberArea.setText(currentCard+"");
 		});
-
-		setUpBoardSquareSequence();
 
 		switchButton.setOnAction((event) -> changeScene(helpScene, event));
 	}
@@ -207,60 +223,17 @@ public class GameController extends BaseController implements Initializable {
 		( (Square)leftSquares.get(0) ).setImmediateNextSquare(cornersSquares.get(0));
 	}
 
-
-	private void setUpBoardSquareSequence(){
-		//topRow & right are created in order to i can be the global position
-		for(int i=0; i<topRow.getChildren().size(); i++){
-			Square square = (Square)topRow.getChildren().get(i);
-			addSquareToBoardSequence(square, i);
-		}
-
-		for(int i=0; i<rightColumn.getChildren().size(); i++){
-			Square square = (Square)rightColumn.getChildren().get(i);
-			addSquareToBoardSequence(square, i);
-		}
-
-		//Bottom row goes left to right but was created right to left. So loop backwards & keep a position counter incrementing forwards
-		for(int i=bottomRow.getChildren().size()-1, position=squaresInOrder.size()-1; i>=0; i--, position++){
-			Square square = (Square)bottomRow.getChildren().get(i);
-			addSquareToBoardSequence(square, position);
-		}
-
-		//Left column goes bottom to top but was created top down, so loop backwards
-		for(int i=leftColumn.getChildren().size()-1, position=squaresInOrder.size()-1; i>=0; i--, position++){
-			Square square = (Square)leftColumn.getChildren().get(i);
-			addSquareToBoardSequence(square, position);
-		}
-
-		//Add pawn in the upper left to start
-		squaresInOrder.get(0).add(new Pawn(10, Color.GREEN));
-	}
-
-	private void addSquareToBoardSequence(Square square, int position){
-		square.setGlobalSequencePosition(position);
-			
-		square.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
-			public void handle(MouseEvent e) {
-				//Skip empty squares, only allow movement if a pawn in on the space
-				if(!square.isOccupied()){
-					Popup alert = new Popup(AlertType.INFORMATION, "Square occupied, can't move");
-					alert.show();
-					return;
-				}
-
-				square.getPawn().move(currentCard);
-
-				// int potentialNextPosition = (currentPosition+currentCard) % squaresInOrder.size();		//modulo board size to make it circular & go back to the start of the array
-				// Square potentialNextSquare = squaresInOrder.get(potentialNextPosition);
-				// if(!potentialNextSquare.isOccupied()){
-				// 	currentPosition = potentialNextPosition;
-				// 	square.vacate();
-				// 	potentialNextSquare.add(new Pawn(10, "#000000"));
-				// }
-
+	private void createSquareClickHandlers(List[] listOfListsOfSquares){
+		for(int i=0; i<listOfListsOfSquares.length; i++){
+			for(int j=0; j<listOfListsOfSquares[i].size();j++){
+				Square square = (Square)listOfListsOfSquares[i].get(j);
+				square.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
+					public void handle(MouseEvent e) {
+						human.handleSquareClick(square, currentCard);
+					}
+				});
 			}
-		});
-		squaresInOrder.add(square);
+		}
 	}
 
 }

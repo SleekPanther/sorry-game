@@ -35,16 +35,28 @@ public class Pawn extends Circle{
 		return currentParentSquare;
 	}
 
-	public void move(int numSpaces){
-		currentParentSquare.vacate();
+	public Color getColor(){
+		return color;
+	}
 
+	public Square calculateLandingSquare(int numSpaces){
 		//need to handle moving backwards later
 
-		Square destinationSquare = currentParentSquare.getImmediateNextSquare();
+		Square landingSquare = currentParentSquare.getImmediateNextSquare();
 		for(int i=1; i<numSpaces; i++){		//follow links to next square if moving > 1 forward
-			destinationSquare = destinationSquare.getImmediateNextSquare();
+			landingSquare = landingSquare.getImmediateNextSquare();
 		}
+		return landingSquare;
+	}
 
+	public Square move(int numSpaces){
+		Square landingSquare = calculateLandingSquare(numSpaces);
+		move(landingSquare);
+		return landingSquare;
+	}
+
+	public void move(Square destinationSquare){
+		currentParentSquare.vacate();
 		destinationSquare.add(this);
 	}
 
