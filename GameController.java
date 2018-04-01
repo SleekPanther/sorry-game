@@ -21,8 +21,6 @@ public class GameController extends BaseController implements Initializable {
 	private static final int squaresPerSideExcludingCornersCount = 14;
 	private static final int boardWidth = 700;
 	private static final int squareHeightWidth = boardWidth/squaresPerSideExcludingCornersCount;
-	private static final int rowHeight = squareHeightWidth;
-	private static final int columnWidth = squareHeightWidth;
 
 	private static final int slideSquareDestinationForwardOffset = 4;	//how many squares ahead the slide destination is
 	private static final int slideSquare2Offset = 8;
@@ -45,14 +43,13 @@ public class GameController extends BaseController implements Initializable {
 
 
 	private static final int totalSquaresOnBoard = 4*squaresPerSideExcludingCornersCount + 4;	//+4 for corners
-	private ArrayList<Square> squaresInOrder = new ArrayList<Square>();
+	private ArrayList<Square> allSquares = new ArrayList<Square>();
 
 	private ArrayList<Square> cornersSquares = new ArrayList<Square>();
 
 	private LinkedList<Card> cards;
 	private LinkedList<Card> discards;
 	private int currentCard = 1;
-	private int currentPosition = 0;
 
 	private Human human;
 
@@ -74,14 +71,7 @@ public class GameController extends BaseController implements Initializable {
 
 		linkCornerSquaresToSequence();
 
-		List[] listOfListsOfSquares = new List[]{
-			topRow.getChildren(), 
-			rightColumn.getChildren(), 
-			bottomRow.getChildren(), 
-			leftColumn.getChildren(), 
-			cornersSquares, 
-		};
-		createSquareClickHandlers(listOfListsOfSquares);
+		createSquareClickHandlers();
 
 
 		ObservableList<Node> topSquares = topRow.getChildren();
@@ -202,6 +192,10 @@ public class GameController extends BaseController implements Initializable {
 				currentSquare.setImmediateNextSquare((Square)squares.get(i+1));	//set pointer to next square on a side
 			}
 		}
+
+		for(Node square : squares){
+			allSquares.add((Square)square);
+		}
 	}
 
 	private void linkCornerSquaresToSequence(){
@@ -221,18 +215,23 @@ public class GameController extends BaseController implements Initializable {
 		ObservableList<Node> leftSquares = leftColumn.getChildren();
 		cornersSquares.get(3).setImmediateNextSquare((Square)leftSquares.get(leftSquares.size()-1));
 		( (Square)leftSquares.get(0) ).setImmediateNextSquare(cornersSquares.get(0));
+
+		addCornerSquaresToAllSquares();
 	}
 
-	private void createSquareClickHandlers(List[] listOfListsOfSquares){
-		for(int i=0; i<listOfListsOfSquares.length; i++){
-			for(int j=0; j<listOfListsOfSquares[i].size();j++){
-				Square square = (Square)listOfListsOfSquares[i].get(j);
-				square.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
-					public void handle(MouseEvent e) {
-						human.handleSquareClick(square, currentCard);
-					}
-				});
-			}
+	public void addCornerSquaresToAllSquares(){
+		for(Square square : cornersSquares){
+			allSquares.add(square);
+		}
+	}
+
+	private void createSquareClickHandlers(){
+		for(Square square : allSquares){
+			square.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
+				public void handle(MouseEvent e) {
+					human.handleSquareClick(square, currentCard);
+				}
+			});
 		}
 	}
 

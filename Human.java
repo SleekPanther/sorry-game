@@ -23,8 +23,6 @@ public class Human extends Player{
 			destinationSquare.highlight();
 		}
 		else{
-			System.out.println("clicked="+clickedSquare+"\tdest="+destinationSquare);
-
 			// Popup alert = new Popup(AlertType.INFORMATION, "Square occupied, can't move");
 
 			if(clickedSquare.getSquareId() == destinationSquare.getSquareId()){		//Make sure clicked square is the correct destination
