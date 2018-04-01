@@ -3,6 +3,7 @@ import javafx.scene.layout.StackPane;
 public class Square extends StackPane {
 	protected Color color;
 	protected Square immediateNextSquare;
+	protected Pawn pawn;
 	private boolean isOccupied = false;
 	private int globalSequencePosition;
 
@@ -54,6 +55,11 @@ public class Square extends StackPane {
 	public Color getColor(){
 		return color;
 	}
+
+	public Pawn getPawn(){
+		return pawn;
+	}
+
 	
 	public void setImmediateNextSquare(Square square){
 		immediateNextSquare=square;
@@ -69,7 +75,7 @@ public class Square extends StackPane {
 
 	public void vacate(){
 		isOccupied = false;
-		getChildren().clear();;
+		getChildren().clear();		//update ui
 	}
 
 	public void setGlobalSequencePosition(int position){
@@ -78,6 +84,8 @@ public class Square extends StackPane {
 
 	public void add(Pawn pawn){
 		isOccupied = true;
+		this.pawn=pawn;
+		pawn.setCurrentParentSquare(this);
 		getChildren().addAll(pawn);
 	}
 	
@@ -87,7 +95,7 @@ public class Square extends StackPane {
 		if(immediateNextSquare!=null){
 			next=immediateNextSquare.getSquareId()+"";
 		}
-		
+
 		return "Id="+id+""+"\tcolor="+color+"\tnext="+next;
 		// return "Id="+id+""+"\tcolor="+color;
 	}

@@ -50,7 +50,7 @@ public class SorryController extends BaseController implements Initializable {
 
 	private LinkedList<Card> cards;
 	private LinkedList<Card> discards;
-	private int currentCard = 0;
+	private int currentCard = 1;
 	private int currentPosition = 0;
 
 
@@ -225,14 +225,14 @@ public class SorryController extends BaseController implements Initializable {
 			addSquareToBoardSequence(square, position);
 		}
 
-		//Left column goes bottom to top but was greated top down, so loop backwards
+		//Left column goes bottom to top but was created top down, so loop backwards
 		for(int i=leftColumn.getChildren().size()-1, position=squaresInOrder.size()-1; i>=0; i--, position++){
 			Square square = (Square)leftColumn.getChildren().get(i);
 			addSquareToBoardSequence(square, position);
 		}
 
 		//Add pawn in the upper left to start
-		squaresInOrder.get(0).add(new Pawn(10, "#000000"));
+		squaresInOrder.get(0).add(new Pawn(10, Color.RED));
 	}
 
 	private void addSquareToBoardSequence(Square square, int position){
@@ -242,15 +242,20 @@ public class SorryController extends BaseController implements Initializable {
 			public void handle(MouseEvent e) {
 				//Skip empty squares, only allow movement if a pawn in on the space
 				if(!square.isOccupied()){
+					System.out.println("Square occupied can't move");
 					return;
 				}
-				int potentialNextPosition = (currentPosition+currentCard) % squaresInOrder.size();		//modulo board size to make it circular & go back to the start of the array
-				Square potentialNextSquare = squaresInOrder.get(potentialNextPosition);
-				if(!potentialNextSquare.isOccupied()){
-					currentPosition = potentialNextPosition;
-					square.vacate();
-					potentialNextSquare.add(new Pawn(10, "#000000"));
-				}
+
+				square.getPawn().move(currentCard);
+
+				// int potentialNextPosition = (currentPosition+currentCard) % squaresInOrder.size();		//modulo board size to make it circular & go back to the start of the array
+				// Square potentialNextSquare = squaresInOrder.get(potentialNextPosition);
+				// if(!potentialNextSquare.isOccupied()){
+				// 	currentPosition = potentialNextPosition;
+				// 	square.vacate();
+				// 	potentialNextSquare.add(new Pawn(10, "#000000"));
+				// }
+
 			}
 		});
 		squaresInOrder.add(square);
