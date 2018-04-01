@@ -9,13 +9,22 @@ public class Pawn extends Circle{
 		this.color=color;
 
 		if(color == Color.RED){
-			setStyle("-fx-background-color: #f00");
+			setStyle("-fx-fill: #f00");
+		}
+		else if(color == Color.BLUE){
+			setStyle("-fx-fill: #00f");
+		}
+		else if(color == Color.YELLOW){
+			setStyle("-fx-fill: #ff0");
+		}
+		else if(color == Color.GREEN){
+			setStyle("-fx-fill: #0f0");
 		}
 	}
 
-	public Pawn(double radius, Color color, String backgroundColor){
+	public Pawn(double radius, Color color, String fillColor){
 		this(radius, color);
-		setStyle("-fx-background-color: "+backgroundColor);
+		setStyle("-fx-fill: "+fillColor);
 	}
 
 	public void setCurrentParentSquare(Square square){

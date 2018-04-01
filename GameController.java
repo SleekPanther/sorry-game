@@ -233,7 +233,7 @@ public class GameController extends BaseController implements Initializable {
 		}
 
 		//Add pawn in the upper left to start
-		squaresInOrder.get(0).add(new Pawn(10, Color.RED));
+		squaresInOrder.get(0).add(new Pawn(10, Color.GREEN));
 	}
 
 	private void addSquareToBoardSequence(Square square, int position){
