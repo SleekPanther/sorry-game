@@ -91,7 +91,7 @@ public class GameController extends BaseController implements Initializable {
 		discards = new LinkedList<Card>();
 
 
-		for(int cardType=0; cardType<=5; cardType++){
+		for(int cardType=0; cardType<=12; cardType++){
 			if(cardType!=6 && cardType!=9){		//Create 4 of each type except 6 & 9
 				for(int j=0; j<4; j++){
 					cards.add(new Card(cardType));
@@ -107,7 +107,7 @@ public class GameController extends BaseController implements Initializable {
 		cards=discards;
 		Collections.shuffle(cards);
 
-		discards = new LinkedList<Card>();
+		discards.clear();
 	}
 
 	private void createHorizontalRow(HBox containingRow, HBox parentContainer, Color slideColor, boolean reverseCreationDirection){
