@@ -12,14 +12,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<FlowPane fx:controller='HelpGameController' stylesheets='css/helpGame.css' xmlns='http://javafx.com/javafx/8' xmlns:fx='http://javafx.com/fxml' >
+<FlowPane fx:controller='HelpGameController' stylesheets='css/help.css' xmlns='http://javafx.com/javafx/8' xmlns:fx='http://javafx.com/fxml' >
 
 	<Button text='Go back to game' fx:id='switchButton'/>
 
 
 	<VBox styleClass="middle" prefWidth="400" prefHeight="400">
-		<Text styleClass="title">It seems that you need some help!</Text>
-		<TextArea styleClass="helpText" prefHeight="350" prefWidth="400" text="${'
+		<Text styleClass="title">It seems that you need some help with game play!</Text>
+		<TextArea styleClass="helpText" prefHeight="360" prefWidth="400" text="${'
 			\nGeneral Rules:\n
 			HELP TEXT HELP TEXT HELP TEXT HELP TEXT\n
 			HELP TEXT HELP TEXT HELP TEXT HELP TEXT\n
