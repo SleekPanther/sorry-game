@@ -19,7 +19,7 @@
 	-fx-background-color: #be55ff;
 }
 
-BorderPane > HBox > Square, BorderPane > VBox > Square{
+BorderPane HBox > Square, BorderPane > VBox > Square{
 	-fx-border-width: 1;
 	-fx-border-color: black;
 	-fx-border-style: solid;
