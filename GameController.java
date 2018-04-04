@@ -45,6 +45,24 @@ public class GameController extends BaseController implements Initializable {
 	@FXML private StackPane redStartContainer;
 	private StartSquare redStartSquare;
 
+	@FXML private HBox safetyBlue;
+	@FXML private StackPane blueHomeContainer;
+	private HomeSquare blueHomeSquare;
+	@FXML private StackPane blueStartContainer;
+	private StartSquare blueStartSquare;
+
+	@FXML private VBox safetyYellow;
+	@FXML private StackPane yellowHomeContainer;
+	private HomeSquare yellowHomeSquare;
+	@FXML private StackPane yellowStartContainer;
+	private StartSquare yellowStartSquare;
+
+	@FXML private HBox safetyGreen;
+	@FXML private StackPane greenHomeContainer;
+	private HomeSquare greenHomeSquare;
+	@FXML private StackPane greenStartContainer;
+	private StartSquare greenStartSquare;
+
 	@FXML private Button drawCards;
 	@FXML private Label numberArea;
 
@@ -80,20 +98,7 @@ public class GameController extends BaseController implements Initializable {
 
 		linkCornerSquaresToSequence();
 
-		for(int i=0; i<numSafetySquares; i++){
-			safetyRed.getChildren().add(new SafetySquare(squareHeightWidth, Color.RED));
-		}
-		AnchorPane.setLeftAnchor(safetyRed, squareHeightWidth);
-
-		redHomeSquare = new HomeSquare(squareHeightWidth, Color.RED, "redHomeSquare");
-		redHomeContainer.getChildren().add(redHomeSquare);
-		AnchorPane.setTopAnchor(redHomeContainer, homeSquareDistanceFromBoardEdge);
-
-		redStartSquare = new StartSquare(squareHeightWidth, Color.RED, "redStartSquare");
-		redStartContainer.getChildren().add(redStartSquare);
-		AnchorPane.setLeftAnchor(redStartContainer, 2*squareHeightWidth);
-
-
+		createMiddleSquares();
 
 		createSquareClickHandlers();
 
@@ -247,6 +252,73 @@ public class GameController extends BaseController implements Initializable {
 		for(Square square : cornersSquares){
 			allSquares.add(square);
 		}
+	}
+
+	private void createMiddleSquares(){
+		//Red: Upper left
+		for(int i=0; i<numSafetySquares; i++){
+			safetyRed.getChildren().add(new SafetySquare(squareHeightWidth, Color.RED));
+		}
+		AnchorPane.setLeftAnchor(safetyRed, squareHeightWidth);
+
+		redHomeSquare = new HomeSquare(squareHeightWidth, Color.RED, "redHomeSquare");
+		redHomeContainer.getChildren().add(redHomeSquare);
+		AnchorPane.setTopAnchor(redHomeContainer, homeSquareDistanceFromBoardEdge);
+
+		redStartSquare = new StartSquare(squareHeightWidth, Color.RED, "redStartSquare");
+		redStartContainer.getChildren().add(redStartSquare);
+		AnchorPane.setLeftAnchor(redStartContainer, 2*squareHeightWidth);
+
+
+		//Blue: Upper right
+		for(int i=0; i<numSafetySquares; i++){
+			safetyBlue.getChildren().add(new SafetySquare(squareHeightWidth, Color.BLUE));
+		}
+		AnchorPane.setTopAnchor(safetyBlue, squareHeightWidth);
+		AnchorPane.setRightAnchor(safetyBlue, 0.0);
+
+		blueHomeSquare = new HomeSquare(squareHeightWidth, Color.BLUE, "blueHomeSquare");
+		blueHomeContainer.getChildren().add(blueHomeSquare);
+		AnchorPane.setRightAnchor(blueHomeContainer, homeSquareDistanceFromBoardEdge);
+
+		blueStartSquare = new StartSquare(squareHeightWidth, Color.BLUE, "blueStartSquare");
+		blueStartContainer.getChildren().add(blueStartSquare);
+		AnchorPane.setTopAnchor(blueStartContainer, 2*squareHeightWidth);
+		AnchorPane.setRightAnchor(blueStartContainer, 0.0);
+
+
+		//Yellow Bottom right
+		for(int i=0; i<numSafetySquares; i++){
+			safetyYellow.getChildren().add(0, new SafetySquare(squareHeightWidth, Color.YELLOW));	//add to head of list to create bottom to top
+		}
+		AnchorPane.setRightAnchor(safetyYellow, squareHeightWidth);
+		AnchorPane.setBottomAnchor(safetyYellow, 0.0);
+
+		yellowHomeSquare = new HomeSquare(squareHeightWidth, Color.YELLOW, "yellowHomeSquare");
+		yellowHomeContainer.getChildren().add(yellowHomeSquare);
+		AnchorPane.setBottomAnchor(yellowHomeContainer, homeSquareDistanceFromBoardEdge);
+		AnchorPane.setRightAnchor(yellowHomeContainer, 0.0);
+
+		yellowStartSquare = new StartSquare(squareHeightWidth, Color.YELLOW, "yellowStartSquare");
+		yellowStartContainer.getChildren().add(yellowStartSquare);
+		AnchorPane.setRightAnchor(yellowStartContainer, 2*squareHeightWidth);
+		AnchorPane.setBottomAnchor(yellowStartContainer, 0.0);
+
+
+		//Green: Bottom left
+		for(int i=0; i<numSafetySquares; i++){
+			safetyGreen.getChildren().add(new SafetySquare(squareHeightWidth, Color.GREEN));
+		}
+		AnchorPane.setBottomAnchor(safetyGreen, squareHeightWidth);
+
+		greenHomeSquare = new HomeSquare(squareHeightWidth, Color.GREEN, "greenHomeSquare");
+		greenHomeContainer.getChildren().add(greenHomeSquare);
+		AnchorPane.setLeftAnchor(greenHomeContainer, homeSquareDistanceFromBoardEdge);
+		AnchorPane.setBottomAnchor(greenHomeContainer, 0.0);
+
+		greenStartSquare = new StartSquare(squareHeightWidth, Color.GREEN, "greenStartSquare");
+		greenStartContainer.getChildren().add(greenStartSquare);
+		AnchorPane.setBottomAnchor(greenStartContainer, 2*squareHeightWidth);
 	}
 
 	private void createSquareClickHandlers(){
