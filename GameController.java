@@ -20,10 +20,13 @@ import javafx.scene.input.MouseEvent;
 public class GameController extends BaseController implements Initializable {
 	private static final int squaresPerSideExcludingCornersCount = 14;
 	private static final int boardWidth = 700;
-	private static final int squareHeightWidth = boardWidth/squaresPerSideExcludingCornersCount;
+	private static final double squareHeightWidth = boardWidth/squaresPerSideExcludingCornersCount;
+	private static final double pawnRadius = squareHeightWidth/4;
 
 	private static final int slideSquareDestinationForwardOffset = 4;	//how many squares ahead the slide destination is
 	private static final int slideSquare2Offset = 8;
+	private static final int numSafetySquares = 5;
+	private static final double homeSquareDistanceFromBoardEdge = squareHeightWidth*numSafetySquares;
 
 
 	private Scene helpScene;
@@ -34,7 +37,13 @@ public class GameController extends BaseController implements Initializable {
 	@FXML private HBox bottomRow;
 	@FXML private VBox leftColumn;
 	@FXML private VBox rightColumn;
-	@FXML private Pane middle;
+
+	@FXML private AnchorPane boardMiddle;
+	@FXML private VBox safetyRed;
+	@FXML private StackPane redHomeContainer;
+	private HomeSquare redHomeSquare;
+	@FXML private StackPane redStartContainer;
+	private StartSquare redStartSquare;
 
 	@FXML private Button drawCards;
 	@FXML private Label numberArea;
@@ -55,7 +64,7 @@ public class GameController extends BaseController implements Initializable {
 
 
 	public void setHelpScene(Scene scene) {
-		helpScene = scene; 
+		helpScene = scene;
 	}
 
 	@Override
@@ -71,11 +80,26 @@ public class GameController extends BaseController implements Initializable {
 
 		linkCornerSquaresToSequence();
 
+		for(int i=0; i<numSafetySquares; i++){
+			safetyRed.getChildren().add(new SafetySquare(squareHeightWidth, Color.RED));
+		}
+		AnchorPane.setLeftAnchor(safetyRed, squareHeightWidth);
+
+		redHomeSquare = new HomeSquare(squareHeightWidth, Color.RED, "redHomeSquare");
+		redHomeContainer.getChildren().add(redHomeSquare);
+		AnchorPane.setTopAnchor(redHomeContainer, homeSquareDistanceFromBoardEdge);
+
+		redStartSquare = new StartSquare(squareHeightWidth, Color.RED, "redStartSquare");
+		redStartContainer.getChildren().add(redStartSquare);
+		AnchorPane.setLeftAnchor(redStartContainer, 2*squareHeightWidth);
+
+
+
 		createSquareClickHandlers();
 
 
 		ObservableList<Node> topSquares = topRow.getChildren();
-		((Square)topSquares.get(0)).add(new Pawn(10, Color.RED));
+		((Square)topSquares.get(0)).add(new Pawn(pawnRadius, Color.RED));
 
 
 		drawCards.setOnAction((event) -> {
@@ -119,7 +143,7 @@ public class GameController extends BaseController implements Initializable {
 			parentContainer.getChildren().add(0, cornerSquare1);
 		}
 
-		createSquares(squaresPerSideExcludingCornersCount, containingRow, slideColor, reverseCreationDirection);
+		createSideSquares(squaresPerSideExcludingCornersCount, containingRow, slideColor, reverseCreationDirection);
 
 		Square cornerSquare2 = new Square(squareHeightWidth);
 		if(reverseCreationDirection){
@@ -134,10 +158,10 @@ public class GameController extends BaseController implements Initializable {
 	}
 
 	private void createVerticalColumn(VBox containingColumn, Color slideColor, boolean reverseCreationDirection){
-		createSquares(squaresPerSideExcludingCornersCount, containingColumn, slideColor, reverseCreationDirection);
+		createSideSquares(squaresPerSideExcludingCornersCount, containingColumn, slideColor, reverseCreationDirection);
 	}
 
-	private void createSquares(int numberOfSquares, Pane containingPane, Color slideColor, boolean reverseCreationDirection){
+	private void createSideSquares(int numberOfSquares, Pane containingPane, Color slideColor, boolean reverseCreationDirection){
 		SlideStartSquare slideSquare1 = new SlideStartSquare(squareHeightWidth, slideColor);
 		containingPane.getChildren().add(slideSquare1);
 

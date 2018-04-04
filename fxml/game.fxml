@@ -2,6 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
 
 <?import java.lang.*?>
 <?import java.net.*?>
@@ -24,11 +25,16 @@
 			<VBox styleClass='green' fx:id='leftColumn'></VBox>
 		</left>
 		<center>
-			<FlowPane styleClass='middle' fx:id='middle'>
-				<Button text='Click for card' fx:id='drawCards' />
-				<Label text='1' fx:id='numberArea'></Label>
-				<Button text='Go to help' fx:id='switchButton' />
-			</FlowPane>
+			<AnchorPane styleClass='boardMiddle' fx:id='boardMiddle'>
+				<VBox fx:id='safetyRed' styleClass='red'></VBox>
+				<StackPane styleClass='red, circle' fx:id='redHomeContainer'></StackPane>
+				<StackPane styleClass='red, circle' fx:id='redStartContainer'></StackPane>
+				<FlowPane AnchorPane.topAnchor='300' AnchorPane.leftAnchor='170' >
+					<Button text='Click for card' fx:id='drawCards' />
+					<Label text='1' fx:id='numberArea'></Label>
+					<Button text='Go to help' fx:id='switchButton' />
+				</FlowPane>
+			</AnchorPane>
 		</center>
 		<right>
 			<VBox styleClass='blue' fx:id='rightColumn'></VBox>

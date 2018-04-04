@@ -4,7 +4,7 @@ public class SafetyEntrySquare extends Square {
 		super(sideLength);
 	}
 
-	public SafetyEntrySquare(int sideLength, Color color) {
+	public SafetyEntrySquare(double sideLength, Color color) {
 		super(sideLength, color);
 		setStyle("-fx-background-color: rgba(0, 0, 0, .4);");
 		

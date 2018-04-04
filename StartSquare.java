@@ -1,7 +1,9 @@
-public class StartSquare extends Square {
+public class StartSquare extends MultipleSquare {
 
-	public StartSquare(double sideLength) {
-		super(sideLength);
+	public StartSquare(double sideLength, Color color, String cssId) {
+		super(sideLength, color, cssId);
+
+		backgroundText.setText("Start");
 	}
 
 }
