@@ -13,13 +13,7 @@ public class MultipleSquare extends Square {
 
 		getStyleClass().addAll("circle");
 		setId(cssId);
-
-		//Create 4 pawns for testing
-		grid.add(new Pawn(12.5, Color.RED), 0, 0);
-		grid.add(new Pawn(12.5, Color.RED), 0, 1);
-		grid.add(new Pawn(12.5, Color.RED), 1, 0);
-		grid.add(new Pawn(12.5, Color.RED), 1, 1);
-
+		
 		this.getChildren().add(backgroundText);
 		this.getChildren().add(grid);
 	}

@@ -1,10 +1,11 @@
+import java.util.ArrayList;
+
 public class Human extends Player{
-	private boolean isTheirTurn = true;
 	private Square selectedSquare;
 	private Square destinationSquare;
 	
-	public Human(String name, Color color){
-		super(name, color);
+	public Human(String name, Color color, ArrayList<Pawn> pawns){
+		super(name, color, pawns);
 	}
 
 	public void handleSquareClick(Square clickedSquare, int numSpaces){

@@ -79,6 +79,14 @@ public class GameController extends BaseController implements Initializable {
 	private int currentCard = 1;
 
 	private Human human;
+	private Computer computer1;
+	private Computer computer2;
+	private Computer computer3;
+
+	private ArrayList<Pawn> redPawns = new ArrayList<Pawn>();
+	private ArrayList<Pawn> bluePawns = new ArrayList<Pawn>();
+	private ArrayList<Pawn> yellowPawns = new ArrayList<Pawn>();
+	private ArrayList<Pawn> greenPawns = new ArrayList<Pawn>();
 
 
 	public void setHelpScene(Scene scene) {
@@ -89,7 +97,15 @@ public class GameController extends BaseController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		createCards();
 
-		human = new Human("Name", Color.RED);
+		createPawns();
+
+		//need to get color, and name from welcome screen
+		Color humanColor = Color.RED;
+		ArrayList<Pawn> humanPawns = redPawns;
+		human = new Human("Name", humanColor, humanPawns);
+		computer1 = new Computer("Computer 1", Color.BLUE, bluePawns);
+		computer2 = new Computer("Computer 2", Color.YELLOW, yellowPawns);
+		computer3 = new Computer("Computer 3", Color.GREEN, greenPawns);
 
 		createHorizontalRow(topRow, topRowContainer, Color.RED, false);
 		createVerticalColumn(rightColumn, Color.BLUE, false);
@@ -137,6 +153,21 @@ public class GameController extends BaseController implements Initializable {
 		Collections.shuffle(cards);
 
 		discards.clear();
+	}
+
+	private void createPawns(){
+		for(int i=0; i<4; i++){
+			redPawns.add(new Pawn(pawnRadius, Color.RED));
+		}
+		for(int i=0; i<4; i++){
+			bluePawns.add(new Pawn(pawnRadius, Color.BLUE));
+		}
+		for(int i=0; i<4; i++){
+			yellowPawns.add(new Pawn(pawnRadius, Color.YELLOW));
+		}
+		for(int i=0; i<4; i++){
+			greenPawns.add(new Pawn(pawnRadius, Color.GREEN));
+		}
 	}
 
 	private void createHorizontalRow(HBox containingRow, HBox parentContainer, Color slideColor, boolean reverseCreationDirection){
@@ -265,7 +296,7 @@ public class GameController extends BaseController implements Initializable {
 		redHomeContainer.getChildren().add(redHomeSquare);
 		AnchorPane.setTopAnchor(redHomeContainer, homeSquareDistanceFromBoardEdge);
 
-		redStartSquare = new StartSquare(squareHeightWidth, Color.RED, "redStartSquare");
+		redStartSquare = new StartSquare(squareHeightWidth, Color.RED, "redStartSquare", redPawns);
 		redStartContainer.getChildren().add(redStartSquare);
 		AnchorPane.setLeftAnchor(redStartContainer, 2*squareHeightWidth);
 
@@ -281,7 +312,7 @@ public class GameController extends BaseController implements Initializable {
 		blueHomeContainer.getChildren().add(blueHomeSquare);
 		AnchorPane.setRightAnchor(blueHomeContainer, homeSquareDistanceFromBoardEdge);
 
-		blueStartSquare = new StartSquare(squareHeightWidth, Color.BLUE, "blueStartSquare");
+		blueStartSquare = new StartSquare(squareHeightWidth, Color.BLUE, "blueStartSquare", bluePawns);
 		blueStartContainer.getChildren().add(blueStartSquare);
 		AnchorPane.setTopAnchor(blueStartContainer, 2*squareHeightWidth);
 		AnchorPane.setRightAnchor(blueStartContainer, 0.0);
@@ -299,7 +330,7 @@ public class GameController extends BaseController implements Initializable {
 		AnchorPane.setBottomAnchor(yellowHomeContainer, homeSquareDistanceFromBoardEdge);
 		AnchorPane.setRightAnchor(yellowHomeContainer, 0.0);
 
-		yellowStartSquare = new StartSquare(squareHeightWidth, Color.YELLOW, "yellowStartSquare");
+		yellowStartSquare = new StartSquare(squareHeightWidth, Color.YELLOW, "yellowStartSquare", yellowPawns);
 		yellowStartContainer.getChildren().add(yellowStartSquare);
 		AnchorPane.setRightAnchor(yellowStartContainer, 2*squareHeightWidth);
 		AnchorPane.setBottomAnchor(yellowStartContainer, 0.0);
@@ -316,7 +347,7 @@ public class GameController extends BaseController implements Initializable {
 		AnchorPane.setLeftAnchor(greenHomeContainer, homeSquareDistanceFromBoardEdge);
 		AnchorPane.setBottomAnchor(greenHomeContainer, 0.0);
 
-		greenStartSquare = new StartSquare(squareHeightWidth, Color.GREEN, "greenStartSquare");
+		greenStartSquare = new StartSquare(squareHeightWidth, Color.GREEN, "greenStartSquare", greenPawns);
 		greenStartContainer.getChildren().add(greenStartSquare);
 		AnchorPane.setBottomAnchor(greenStartContainer, 2*squareHeightWidth);
 	}
