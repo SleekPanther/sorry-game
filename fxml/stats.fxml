@@ -15,5 +15,6 @@
 <FlowPane fx:controller='StatsController' stylesheets='css/stats.css' xmlns='http://javafx.com/javafx/8' xmlns:fx='http://javafx.com/fxml' >
 
 	<Button text='Go to main menu' fx:id='mainMenuButton' />
+	<Button text='Test DB connection' fx:id='dbButton' />
 
 </FlowPane>
