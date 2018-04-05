@@ -79,7 +79,16 @@ public class GameController extends BaseController implements Initializable {
 
 
 		drawCards.setOnAction((event) -> {
-			currentCard = (int)(Math.random() * 12) +1;
+
+			Card moveCard;
+
+			if (cards.size() < 1)
+			{
+				swapDecks();
+			}
+			moveCard = cards.peek();
+			discards.add(moveCard);
+			currentCard = cards.poll().getType();
 			numberArea.setText(currentCard+"");
 		});
 
@@ -91,7 +100,7 @@ public class GameController extends BaseController implements Initializable {
 		discards = new LinkedList<Card>();
 
 
-		for(int cardType=0; cardType<=5; cardType++){
+		for(int cardType=0; cardType<=12; cardType++){
 			if(cardType!=6 && cardType!=9){		//Create 4 of each type except 6 & 9
 				for(int j=0; j<4; j++){
 					cards.add(new Card(cardType));
