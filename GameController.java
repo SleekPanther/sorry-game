@@ -25,6 +25,7 @@ public class GameController extends BaseController implements Initializable {
 
 	private static final int slideSquareDestinationForwardOffset = 4;	//how many squares ahead the slide destination is
 	private static final int slideSquare2Offset = 8;
+	private static final int startDestinationOffset = 3;
 	private static final int numSafetySquares = 5;
 	private static final double homeSquareDistanceFromBoardEdge = squareHeightWidth*numSafetySquares;
 
@@ -62,6 +63,11 @@ public class GameController extends BaseController implements Initializable {
 	private HomeSquare greenHomeSquare;
 	@FXML private StackPane greenStartContainer;
 	private StartSquare greenStartSquare;
+
+	private ArrayList<StartSquare> startSquares;
+	private ArrayList<HomeSquare> homeSquares;
+	private ArrayList<Pane> safetySquareSides;
+	private ArrayList<Pane> boardSides;
 
 	@FXML private Button drawCards;
 	@FXML private Label numberArea;
@@ -115,6 +121,7 @@ public class GameController extends BaseController implements Initializable {
 		linkCornerSquaresToSequence();
 
 		createMiddleSquares();
+		linkMiddleSquaresToSequence();
 
 		createSquareClickHandlers();
 
@@ -350,6 +357,46 @@ public class GameController extends BaseController implements Initializable {
 		greenStartSquare = new StartSquare(squareHeightWidth, Color.GREEN, "greenStartSquare", greenPawns);
 		greenStartContainer.getChildren().add(greenStartSquare);
 		AnchorPane.setBottomAnchor(greenStartContainer, 2*squareHeightWidth);
+
+
+		startSquares = new ArrayList<StartSquare>(Arrays.asList(new StartSquare[]{redStartSquare, blueStartSquare, yellowStartSquare, greenStartSquare}));
+		homeSquares = new ArrayList<HomeSquare>(Arrays.asList(new HomeSquare[]{redHomeSquare, blueHomeSquare, yellowHomeSquare, greenHomeSquare}));
+		safetySquareSides = new ArrayList<Pane>(Arrays.asList(new Pane[]{safetyRed, safetyBlue, safetyYellow, safetyGreen}));
+		boardSides = new ArrayList<Pane>(Arrays.asList(new Pane[]{topRow, rightColumn, bottomRow, leftColumn}));
+	}
+
+	private void linkMiddleSquaresToSequence(){
+		for(int side=0; side<4; side++){
+			ObservableList<Node> sideSquaresObservable = boardSides.get(side).getChildren();
+			ArrayList<Square> sideSquares = new ArrayList<Square>();
+			for(Node square : sideSquaresObservable){
+				sideSquares.add((Square)square);
+			}
+			if(side==2 || side==3){
+				Collections.reverse(sideSquares);
+			}
+			
+			ObservableList<Node> safetySquaresObservable = safetySquareSides.get(side).getChildren();
+			ArrayList<SafetySquare> safetySquares = new ArrayList<SafetySquare>();
+			for(Node square : safetySquaresObservable){
+				safetySquares.add((SafetySquare)square);
+			}
+			if(side==1 || side==2){
+				Collections.reverse(safetySquares);
+			}
+
+			SafetyEntrySquare safetyEntrySquare = (SafetyEntrySquare)(sideSquares.get(1));
+			SafetySquare firstSafetySquare = (SafetySquare)safetySquares.get(0);
+			safetyEntrySquare.setNextSafetySquare(firstSafetySquare);
+
+			for(int i=0; i<numSafetySquares-1; i++){
+				((SafetySquare)safetySquares.get(i)).setImmediateNextSquare((SafetySquare)safetySquares.get(i+1));
+			}
+			SafetySquare lastSafetySquare = (SafetySquare)safetySquares.get(numSafetySquares-1);
+			lastSafetySquare.setImmediateNextSquare(homeSquares.get(side));
+
+			startSquares.get(side).setImmediateNextSquare((Square)sideSquares.get(startDestinationOffset));
+		}
 	}
 
 	private void createSquareClickHandlers(){
