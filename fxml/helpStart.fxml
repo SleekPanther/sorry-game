@@ -12,8 +12,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<FlowPane fx:controller='HelpStartController' stylesheets='css/help.css' xmlns='http://javafx.com/javafx/8'
-		  xmlns:fx='http://javafx.com/fxml'>
+<FlowPane fx:controller='HelpStartController' stylesheets='css/help.css' xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" >
 
     <Button text='Go back to menu' fx:id='switchButton'/>
 

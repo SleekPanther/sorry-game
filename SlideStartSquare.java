@@ -6,7 +6,7 @@ public class SlideStartSquare extends Square {
 		super(sideLength);
 	}
 
-	public SlideStartSquare(int sideLength, Color slideColor) {
+	public SlideStartSquare(double sideLength, Color slideColor) {
 		super(sideLength, slideColor);
 		
 		hoverProperty().addListener((observable, oldValue, hover)->{
