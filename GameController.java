@@ -363,6 +363,19 @@ public class GameController extends BaseController implements Initializable {
 		homeSquares = new ArrayList<HomeSquare>(Arrays.asList(new HomeSquare[]{redHomeSquare, blueHomeSquare, yellowHomeSquare, greenHomeSquare}));
 		safetySquareSides = new ArrayList<Pane>(Arrays.asList(new Pane[]{safetyRed, safetyBlue, safetyYellow, safetyGreen}));
 		boardSides = new ArrayList<Pane>(Arrays.asList(new Pane[]{topRow, rightColumn, bottomRow, leftColumn}));
+
+
+		for(Pane safetySquares : safetySquareSides){
+			for(Node square : safetySquares.getChildren()){
+				allSquares.add((Square)square);
+			}
+		}
+		for(Square square : startSquares){
+			allSquares.add(square);
+		}
+		for(Square square : homeSquares){
+			allSquares.add(square);
+		}
 	}
 
 	private void linkMiddleSquaresToSequence(){
