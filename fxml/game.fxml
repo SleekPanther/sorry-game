@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<Pane fx:controller='SorryController' fx:id='mainPane' stylesheets='css/board.css' xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" >
+<Pane fx:controller='GameController' fx:id='mainPane' stylesheets='css/game.css' xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" >
 	<BorderPane>
 		<top>
 			<HBox styleClass='' fx:id='topRowContainer'>
