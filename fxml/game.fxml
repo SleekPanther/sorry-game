@@ -2,6 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
 
 <?import java.lang.*?>
 <?import java.net.*?>
@@ -13,26 +14,47 @@
 <?import javafx.scene.paint.*?>
 
 <Pane fx:controller='SorryController' fx:id='mainPane' stylesheets='css/board.css' xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" >
-
 	<BorderPane>
 		<top>
-			<HBox styleClass='red' fx:id='topRow'></HBox>
+			<HBox styleClass='' fx:id='topRowContainer'>
+				<HBox styleClass='red' fx:id='topRow'></HBox>
+			</HBox>
 		</top>
 		<left>
 			<VBox styleClass='green' fx:id='leftColumn'></VBox>
 		</left>
 		<center>
-			<FlowPane styleClass='middle' fx:id='middle'>
-				<Button text='Click for card' fx:id='drawCards' />
-				<Label text='Your number appears here' fx:id='numberArea'></Label>
-				<Button text='Go to help' fx:id='switchButton' />
-			</FlowPane>
+			<AnchorPane styleClass='boardMiddle' fx:id='boardMiddle'>
+				<VBox fx:id='safetyRed' styleClass='red'></VBox>
+				<StackPane styleClass='red, circle' fx:id='redHomeContainer'></StackPane>
+				<StackPane styleClass='red, circle' fx:id='redStartContainer'></StackPane>
+
+				<HBox fx:id='safetyBlue' styleClass='blue'></HBox>
+				<StackPane styleClass='blue, circle' fx:id='blueHomeContainer'></StackPane>
+				<StackPane styleClass='blue, circle' fx:id='blueStartContainer'></StackPane>
+
+				<VBox fx:id='safetyYellow' styleClass='yellow'></VBox>
+				<StackPane styleClass='yellow, circle' fx:id='yellowHomeContainer'></StackPane>
+				<StackPane styleClass='yellow, circle' fx:id='yellowStartContainer'></StackPane>
+
+				<HBox fx:id='safetyGreen' styleClass='green'></HBox>
+				<StackPane styleClass='green, circle' fx:id='greenHomeContainer'></StackPane>
+				<StackPane styleClass='green, circle' fx:id='greenStartContainer'></StackPane>
+
+				<FlowPane AnchorPane.topAnchor='300' AnchorPane.leftAnchor='170' >
+					<Button text='Click for card' fx:id='drawCards' />
+					<Label text='1' fx:id='numberArea'></Label>
+					<Button text='Go to help' fx:id='switchButton' />
+				</FlowPane>
+			</AnchorPane>
 		</center>
 		<right>
 			<VBox styleClass='blue' fx:id='rightColumn'></VBox>
 		</right>
 		<bottom>
-			<HBox styleClass='yellow' fx:id='bottomRow'></HBox>
+			<HBox styleClass='' fx:id='bottomRowContainer'>
+				<HBox styleClass='yellow' fx:id='bottomRow'></HBox>
+			</HBox>
 		</bottom>
 	</BorderPane>
 
