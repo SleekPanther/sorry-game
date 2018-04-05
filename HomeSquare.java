@@ -1,7 +1,9 @@
-public class HomeSquare extends Square {
+public class HomeSquare extends MultipleSquare {
 
-	public HomeSquare(double sideLength) {
-		super(sideLength);
+	public HomeSquare(double sideLength, Color color, String cssId) {
+		super(sideLength, color, cssId);
+
+		backgroundText.setText("Home");
 	}
 
 }
