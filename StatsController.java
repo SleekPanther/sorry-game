@@ -1,15 +1,10 @@
 import java.net.URL;
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.*;
-import javafx.application.Platform;
-import javafx.stage.Stage;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.scene.shape.Circle;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -17,9 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 import javafx.collections.*;
-import java.text.DecimalFormat;
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 
 public class StatsController extends BaseController implements Initializable{
 	private Scene menuScene;
@@ -27,12 +21,32 @@ public class StatsController extends BaseController implements Initializable{
 	
 	@FXML private Button mainMenuButton;
 	@FXML private Button dbButton;
-	@FXML private TableView tableView;
+	@FXML private TableView<StatsModel> tableView;
+	@FXML private TableColumn<StatsModel, String> gameId;
+	@FXML private TableColumn<StatsModel, String> playerName;
+	@FXML private TableColumn<StatsModel, String> timeStart;
+	@FXML private TableColumn<StatsModel, String> timeEnd;
+	@FXML private TableColumn<StatsModel, String> duration;
+	@FXML private TableColumn<StatsModel, String> comp1Settings;
+	@FXML private TableColumn<StatsModel, String> comp2Settings;
+	@FXML private TableColumn<StatsModel, String> comp3Settings;
+	@FXML private TableColumn<StatsModel, String> winner;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		mainMenuButton.setOnAction((event) -> changeScene(menuScene, event));
 		dbButton.setOnAction((event) -> connectToDatabase());
+
+		gameId.setCellValueFactory(new PropertyValueFactory<>("gameId"));
+		playerName.setCellValueFactory(new PropertyValueFactory<>("playerName"));
+		timeStart.setCellValueFactory(new PropertyValueFactory<>("timeStart"));
+		timeEnd.setCellValueFactory(new PropertyValueFactory<>("timeEnd"));
+		duration.setCellValueFactory(new PropertyValueFactory<>("duration"));
+		comp1Settings.setCellValueFactory(new PropertyValueFactory<>("comp1Settings"));
+		comp2Settings.setCellValueFactory(new PropertyValueFactory<>("comp2Settings"));
+		comp3Settings.setCellValueFactory(new PropertyValueFactory<>("comp3Settings"));
+		winner.setCellValueFactory(new PropertyValueFactory<>("winner"));
+
 		buildTable();
 	}
 	
@@ -64,19 +78,26 @@ public class StatsController extends BaseController implements Initializable{
 			String SQL = "SELECT * from tblsorrygame";
 			ResultSet rs = connection.createStatement().executeQuery(SQL);
 
-			ObservableList<ObservableList> statsData=FXCollections.observableArrayList();
+			ObservableList<StatsModel> statsData=FXCollections.observableArrayList();
+
 			while(rs.next()){
-				//Iterate Row
-				ObservableList<String> row = FXCollections.observableArrayList();
-				for(int i=1 ; i<=rs.getMetaData().getColumnCount(); i++){
-					//Iterate Column
-					row.add(rs.getString(i));
+
+					StatsModel pastGame = new StatsModel();
+					pastGame.gameId.set(rs.getString("pmkGameId"));
+					pastGame.playerName.set(rs.getString("fldPlayerName"));
+					pastGame.timeStart.set(rs.getString("fldDateCreated"));
+					pastGame.timeEnd.set(rs.getString("fldDateEnded"));
+					pastGame.duration.set(rs.getString("fldDuration"));
+					pastGame.comp1Settings.set(rs.getString("fldComp1Set"));
+					pastGame.comp2Settings.set(rs.getString("fldComp2Set"));
+					pastGame.comp3Settings.set(rs.getString("fldComp3Set"));
+					pastGame.winner.set(rs.getString("fldWinner"));
+
+					statsData.add(pastGame);
 				}
-				System.out.println("Row [1] added "+row );
-				statsData.add(row);
 
 
-			}
+
 			tableView.setItems(statsData);
 		} catch (SQLException e) {
 			throw new IllegalStateException("Cannot connect the database!", e);

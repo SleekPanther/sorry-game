@@ -27,21 +27,23 @@
 		<TableView fx:id="tableView" GridPane.columnIndex="0"
 				   GridPane.rowIndex="1">
 			<columns>
-				<TableColumn text="Player Name">
+                <TableColumn text="Game ID" fx:id="gameId">
+                </TableColumn>
+				<TableColumn text="Player Name" fx:id="playerName">
 				</TableColumn>
-				<TableColumn text="Time Started">
+				<TableColumn text="Time Started" fx:id="timeStart">
 				</TableColumn>
-				<TableColumn text="Time Ended">
+				<TableColumn text="Time Ended" fx:id="timeEnd">
 				</TableColumn>
-				<TableColumn text="Game Duration">
+				<TableColumn text="Game Duration" fx:id="duration" >
 				</TableColumn>
-				<TableColumn text="Computer 1 Settings">
+				<TableColumn text="Computer 1 Settings" fx:id="comp1Settings">
 				</TableColumn>
-				<TableColumn text="Computer 2 Settings">
+				<TableColumn text="Computer 2 Settings" fx:id="comp2Settings">
 				</TableColumn>
-				<TableColumn text="Computer 3 Settings">
+				<TableColumn text="Computer 3 Settings" fx:id="comp3Settings">
 				</TableColumn>
-				<TableColumn text="Winner">
+				<TableColumn text="Winner" fx:id="winner">
 				</TableColumn>
 			</columns>
 		</TableView>
