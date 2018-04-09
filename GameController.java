@@ -224,14 +224,14 @@ public class GameController extends BaseController implements Initializable {
 			Square square = new Square(squareHeightWidth);
 			containingPane.getChildren().add(square);
 		}
-		DestinationSquare slide1Destination = new DestinationSquare(squareHeightWidth, slideColor);
+		SlideDestinationSquare slide1Destination = new SlideDestinationSquare(squareHeightWidth, slideColor);
 		containingPane.getChildren().set(slideSquareDestinationForwardOffset, slide1Destination);
 		slideSquare1.setDestinationSquare(slide1Destination);
 
 		SlideStartSquare slideSquare2 = new SlideStartSquare(squareHeightWidth, slideColor);
 		containingPane.getChildren().set(slideSquare2Offset, slideSquare2);
 
-		DestinationSquare slide2Destination = new DestinationSquare(squareHeightWidth, slideColor);
+		SlideDestinationSquare slide2Destination = new SlideDestinationSquare(squareHeightWidth, slideColor);
 		containingPane.getChildren().set(slideSquare2Offset+slideSquareDestinationForwardOffset, slide2Destination);
 		slideSquare2.setDestinationSquare(slide2Destination);
 
