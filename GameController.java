@@ -106,7 +106,7 @@ public class GameController extends BaseController implements Initializable {
 		createPawns();
 
 		//need to get color, and name from welcome screen
-		Color humanColor = Color.RED;
+		Color humanColor = Color.GREEN;
 		ArrayList<Pawn> humanPawns = redPawns;
 		human = new Human("Name", humanColor, humanPawns);
 		computer1 = new Computer("Computer 1", Color.BLUE, bluePawns);
@@ -218,57 +218,44 @@ public class GameController extends BaseController implements Initializable {
 		containingPane.getChildren().add(slideSquare1);
 
 		SafetyEntrySquare safetyEntrySquare = new SafetyEntrySquare(squareHeightWidth, slideColor);
-		if(reverseCreationDirection){
-			containingPane.getChildren().add(0, safetyEntrySquare);	//insert at the head of the list
-		}
-		else{	//else add the the end
-			containingPane.getChildren().add(safetyEntrySquare);
-		}
-		
-		SlideStartSquare slideSquare2=null;
-		for(int i=2; i<numberOfSquares; i++){
-			if(reverseCreationDirection){		//insert at the head of the list (add(0, item)) adds at position 0
-				if(i==slideSquare2Offset){
-					slideSquare2 = new SlideStartSquare(squareHeightWidth, slideColor);
-					containingPane.getChildren().add(0, slideSquare2);
-				}
-				else{
-					Square square = new Square(squareHeightWidth);
-					containingPane.getChildren().add(0, square);
-				}
-			}
-			else{	//else add the the end
-				if(i==slideSquare2Offset){
-					slideSquare2 = new SlideStartSquare(squareHeightWidth, slideColor);
-					containingPane.getChildren().add(slideSquare2);
-				}
-				else{
-					Square square = new Square(squareHeightWidth);
-					containingPane.getChildren().add(square);
-				}
-			}
-		}
+		containingPane.getChildren().add(safetyEntrySquare);
 
-		ObservableList<Node> squares = containingPane.getChildren();
-		Square slide1Destination = (Square)squares.get(slideSquareDestinationForwardOffset);
-		Square slide2Destination = (Square)squares.get(slideSquare2Offset+slideSquareDestinationForwardOffset);
-		
+		//Create initial squares, special squares will overwirte positions in this list
+		for(int i=2; i<numberOfSquares; i++){
+			Square square = new Square(squareHeightWidth);
+			containingPane.getChildren().add(square);
+		}
+		DestinationSquare slide1Destination = new DestinationSquare(squareHeightWidth, slideColor);
+		containingPane.getChildren().set(slideSquareDestinationForwardOffset, slide1Destination);
 		slideSquare1.setDestinationSquare(slide1Destination);
+
+		SlideStartSquare slideSquare2 = new SlideStartSquare(squareHeightWidth, slideColor);
+		containingPane.getChildren().set(slideSquare2Offset, slideSquare2);
+
+		DestinationSquare slide2Destination = new DestinationSquare(squareHeightWidth, slideColor);
+		containingPane.getChildren().set(slideSquare2Offset+slideSquareDestinationForwardOffset, slide2Destination);
 		slideSquare2.setDestinationSquare(slide2Destination);
 
-		if(reverseCreationDirection){
-			for(int i=squares.size()-1; i>=1; i--){		//Start from the end of the list (last created but first in board order), skip index 0 since it needs to be linked with a corner square later
-				Square currentSquare = (Square)squares.get(i);
-				currentSquare.setImmediateNextSquare((Square)squares.get(i-1));	//set pointer to next square on a side (stored at the index i-1 since created in reverse order)
-			}
-		}
-		else{	//Forwards/Normal is i+1, the next in the list
-			for(int i=0; i<squares.size()-1; i++){	//1 less than list length since last square must be linked to a corner square
-				Square currentSquare = (Square)squares.get(i);
-				currentSquare.setImmediateNextSquare((Square)squares.get(i+1));	//set pointer to next square on a side
-			}
+		ObservableList<Node> squaresObservable = containingPane.getChildren();
+		ArrayList<Square> squares = new ArrayList<Square>();
+		for(Node square : squaresObservable){
+			squares.add((Square)square);
 		}
 
+		//Link to the next square forward in the list
+		for(int i=0; i<squares.size()-1; i++){	//1 less than list length since last square must be linked to a corner square
+			Square currentSquare = (Square)squares.get(i);
+			currentSquare.setImmediateNextSquare((Square)squares.get(i+1));	//set pointer to next square on a side
+		}
+
+		//Reverse the ArrayList since ObservableList is unmodifiable, clear the UI pane and add all squares in the new reversed order
+		if(reverseCreationDirection){
+			Collections.reverse(squares);
+			containingPane.getChildren().clear();
+			containingPane.getChildren().addAll(squares);
+		}
+
+		//Add to all squares for click handlers to work
 		for(Node square : squares){
 			allSquares.add((Square)square);
 		}
