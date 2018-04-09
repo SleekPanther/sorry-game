@@ -49,7 +49,7 @@ public class GameController extends BaseController implements Initializable {
 
 	private LinkedList<Card> cards;
 	private LinkedList<Card> discards;
-	private int currentCard = 1;
+	private Card moveCard = new Card(1);
 
 	private Human human;
 
@@ -78,17 +78,13 @@ public class GameController extends BaseController implements Initializable {
 		((Square)topSquares.get(0)).add(new Pawn(10, Color.RED));
 
 		drawCards.setOnAction((event) -> {
-
-			Card moveCard;
-
-			if (cards.size() < 1)
-			{
+			if (cards.isEmpty()){
 				swapDecks();
+				System.out.println("swap");
 			}
-			moveCard = cards.peek();
+			Card moveCard = cards.poll();
 			discards.add(moveCard);
-			currentCard = cards.poll().getType();
-			numberArea.setText(currentCard+"");
+			numberArea.setText(moveCard.getType()+"");
 		});
 
 		switchButton.setOnAction((event) -> changeScene(helpScene, event));
@@ -237,7 +233,7 @@ public class GameController extends BaseController implements Initializable {
 		for(Square square : allSquares){
 			square.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 				public void handle(MouseEvent e) {
-					human.handleSquareClick(square, currentCard);
+					human.handleSquareClick(square, moveCard.getType());
 				}
 			});
 		}

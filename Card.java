@@ -11,23 +11,19 @@ public class Card {
 		return type;
 	}
 
-	public int getWidth()
-	{
+	public int getWidth() {
 		return width;
 	}
 
-	public int getHeight()
-	{
+	public int getHeight() {
 		return height;
 	}
 
-	public void setWidth(int width)
-	{
+	public void setWidth(int width) {
 		this.width = width;
 	}
 
-	public void setHeight(int height)
-	{
+	public void setHeight(int height) {
 		this.height = height;
 	}
 
