@@ -107,7 +107,6 @@ public class Square extends StackPane {
 		}
 
 		return "Id="+id+""+"\tcolor="+color+"\tnext="+next;
-		// return "Id="+id+""+"\tcolor="+color;
 	}
 
 }

@@ -45,24 +45,25 @@ public class Pawn extends Circle{
 
 		//Get initial next square, but check for SafetyEntrySquare & if colors match
 		Square landingSquare = currentParentSquare.getImmediateNextSquare();
-		try{
-			if(currentParentSquare.getClass().getName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)currentParentSquare).getNextSafetySquare().getColor()){
-				landingSquare = ((SafetyEntrySquare)currentParentSquare).getNextSafetySquare();
+		if(currentParentSquare.getClass().getName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)currentParentSquare).getNextSafetySquare().getColor()){
+			landingSquare = ((SafetyEntrySquare)currentParentSquare).getNextSafetySquare();
+		}
+		for(int i=1; i<numSpaces; i++){		//follow links to next square if moving > 1 forward
+			if(landingSquare.getClass().getName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)landingSquare).getNextSafetySquare().getColor()){
+				landingSquare = ((SafetyEntrySquare)landingSquare).getNextSafetySquare();
 			}
-			for(int i=1; i<numSpaces; i++){		//follow links to next square if moving > 1 forward
-				if(landingSquare.getClass().getName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)landingSquare).getNextSafetySquare().getColor()){
-					landingSquare = ((SafetyEntrySquare)landingSquare).getNextSafetySquare();
+			else{
+				if(landingSquare.getImmediateNextSquare()==null){
+					throw new OvershotHomeException("Overshot Home");
 				}
-				else{
-					landingSquare = landingSquare.getImmediateNextSquare();
-				}
-			}
-			if(landingSquare.isOccupied() && landingSquare.getPawn().getColor() == color){
-				throw new LandedOnSquareOccupiedByPlayersOwnPawnException("Cannot move on top of yourself");
+				landingSquare = landingSquare.getImmediateNextSquare();
 			}
 		}
-		catch(NullPointerException e){
-			throw new OvershotHomeException("Overshot home");
+
+		if(!landingSquare.getClass().getName().equals("HomeSquare")
+			&& landingSquare.isOccupied() 
+				&& landingSquare.getPawn().getColor() == color){
+			throw new LandedOnSquareOccupiedByPlayersOwnPawnException("Cannot move on top of yourself");
 		}
 		return landingSquare;
 	}

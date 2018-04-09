@@ -6,7 +6,7 @@ public class MultipleSquare extends Square {
 	protected Text backgroundText = new Text();
 	protected GridPane grid = new GridPane();
 	protected ArrayList<Pawn> pawns = new ArrayList<Pawn>();
-	protected int lastPawnPosition = 0;		//index in the pawns ArrayList of the last pawn in the list
+	protected int lastPawnPosition = -1;		//index in the pawns ArrayList of the last pawn in the list
 
 	public MultipleSquare(double sideLength, Color color, String cssId) {
 		super(sideLength*3, color);		//diameter of the "circle" is 3 times a square side
@@ -32,8 +32,13 @@ public class MultipleSquare extends Square {
 	}
 
 	@Override
+	public Pawn getPawn(){
+		return pawns.get(lastPawnPosition);
+	}
+
+	@Override
 	public void add(Pawn pawn){
-		isOccupied = true;
+		isOccupied = true;		//kind of unnecessary
 		pawn.setCurrentParentSquare(this);
 		this.pawns.add(pawn);
 		int[] coordinates = getGridPaneLocation(++lastPawnPosition);
@@ -42,6 +47,7 @@ public class MultipleSquare extends Square {
 		grid.add(pawn, row, column);
 	}
 
+	@Override
 	public void vacate(){
 		grid.getChildren().remove(pawns.get(lastPawnPosition));
 		lastPawnPosition--;

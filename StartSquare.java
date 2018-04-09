@@ -16,25 +16,10 @@ public class StartSquare extends MultipleSquare {
 		for(Pawn pawn : playerPawns){
 			pawn.setCurrentParentSquare(this);
 		}
-		lastPawnPosition=2;		//added 4 pawns so last index is 3
+		// lastPawnPosition=3;		//added 4 pawns so last index is 3
+		lastPawnPosition=2;		//2 for testing so some can be bumped
 
 		isOccupied = true;
 	}
-
-	@Override
-	public Pawn getPawn(){
-		return pawns.get(lastPawnPosition);
-	}
-
-	@Override
-	public void vacate(){
-		grid.getChildren().remove(pawns.get(lastPawnPosition));
-		lastPawnPosition--;
-		if(lastPawnPosition<0){
-			isOccupied = false;
-		}
-	}
-
-
 
 }
