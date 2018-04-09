@@ -77,7 +77,6 @@ public class GameController extends BaseController implements Initializable {
 		ObservableList<Node> topSquares = topRow.getChildren();
 		((Square)topSquares.get(0)).add(new Pawn(10, Color.RED));
 
-
 		drawCards.setOnAction((event) -> {
 
 			Card moveCard;
