@@ -24,8 +24,10 @@ public class Human extends Player{
 			
 			if(clickedSquare.getClass().getName().equals("StartSquare")){
 				if(numSpaces!=1 && numSpaces!= 2){
+					selectedSquare = null;
 					Popup popup = new Popup("Can only move from start with 1 or 2");
 					popup.show();
+					return;
 				}
 				else{	//Set numSpaces to 1 in case they drew a 2 since we only want them moving 1 space forward out of Start
 					numSpaces=1;
