@@ -4,10 +4,10 @@ import javafx.scene.control.Alert.AlertType;
 
 public class Human extends Player{
 	private Square selectedSquare;
-	private Square destinationSquare;
+	private Square landingSquare;
 	
-	public Human(String name, Color color, ArrayList<Pawn> pawns){
-		super(name, color, pawns);
+	public Human(String name, Color color, ArrayList<Pawn> pawns, ArrayList<StartSquare> startSquares, ArrayList<HomeSquare> homeSquares, int slideSquareDestinationForwardOffset){
+		super(name, color, pawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
 	}
 
 	public void handleSquareClick(Square clickedSquare, int numSpaces){
@@ -37,9 +37,13 @@ public class Human extends Player{
 			selectedSquare=clickedSquare;
 
 			try{
-				destinationSquare = selectedSquare.getPawn().calculateLandingSquare(numSpaces);
+				landingSquare = selectedSquare.getPawn().calculateLandingSquare(numSpaces);
+				if(landingSquare.getClass().getName().equals("SlideStartSquare") && landingSquare.getColor()!=color){
+					landingSquare = ((SlideStartSquare)landingSquare).getDestinationSquare();
+					bumpOthersOnSlide();
+				}
 				selectedSquare.highlight();
-				destinationSquare.highlight();
+				landingSquare.highlight();
 			}
 			catch(OvershotHomeException e){
 				selectedSquare = null;		//clear selected square if error
@@ -52,16 +56,20 @@ public class Human extends Player{
 				popup.show();
 			}
 		}
+		//A second square was clicked to finalize a move or cancel
 		else{
-			if(clickedSquare.getSquareId() == destinationSquare.getSquareId()){		//Make sure clicked square is the correct destination
-				selectedSquare.getPawn().move(destinationSquare);
+			if(clickedSquare.getSquareId() == landingSquare.getSquareId()){		//Make sure clicked square is the correct destination
+				if(landingSquare.isOccupied() && landingSquare.getPawn().getColor() != color){
+					bump(landingSquare.getPawn());
+				}
+				selectedSquare.getPawn().move(landingSquare);
 				selectedSquare.unHighlight();
-				destinationSquare.unHighlight();
+				landingSquare.unHighlight();
 				selectedSquare=null;
 			}
 			else{
 				selectedSquare.unHighlight();
-				destinationSquare.unHighlight();
+				landingSquare.unHighlight();
 				selectedSquare = null;
 				handleSquareClick(clickedSquare, numSpaces);	//reset and handle as new click
 			}

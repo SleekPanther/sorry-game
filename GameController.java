@@ -23,7 +23,7 @@ public class GameController extends BaseController implements Initializable {
 	private static final double squareHeightWidth = boardWidth/squaresPerSideExcludingCornersCount;
 	private static final double pawnRadius = squareHeightWidth/4;
 
-	private static final int slideSquareDestinationForwardOffset = 4;	//how many squares ahead the slide destination is
+	private static final int slideSquareDestinationForwardOffset = 3;	//how many squares ahead the slide destination is
 	private static final int slideSquare2Offset = 8;
 	private static final int startDestinationOffset = 3;
 	private static final int numSafetySquares = 5;
@@ -105,14 +105,6 @@ public class GameController extends BaseController implements Initializable {
 
 		createPawns();
 
-		//need to get color, and name from welcome screen
-		Color humanColor = Color.RED;
-		ArrayList<Pawn> humanPawns = redPawns;
-		human = new Human("Name", humanColor, humanPawns);
-		computer1 = new Computer("Computer 1", Color.BLUE, bluePawns);
-		computer2 = new Computer("Computer 2", Color.YELLOW, yellowPawns);
-		computer3 = new Computer("Computer 3", Color.GREEN, greenPawns);
-
 		createHorizontalRow(topRow, topRowContainer, Color.RED, false);
 		createVerticalColumn(rightColumn, Color.BLUE, false);
 		createHorizontalRow(bottomRow, bottomRowContainer, Color.YELLOW, true);
@@ -126,8 +118,17 @@ public class GameController extends BaseController implements Initializable {
 		createSquareClickHandlers();
 
 
+		//Testing pawn
 		ObservableList<Node> topSquares = topRow.getChildren();
 		((Square)topSquares.get(4)).add(new Pawn(pawnRadius, Color.GREEN));
+
+
+		//need to get color, and name from welcome screen
+		ArrayList<Pawn> humanPawns = redPawns;
+		human = new Human("Name", Color.RED, humanPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
+		computer1 = new Computer("Computer 1", Color.BLUE, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
+		computer2 = new Computer("Computer 2", Color.YELLOW, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
+		computer3 = new Computer("Computer 3", Color.GREEN, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
 
 		drawCards.setOnAction((event) -> {
 			if (cards.isEmpty()){

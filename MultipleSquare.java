@@ -31,4 +31,23 @@ public class MultipleSquare extends Square {
 		return new int[]{1, 1};
 	}
 
+	@Override
+	public void add(Pawn pawn){
+		isOccupied = true;
+		pawn.setCurrentParentSquare(this);
+		this.pawns.add(pawn);
+		int[] coordinates = getGridPaneLocation(++lastPawnPosition);
+		int row = coordinates[0];
+		int column = coordinates[1];
+		grid.add(pawn, row, column);
+	}
+
+	public void vacate(){
+		grid.getChildren().remove(pawns.get(lastPawnPosition));
+		lastPawnPosition--;
+		if(lastPawnPosition<0){
+			isOccupied = false;
+		}
+	}
+
 }

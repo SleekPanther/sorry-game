@@ -96,7 +96,7 @@ public class Square extends StackPane {
 		isOccupied = true;
 		this.pawn=pawn;
 		pawn.setCurrentParentSquare(this);
-		getChildren().addAll(pawn);
+		getChildren().add(pawn);
 	}
 	
 	@Override
