@@ -59,6 +59,12 @@ public class Human extends Player{
 				destinationSquare.unHighlight();
 				selectedSquare=null;
 			}
+			else{
+				selectedSquare.unHighlight();
+				destinationSquare.unHighlight();
+				selectedSquare = null;
+				handleSquareClick(clickedSquare, numSpaces);	//reset and handle as new click
+			}
 		}
 	}
 	
