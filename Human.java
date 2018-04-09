@@ -40,7 +40,6 @@ public class Human extends Player{
 				landingSquare = selectedSquare.getPawn().calculateLandingSquare(numSpaces);
 				if(landingSquare.getClass().getName().equals("SlideStartSquare") && landingSquare.getColor()!=color){
 					landingSquare = ((SlideStartSquare)landingSquare).getDestinationSquare();
-					bumpOthersOnSlide();
 				}
 				selectedSquare.highlight();
 				landingSquare.highlight();
@@ -61,6 +60,9 @@ public class Human extends Player{
 			if(clickedSquare.getSquareId() == landingSquare.getSquareId()){		//Make sure clicked square is the correct destination
 				if(landingSquare.isOccupied() && landingSquare.getPawn().getColor() != color){
 					bump(landingSquare.getPawn());
+				}
+				if(landingSquare.getClass().getName().equals("SlideDestinationSquare") && landingSquare.getColor()!=color){
+					bumpOthersOnSlide(selectedSquare.getPawn().calculateLandingSquare(numSpaces));
 				}
 				selectedSquare.getPawn().move(landingSquare);
 				selectedSquare.unHighlight();

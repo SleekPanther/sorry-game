@@ -118,9 +118,11 @@ public class GameController extends BaseController implements Initializable {
 		createSquareClickHandlers();
 
 
-		//Testing pawn
-		ObservableList<Node> topSquares = topRow.getChildren();
-		((Square)topSquares.get(4)).add(new Pawn(pawnRadius, Color.GREEN));
+		//Testing pawn(s)
+		((Square)topRow.getChildren().get(13)).add(new Pawn(pawnRadius, Color.RED));
+		((Square)rightColumn.getChildren().get(0)).add(new Pawn(pawnRadius, Color.BLUE));
+		((Square)rightColumn.getChildren().get(1)).add(new Pawn(pawnRadius, Color.RED));
+		((Square)rightColumn.getChildren().get(2)).add(new Pawn(pawnRadius, Color.GREEN));
 
 
 		//need to get color, and name from welcome screen
@@ -139,7 +141,7 @@ public class GameController extends BaseController implements Initializable {
 			numberArea.setText(moveCard.getType()+"");
 		});
 
-		//Mostly for testing, update movecard any time the value changes, but doesn't matter since moveCard is no longer in the deck
+		//Mostly for testing, update moveCard any time the value changes, but doesn't matter since moveCard is no longer in the deck
 		numberArea.textProperty().addListener((observable, oldValue, newValue) -> {
 			moveCard = new Card(Integer.parseInt(newValue));
 		});

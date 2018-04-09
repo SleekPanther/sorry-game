@@ -28,9 +28,16 @@ public class Player{
 		this.pawns=pawns;
 	}
 
-	protected void bumpOthersOnSlide(){
-		for(int i=0; i<slideSquareDestinationForwardOffset; i++){
-			// bump()
+	protected void bumpOthersOnSlide(Square slideStart){
+		if(slideStart.isOccupied() && slideStart.getPawn().getColor() != color){
+			bump(slideStart.getPawn());
+		}
+		Square landingSquare = slideStart.getImmediateNextSquare();
+		for(int i=1; i<slideSquareDestinationForwardOffset; i++){
+			if(landingSquare.isOccupied() && landingSquare.getPawn().getColor() != color){
+				bump(landingSquare.getPawn());
+			}
+			landingSquare = landingSquare.getImmediateNextSquare();
 		}
 	}
 
