@@ -82,7 +82,7 @@ public class GameController extends BaseController implements Initializable {
 
 	private LinkedList<Card> cards;
 	private LinkedList<Card> discards;
-	private int currentCard = 1;
+	private Card moveCard = new Card(1);
 
 	private Human human;
 	private Computer computer1;
@@ -129,10 +129,14 @@ public class GameController extends BaseController implements Initializable {
 		ObservableList<Node> topSquares = topRow.getChildren();
 		((Square)cornersSquares.get(0)).add(new Pawn(pawnRadius, humanColor));
 
-
 		drawCards.setOnAction((event) -> {
-			currentCard = (int)(Math.random() * 12) +1;
-			numberArea.setText(currentCard+"");
+			if (cards.isEmpty()){
+				swapDecks();
+				System.out.println("swap");
+			}
+			Card moveCard = cards.poll();
+			discards.add(moveCard);
+			numberArea.setText(moveCard.getType()+"");
 		});
 
 		switchButton.setOnAction((event) -> changeScene(helpScene, event));
@@ -416,7 +420,7 @@ public class GameController extends BaseController implements Initializable {
 		for(Square square : allSquares){
 			square.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 				public void handle(MouseEvent e) {
-					human.handleSquareClick(square, currentCard);
+					human.handleSquareClick(square, moveCard.getType());
 				}
 			});
 		}
