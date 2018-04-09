@@ -45,11 +45,11 @@ public class Pawn extends Circle{
 
 		//Get initial next square, but check for SafetyEntrySquare & if colors match
 		Square landingSquare = currentParentSquare.getImmediateNextSquare();
-		if(currentParentSquare.getClass().getName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)currentParentSquare).getNextSafetySquare().getColor()){
-			landingSquare = ((SafetyEntrySquare)currentParentSquare).getNextSafetySquare();
-		}
-		for(int i=1; i<numSpaces; i++){		//follow links to next square if moving > 1 forward
-			try{
+		try{
+			if(currentParentSquare.getClass().getName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)currentParentSquare).getNextSafetySquare().getColor()){
+				landingSquare = ((SafetyEntrySquare)currentParentSquare).getNextSafetySquare();
+			}
+			for(int i=1; i<numSpaces; i++){		//follow links to next square if moving > 1 forward
 				if(landingSquare.getClass().getName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)landingSquare).getNextSafetySquare().getColor()){
 					landingSquare = ((SafetyEntrySquare)landingSquare).getNextSafetySquare();
 				}
@@ -57,12 +57,12 @@ public class Pawn extends Circle{
 					landingSquare = landingSquare.getImmediateNextSquare();
 				}
 			}
-			catch(NullPointerException e){
-				throw new OvershotHomeException("Overshot home");
+			if(landingSquare.isOccupied() && landingSquare.getPawn().getColor() == color){
+				throw new LandedOnSquareOccupiedByPlayersOwnPawnException("Cannot move on top of yourself");
 			}
 		}
-		if(landingSquare.isOccupied() && landingSquare.getPawn().getColor() == color){
-			throw new LandedOnSquareOccupiedByPlayersOwnPawnException("Cannot move on top of yourself");
+		catch(NullPointerException e){
+			throw new OvershotHomeException("Overshot home");
 		}
 		return landingSquare;
 	}
