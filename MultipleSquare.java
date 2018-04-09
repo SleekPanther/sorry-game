@@ -6,7 +6,7 @@ public class MultipleSquare extends Square {
 	protected Text backgroundText = new Text();
 	protected GridPane grid = new GridPane();
 	protected ArrayList<Pawn> pawns = new ArrayList<Pawn>();
-	protected int availablePawnPosition = 0;
+	protected int lastPawnPosition = 0;		//index in the pawns ArrayList of the last pawn in the list
 
 	public MultipleSquare(double sideLength, Color color, String cssId) {
 		super(sideLength*3, color);		//diameter of the "circle" is 3 times a square side
@@ -18,7 +18,7 @@ public class MultipleSquare extends Square {
 		this.getChildren().add(grid);
 	}
 
-	private int[] getGridPaneLocation(int pawnPosition){
+	protected int[] getGridPaneLocation(int pawnPosition){
 		if(pawnPosition==0){
 			return new int[]{0, 0};
 		}

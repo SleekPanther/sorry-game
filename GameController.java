@@ -219,7 +219,7 @@ public class GameController extends BaseController implements Initializable {
 		SafetyEntrySquare safetyEntrySquare = new SafetyEntrySquare(squareHeightWidth, slideColor);
 		containingPane.getChildren().add(safetyEntrySquare);
 
-		//Create initial squares, special squares will overwirte positions in this list
+		//Create initial squares, special squares will overwrite positions in this list
 		for(int i=2; i<numberOfSquares; i++){
 			Square square = new Square(squareHeightWidth);
 			containingPane.getChildren().add(square);

@@ -46,8 +46,6 @@ public class Human extends Player{
 			}
 		}
 		else{
-			// Popup alert = new Popup(AlertType.INFORMATION, "Square occupied, can't move");
-
 			if(clickedSquare.getSquareId() == destinationSquare.getSquareId()){		//Make sure clicked square is the correct destination
 				selectedSquare.getPawn().move(destinationSquare);
 				selectedSquare.unHighlight();
