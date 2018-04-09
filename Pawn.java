@@ -61,6 +61,9 @@ public class Pawn extends Circle{
 				throw new OvershotHomeException("Overshot home");
 			}
 		}
+		if(landingSquare.isOccupied() && landingSquare.getPawn().getColor() == color){
+			throw new LandedOnSquareOccupiedByPlayersOwnPawnException("Cannot move on top of yourself");
+		}
 		return landingSquare;
 	}
 

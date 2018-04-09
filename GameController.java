@@ -127,7 +127,7 @@ public class GameController extends BaseController implements Initializable {
 
 
 		ObservableList<Node> topSquares = topRow.getChildren();
-		((Square)cornersSquares.get(0)).add(new Pawn(pawnRadius, humanColor));
+		((Square)topSquares.get(4)).add(new Pawn(pawnRadius, Color.GREEN));
 
 		drawCards.setOnAction((event) -> {
 			if (cards.isEmpty()){

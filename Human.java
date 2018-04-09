@@ -44,6 +44,11 @@ public class Human extends Player{
 				Popup popup = new Popup(e.getMessage());
 				popup.show();
 			}
+			catch(LandedOnSquareOccupiedByPlayersOwnPawnException e){
+				selectedSquare = null;
+				Popup popup = new Popup(e.getMessage());
+				popup.show();
+			}
 		}
 		else{
 			if(clickedSquare.getSquareId() == destinationSquare.getSquareId()){		//Make sure clicked square is the correct destination
