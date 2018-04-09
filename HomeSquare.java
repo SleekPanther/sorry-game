@@ -4,6 +4,10 @@ public class HomeSquare extends MultipleSquare {
 		super(sideLength, color, cssId);
 
 		backgroundText.setText("Home");
+
+		lastPawnPosition=-1;	//empty so no last position
+
+		isOccupied = false;
 	}
 
 }

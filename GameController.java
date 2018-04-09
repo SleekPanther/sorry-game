@@ -23,7 +23,7 @@ public class GameController extends BaseController implements Initializable {
 	private static final double squareHeightWidth = boardWidth/squaresPerSideExcludingCornersCount;
 	private static final double pawnRadius = squareHeightWidth/4;
 
-	private static final int slideSquareDestinationForwardOffset = 4;	//how many squares ahead the slide destination is
+	private static final int slideSquareDestinationForwardOffset = 3;	//how many squares ahead the slide destination is
 	private static final int slideSquare2Offset = 8;
 	private static final int startDestinationOffset = 3;
 	private static final int numSafetySquares = 5;
@@ -70,9 +70,10 @@ public class GameController extends BaseController implements Initializable {
 	private ArrayList<Pane> boardSides;
 
 	@FXML private Button drawCards;
-	@FXML private Label numberArea;
+	@FXML private TextField numberArea;
 
 	@FXML private Button switchButton;
+	@FXML private ComboBox<String> activePlayerColor;
 
 
 	private static final int totalSquaresOnBoard = 4*squaresPerSideExcludingCornersCount + 4;	//+4 for corners
@@ -85,6 +86,10 @@ public class GameController extends BaseController implements Initializable {
 	private Card moveCard = new Card(1);
 
 	private Human human;
+	private Human human1;
+	private Human human2;
+	private Human human3;
+	private Human human4;
 	private Computer computer1;
 	private Computer computer2;
 	private Computer computer3;
@@ -105,14 +110,6 @@ public class GameController extends BaseController implements Initializable {
 
 		createPawns();
 
-		//need to get color, and name from welcome screen
-		Color humanColor = Color.RED;
-		ArrayList<Pawn> humanPawns = redPawns;
-		human = new Human("Name", humanColor, humanPawns);
-		computer1 = new Computer("Computer 1", Color.BLUE, bluePawns);
-		computer2 = new Computer("Computer 2", Color.YELLOW, yellowPawns);
-		computer3 = new Computer("Computer 3", Color.GREEN, greenPawns);
-
 		createHorizontalRow(topRow, topRowContainer, Color.RED, false);
 		createVerticalColumn(rightColumn, Color.BLUE, false);
 		createHorizontalRow(bottomRow, bottomRowContainer, Color.YELLOW, true);
@@ -126,17 +123,59 @@ public class GameController extends BaseController implements Initializable {
 		createSquareClickHandlers();
 
 
-		ObservableList<Node> topSquares = topRow.getChildren();
-		((Square)cornersSquares.get(0)).add(new Pawn(pawnRadius, humanColor));
+		//Testing pawn(s)
+		((Square)topRow.getChildren().get(1)).add(new Pawn(pawnRadius, Color.RED));
+		((Square)rightColumn.getChildren().get(0)).add(new Pawn(pawnRadius, Color.BLUE));
+		((Square)rightColumn.getChildren().get(1)).add(new Pawn(pawnRadius, Color.RED));
+		((Square)rightColumn.getChildren().get(2)).add(new Pawn(pawnRadius, Color.GREEN));
+
+
+		//need to get color, and name from welcome screen
+		human1 = new Human("Name", Color.RED, redPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
+		human2 = new Human("Human 2", Color.BLUE, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
+		human3 = new Human("Human 3", Color.YELLOW, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
+		human4 = new Human("Human 4", Color.GREEN, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
+		human=human1;	//default to red
+		//Create dropdown to switch between active player for testing
+		ArrayList<String> colorStrings = new ArrayList<String>(Arrays.asList(new String[]{"RED", "BLUE", "YELLOW", "GREEN"}));
+		activePlayerColor.setItems(FXCollections.observableArrayList(colorStrings));
+		activePlayerColor.setVisibleRowCount(colorStrings.size());
+		activePlayerColor.setValue(colorStrings.get(0));
+		activePlayerColor.valueProperty().addListener(new ChangeListener<String>() {
+			@Override public void changed(ObservableValue observableValue, String oldValue, String newValue) {
+				if(newValue.equals("RED")){
+					human=human1;
+				}
+				else if(newValue.equals("BLUE")){
+					human=human2;
+				}
+				else if(newValue.equals("YELLOW")){
+					human=human3;
+				}
+				else if(newValue.equals("GREEN")){
+					human=human4;
+				}
+			}
+		});
+
+		ArrayList<Pawn> humanPawns = redPawns;
+		// human = new Human("Name", Color.RED, humanPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
+		// computer1 = new Computer("Computer 1", Color.BLUE, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
+		// computer2 = new Computer("Computer 2", Color.YELLOW, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
+		// computer3 = new Computer("Computer 3", Color.GREEN, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
 
 		drawCards.setOnAction((event) -> {
 			if (cards.isEmpty()){
 				swapDecks();
-				System.out.println("swap");
 			}
 			Card moveCard = cards.poll();
 			discards.add(moveCard);
 			numberArea.setText(moveCard.getType()+"");
+		});
+
+		//Mostly for testing, update moveCard any time the value changes, but doesn't matter since moveCard is no longer in the deck
+		numberArea.textProperty().addListener((observable, oldValue, newValue) -> {
+			moveCard = new Card(Integer.parseInt(newValue));
 		});
 
 		switchButton.setOnAction((event) -> changeScene(helpScene, event));
@@ -213,57 +252,45 @@ public class GameController extends BaseController implements Initializable {
 		containingPane.getChildren().add(slideSquare1);
 
 		SafetyEntrySquare safetyEntrySquare = new SafetyEntrySquare(squareHeightWidth, slideColor);
-		if(reverseCreationDirection){
-			containingPane.getChildren().add(0, safetyEntrySquare);	//insert at the head of the list
-		}
-		else{	//else add the the end
-			containingPane.getChildren().add(safetyEntrySquare);
-		}
-		
-		SlideStartSquare slideSquare2=null;
-		for(int i=2; i<numberOfSquares; i++){
-			if(reverseCreationDirection){		//insert at the head of the list (add(0, item)) adds at position 0
-				if(i==slideSquare2Offset){
-					slideSquare2 = new SlideStartSquare(squareHeightWidth, slideColor);
-					containingPane.getChildren().add(0, slideSquare2);
-				}
-				else{
-					Square square = new Square(squareHeightWidth);
-					containingPane.getChildren().add(0, square);
-				}
-			}
-			else{	//else add the the end
-				if(i==slideSquare2Offset){
-					slideSquare2 = new SlideStartSquare(squareHeightWidth, slideColor);
-					containingPane.getChildren().add(slideSquare2);
-				}
-				else{
-					Square square = new Square(squareHeightWidth);
-					containingPane.getChildren().add(square);
-				}
-			}
-		}
+		containingPane.getChildren().add(safetyEntrySquare);
 
-		ObservableList<Node> squares = containingPane.getChildren();
-		Square slide1Destination = (Square)squares.get(slideSquareDestinationForwardOffset);
-		Square slide2Destination = (Square)squares.get(slideSquare2Offset+slideSquareDestinationForwardOffset);
-		
+		//Create initial squares, special squares will overwrite positions in this list
+		for(int i=2; i<numberOfSquares; i++){
+			Square square = new Square(squareHeightWidth);
+			containingPane.getChildren().add(square);
+		}
+		SlideDestinationSquare slide1Destination = new SlideDestinationSquare(squareHeightWidth, slideColor);
+		containingPane.getChildren().set(slideSquareDestinationForwardOffset, slide1Destination);
 		slideSquare1.setDestinationSquare(slide1Destination);
+
+		SlideStartSquare slideSquare2 = new SlideStartSquare(squareHeightWidth, slideColor);
+		containingPane.getChildren().set(slideSquare2Offset, slideSquare2);
+
+		SlideDestinationSquare slide2Destination = new SlideDestinationSquare(squareHeightWidth, slideColor);
+		containingPane.getChildren().set(slideSquare2Offset+slideSquareDestinationForwardOffset, slide2Destination);
 		slideSquare2.setDestinationSquare(slide2Destination);
 
-		if(reverseCreationDirection){
-			for(int i=squares.size()-1; i>=1; i--){		//Start from the end of the list (last created but first in board order), skip index 0 since it needs to be linked with a corner square later
-				Square currentSquare = (Square)squares.get(i);
-				currentSquare.setImmediateNextSquare((Square)squares.get(i-1));	//set pointer to next square on a side (stored at the index i-1 since created in reverse order)
-			}
-		}
-		else{	//Forwards/Normal is i+1, the next in the list
-			for(int i=0; i<squares.size()-1; i++){	//1 less than list length since last square must be linked to a corner square
-				Square currentSquare = (Square)squares.get(i);
-				currentSquare.setImmediateNextSquare((Square)squares.get(i+1));	//set pointer to next square on a side
-			}
+		ObservableList<Node> squaresObservable = containingPane.getChildren();
+		ArrayList<Square> squares = new ArrayList<Square>();
+		for(Node square : squaresObservable){
+			squares.add((Square)square);
 		}
 
+		//Link to the next square forward in the list
+		for(int i=0; i<squares.size()-1; i++){	//1 less than list length since last square must be linked to a corner square
+			Square currentSquare = (Square)squares.get(i);
+			currentSquare.setImmediateNextSquare((Square)squares.get(i+1));	//set pointer to next square on a side
+		}
+
+
+		//Reverse the ArrayList since ObservableList is unmodifiable, clear the UI pane and add all squares in the new reversed order
+		if(reverseCreationDirection){
+			Collections.reverse(squares);
+			containingPane.getChildren().clear();
+			containingPane.getChildren().addAll(squares);
+		}
+
+		//Add to all squares for click handlers to work
 		for(Node square : squares){
 			allSquares.add((Square)square);
 		}

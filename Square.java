@@ -5,8 +5,7 @@ public class Square extends StackPane {
 	protected Square immediateNextSquare;
 	protected Pawn pawn;
 	protected boolean highlighted=false;
-	private boolean isOccupied = false;
-	private int globalSequencePosition;
+	protected boolean isOccupied = false;
 
 	private int id;
 	private static int currentAvailableId=0;
@@ -90,19 +89,14 @@ public class Square extends StackPane {
 
 	public void vacate(){
 		isOccupied = false;
-		//need to fix this for home/start squares that contain multiple UI elements in getChildren()
 		getChildren().clear();
-	}
-
-	public void setGlobalSequencePosition(int position){
-		globalSequencePosition = position;
 	}
 
 	public void add(Pawn pawn){
 		isOccupied = true;
 		this.pawn=pawn;
 		pawn.setCurrentParentSquare(this);
-		getChildren().addAll(pawn);
+		getChildren().add(pawn);
 	}
 	
 	@Override
@@ -113,7 +107,6 @@ public class Square extends StackPane {
 		}
 
 		return "Id="+id+""+"\tcolor="+color+"\tnext="+next;
-		// return "Id="+id+""+"\tcolor="+color;
 	}
 
 }
