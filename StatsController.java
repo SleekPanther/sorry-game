@@ -69,13 +69,24 @@ public class StatsController extends BaseController implements Initializable{
 	}
 
 	public void buildTable(){
-		String url = "jdbc:mysql://localhost:3306/sorrygame";
+		String databaseName="sorrygame";
+
+		String instanceConnectionName="cellular-retina-200600:us-central1:sorry-game";
+
+		String jdbcUrl = "jdbc:mysql://104.154.51.240/sorrygame";
 		String username = "root";
 		String password = "password";
 
-		try (Connection connection = DriverManager.getConnection(url, username, password)) {
+		//broken database connection, used IP workaround
+		//jdbcUrl = String.format(
+		//		"jdbc:mysql://google/%s?cloudSqlInstance=%s&"
+		//				+ "socketFactory=com.google.cloud.sql.mysql.SocketFactory",
+		//		databaseName,
+		//		instanceConnectionName);
+
+		try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
 			System.out.println("Database connected!");
-			String SQL = "SELECT * from tblsorrygame";
+			String SQL = "SELECT * from tblSorryGame";
 			ResultSet rs = connection.createStatement().executeQuery(SQL);
 
 			ObservableList<StatsModel> statsData=FXCollections.observableArrayList();
