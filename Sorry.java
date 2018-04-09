@@ -1,6 +1,3 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -78,9 +75,7 @@ public class Sorry extends Application {
 		primaryStage.setScene(menuScene);
 		primaryStage.show();
 	}
-
-
-
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
