@@ -70,7 +70,7 @@ public class GameController extends BaseController implements Initializable {
 	private ArrayList<Pane> boardSides;
 
 	@FXML private Button drawCards;
-	@FXML private Label numberArea;
+	@FXML private TextField numberArea;
 
 	@FXML private Button switchButton;
 
@@ -137,6 +137,11 @@ public class GameController extends BaseController implements Initializable {
 			Card moveCard = cards.poll();
 			discards.add(moveCard);
 			numberArea.setText(moveCard.getType()+"");
+		});
+
+		//Mostly for testing, update movecard any time the value changes, but doesn't matter since moveCard is no longer in the deck
+		numberArea.textProperty().addListener((observable, oldValue, newValue) -> {
+			moveCard = new Card(Integer.parseInt(newValue));
 		});
 
 		switchButton.setOnAction((event) -> changeScene(helpScene, event));
