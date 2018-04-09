@@ -1,4 +1,5 @@
 import javafx.scene.shape.Circle;
+import exceptions.*;
 
 public class Pawn extends Circle{
 	private Color color;
@@ -48,11 +49,16 @@ public class Pawn extends Circle{
 			landingSquare = ((SafetyEntrySquare)currentParentSquare).getNextSafetySquare();
 		}
 		for(int i=1; i<numSpaces; i++){		//follow links to next square if moving > 1 forward
-			if(landingSquare.getClass().getName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)landingSquare).getNextSafetySquare().getColor()){
-				landingSquare = ((SafetyEntrySquare)landingSquare).getNextSafetySquare();
+			try{
+				if(landingSquare.getClass().getName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)landingSquare).getNextSafetySquare().getColor()){
+					landingSquare = ((SafetyEntrySquare)landingSquare).getNextSafetySquare();
+				}
+				else{
+					landingSquare = landingSquare.getImmediateNextSquare();
+				}
 			}
-			else{
-				landingSquare = landingSquare.getImmediateNextSquare();
+			catch(NullPointerException e){
+				throw new OvershotHomeException("Overshot home");
 			}
 		}
 		return landingSquare;

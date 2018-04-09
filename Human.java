@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import exceptions.*;
+import javafx.scene.control.Alert.AlertType;
 
 public class Human extends Player{
 	private Square selectedSquare;
@@ -10,18 +12,38 @@ public class Human extends Player{
 
 	public void handleSquareClick(Square clickedSquare, int numSpaces){
 		if(selectedSquare==null){
-			if(!clickedSquare.isOccupied()){	//Square Must have a pawn
+			if(clickedSquare.getClass().getName().equals("HomeSquare")){	//Don't allow to move out of Home
 				return;
 			}
-			else if(clickedSquare.getPawn().getColor() != color){	//Colors must match in order to move
+			else if(!clickedSquare.isOccupied()){	//Square Must have a pawn
 				return;
+			}
+			else if(clickedSquare.getPawn().getColor() != color){	//Players can only move their pieces
+				return;
+			}
+			
+			if(clickedSquare.getClass().getName().equals("StartSquare")){
+				if(numSpaces!=1 && numSpaces!= 2){
+					Popup popup = new Popup("Can only move from start with 1 or 2");
+					popup.show();
+				}
+				else{	//Set numSpaces to 1 in case they drew a 2 since we only want them moving 1 space forward out of Start
+					numSpaces=1;
+				}
 			}
 
 			selectedSquare=clickedSquare;
-			selectedSquare.highlight();
 
-			destinationSquare = selectedSquare.getPawn().calculateLandingSquare(numSpaces);
-			destinationSquare.highlight();
+			try{
+				destinationSquare = selectedSquare.getPawn().calculateLandingSquare(numSpaces);
+				selectedSquare.highlight();
+				destinationSquare.highlight();
+			}
+			catch(OvershotHomeException e){
+				selectedSquare = null;		//clear selected square if error
+				Popup popup = new Popup(e.getMessage());
+				popup.show();
+			}
 		}
 		else{
 			// Popup alert = new Popup(AlertType.INFORMATION, "Square occupied, can't move");

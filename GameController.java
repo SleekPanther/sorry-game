@@ -106,7 +106,7 @@ public class GameController extends BaseController implements Initializable {
 		createPawns();
 
 		//need to get color, and name from welcome screen
-		Color humanColor = Color.GREEN;
+		Color humanColor = Color.RED;
 		ArrayList<Pawn> humanPawns = redPawns;
 		human = new Human("Name", humanColor, humanPawns);
 		computer1 = new Computer("Computer 1", Color.BLUE, bluePawns);
@@ -132,7 +132,6 @@ public class GameController extends BaseController implements Initializable {
 		drawCards.setOnAction((event) -> {
 			if (cards.isEmpty()){
 				swapDecks();
-				System.out.println("swap");
 			}
 			Card moveCard = cards.poll();
 			discards.add(moveCard);
