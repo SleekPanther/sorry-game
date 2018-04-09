@@ -73,6 +73,7 @@ public class GameController extends BaseController implements Initializable {
 	@FXML private TextField numberArea;
 
 	@FXML private Button switchButton;
+	@FXML private ComboBox<String> activePlayerColor;
 
 
 	private static final int totalSquaresOnBoard = 4*squaresPerSideExcludingCornersCount + 4;	//+4 for corners
@@ -85,6 +86,10 @@ public class GameController extends BaseController implements Initializable {
 	private Card moveCard = new Card(1);
 
 	private Human human;
+	private Human human1;
+	private Human human2;
+	private Human human3;
+	private Human human4;
 	private Computer computer1;
 	private Computer computer2;
 	private Computer computer3;
@@ -126,11 +131,38 @@ public class GameController extends BaseController implements Initializable {
 
 
 		//need to get color, and name from welcome screen
+		human1 = new Human("Name", Color.RED, redPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
+		human2 = new Human("Human 2", Color.BLUE, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
+		human3 = new Human("Human 3", Color.YELLOW, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
+		human4 = new Human("Human 4", Color.GREEN, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
+		human=human1;	//default to red
+		//Create dropdown to switch between active player for testing
+		ArrayList<String> colorStrings = new ArrayList<String>(Arrays.asList(new String[]{"RED", "BLUE", "YELLOW", "GREEN"}));
+		activePlayerColor.setItems(FXCollections.observableArrayList(colorStrings));
+		activePlayerColor.setVisibleRowCount(colorStrings.size());
+		activePlayerColor.setValue(colorStrings.get(0));
+		activePlayerColor.valueProperty().addListener(new ChangeListener<String>() {
+			@Override public void changed(ObservableValue observableValue, String oldValue, String newValue) {
+				if(newValue.equals("RED")){
+					human=human1;
+				}
+				else if(newValue.equals("BLUE")){
+					human=human2;
+				}
+				else if(newValue.equals("YELLOW")){
+					human=human3;
+				}
+				else if(newValue.equals("GREEN")){
+					human=human4;
+				}
+			}
+		});
+
 		ArrayList<Pawn> humanPawns = redPawns;
-		human = new Human("Name", Color.RED, humanPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
-		computer1 = new Computer("Computer 1", Color.BLUE, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
-		computer2 = new Computer("Computer 2", Color.YELLOW, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
-		computer3 = new Computer("Computer 3", Color.GREEN, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
+		// human = new Human("Name", Color.RED, humanPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
+		// computer1 = new Computer("Computer 1", Color.BLUE, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
+		// computer2 = new Computer("Computer 2", Color.YELLOW, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
+		// computer3 = new Computer("Computer 3", Color.GREEN, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
 
 		drawCards.setOnAction((event) -> {
 			if (cards.isEmpty()){

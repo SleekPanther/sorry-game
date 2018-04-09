@@ -43,7 +43,8 @@
 
 				<FlowPane AnchorPane.topAnchor='300' AnchorPane.leftAnchor='170' >
 					<Button text='Click for card' fx:id='drawCards' />
-					<TextField text='1' fx:id='numberArea'></TextField>
+					<TextField text='1' fx:id='numberArea' prefWidth='40'></TextField>
+					<ComboBox fx:id="activePlayerColor"></ComboBox>
 					<Button text='Go to help' fx:id='switchButton' />
 				</FlowPane>
 			</AnchorPane>
