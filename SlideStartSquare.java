@@ -1,6 +1,6 @@
 
 public class SlideStartSquare extends Square {
-	private Square destinationSquare;
+	private SlideDestinationSquare destinationSquare;
 
 	public SlideStartSquare(double sideLength) {
 		super(sideLength);
@@ -16,8 +16,12 @@ public class SlideStartSquare extends Square {
 		});
 	}
 
-	public void setDestinationSquare(Square destination){
+	public void setDestinationSquare(SlideDestinationSquare destination){
 		destinationSquare=destination;
+	}
+
+	public SlideDestinationSquare getDestinationSquare(){
+		return destinationSquare;
 	}
 
 }

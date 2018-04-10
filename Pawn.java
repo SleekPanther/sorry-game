@@ -1,4 +1,5 @@
 import javafx.scene.shape.Circle;
+import exceptions.*;
 
 public class Pawn extends Circle{
 	private Color color;
@@ -52,8 +53,17 @@ public class Pawn extends Circle{
 				landingSquare = ((SafetyEntrySquare)landingSquare).getNextSafetySquare();
 			}
 			else{
+				if(landingSquare.getImmediateNextSquare()==null){
+					throw new OvershotHomeException("Overshot Home");
+				}
 				landingSquare = landingSquare.getImmediateNextSquare();
 			}
+		}
+
+		if(!landingSquare.getClass().getName().equals("HomeSquare")
+			&& landingSquare.isOccupied() 
+				&& landingSquare.getPawn().getColor() == color){
+			throw new LandedOnSquareOccupiedByPlayersOwnPawnException("Cannot move on top of yourself");
 		}
 		return landingSquare;
 	}

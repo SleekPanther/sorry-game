@@ -2,6 +2,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 public class Popup extends Alert{
+	
+	public Popup(String headerMessage) {
+		this(AlertType.INFORMATION, "", headerMessage, "");
+	}
 
 	public Popup(AlertType alertType, String headerMessage) {
 		this(alertType, "", headerMessage, "");
