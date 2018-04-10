@@ -90,7 +90,8 @@ public class Square extends StackPane {
 
 	public void vacate(){
 		isOccupied = false;
-		getChildren().clear();		//update ui
+		//need to fix this for home/start squares that contain multiple UI elements in getChildren()
+		getChildren().clear();
 	}
 
 	public void setGlobalSequencePosition(int position){
