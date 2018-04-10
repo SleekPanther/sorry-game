@@ -55,7 +55,7 @@ public class StatsController extends BaseController implements Initializable{
 	}
 
 	public void connectToDatabase(){
-		String url = "jdbc:mysql://localhost:3306/sorrygame";
+		String url = "jdbc:mysql://104.154.51.240/sorrygame";
 		String username = "root";
 		String password = "password";
 
