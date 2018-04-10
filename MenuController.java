@@ -17,9 +17,14 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
 public class MenuController extends BaseController implements Initializable{
-	private Scene gameScene;
+    //public ChoiceBox UserChooseColor;
+    private Scene gameScene;
 	private Scene statsScene;
 	private Scene helpScene;
+
+
+	@FXML private ChoiceBox player;
+
 	
 	@FXML private Button newGameButton;
 	@FXML private Button statsButton;
@@ -30,6 +35,10 @@ public class MenuController extends BaseController implements Initializable{
 		newGameButton.setOnAction((event) -> changeScene(gameScene, event));
 		statsButton.setOnAction((event) -> changeScene(statsScene, event));
 		helpButton.setOnAction((event) -> changeScene(helpScene, event));
+		player.getItems().add("Red");
+		player.getItems().add("Blue");
+		player.getItems().add("Green");
+		player.getItems().add("Yellow");
 	}
 	
 	public void setGameScene(Scene scene) {

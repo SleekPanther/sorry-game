@@ -1,12 +1,12 @@
 
 public class SlideStartSquare extends Square {
-	private Square destinationSquare;
+	private SlideDestinationSquare destinationSquare;
 
 	public SlideStartSquare(double sideLength) {
 		super(sideLength);
 	}
 
-	public SlideStartSquare(int sideLength, Color slideColor) {
+	public SlideStartSquare(double sideLength, Color slideColor) {
 		super(sideLength, slideColor);
 		
 		hoverProperty().addListener((observable, oldValue, hover)->{
@@ -16,8 +16,12 @@ public class SlideStartSquare extends Square {
 		});
 	}
 
-	public void setDestinationSquare(Square destination){
+	public void setDestinationSquare(SlideDestinationSquare destination){
 		destinationSquare=destination;
+	}
+
+	public SlideDestinationSquare getDestinationSquare(){
+		return destinationSquare;
 	}
 
 }

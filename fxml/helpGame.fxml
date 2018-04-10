@@ -12,9 +12,55 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<FlowPane fx:controller='HelpGameController' stylesheets='css/helpGame.css' xmlns='http://javafx.com/javafx/8' xmlns:fx='http://javafx.com/fxml' >
+<FlowPane fx:controller='HelpGameController' stylesheets='css/help.css' xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" >
 
-	<Button text='Go back to board scene' fx:id='switchButton' />
-	<TextField text='Text saves when switched '/>
+	<Button text='Go back to game' fx:id='switchButton'/>
+
+
+	<ScrollPane maxHeight="400" minWidth="415" >
+		<FlowPane styleClass="middle" >
+			<Text styleClass="header">It seems that you need some help with game play!</Text>
+
+			<Text styleClass="title">General Rules</Text>
+			<TextArea styleClass="helpText" prefWidth="370" maxHeight="180"  text="${'
+				The object of the game is to get all of your pawns to your\n
+				home base before all the other players. You start out in the\n
+				START space and cannot leave until you draw a 1 or 2 card.\n
+				When you have a pawn to move, follow the rules on the card \n
+				to move it around the board, such as move 8 spaces forward,\n
+				or move 4 spaces backward. Pawns can also slide if you land\n
+				on the start of a slide. If you land in a space occupied by\n
+				another pawn, or hit them during your slide, you bump them \n
+				back to the start. Entering the home base is a safety zone\n
+				where you are free from bumps by other players.
+				'
+			}" />
+
+			<Text styleClass="title">How To Play</Text>
+			<TextArea styleClass="helpText" prefWidth="370" maxHeight="110"  text="${'
+				When it is your turn, draw a card, then click the pawn\n
+				you want to move. If the move is possible, the \n
+				destination square will get highlighted, and click on\n
+				the destination square to confirm your move. If you want \n
+				to move another pawn, click that one instead of clicking \n
+				the confirmation square.
+				'
+			}" />
+			<Text styleClass="title">Saving the Game</Text>
+			<TextArea styleClass="helpText" prefWidth="370" maxHeight="60"  text="${'
+				If you want to save the game to be played later, click\n
+				on SAVE GAME. When you restart the program, you can \n
+				resume that game.
+			'
+			}" />
+			<Text styleClass="title">Quitting the Game</Text>
+			<TextArea styleClass="helpText" prefWidth="370" maxHeight="20"  text="${'
+				If you want to quit the game, just click QUIT GAME.
+
+			'
+			}" />
+
+		</FlowPane>
+	</ScrollPane>
 
 </FlowPane>

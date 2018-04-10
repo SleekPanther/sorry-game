@@ -1,4 +1,5 @@
 import javafx.scene.shape.Circle;
+import exceptions.*;
 
 public class Pawn extends Circle{
 	private Color color;
@@ -42,9 +43,27 @@ public class Pawn extends Circle{
 	public Square calculateLandingSquare(int numSpaces){
 		//need to handle moving backwards later
 
+		//Get initial next square, but check for SafetyEntrySquare & if colors match
 		Square landingSquare = currentParentSquare.getImmediateNextSquare();
+		if(currentParentSquare.getClass().getName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)currentParentSquare).getNextSafetySquare().getColor()){
+			landingSquare = ((SafetyEntrySquare)currentParentSquare).getNextSafetySquare();
+		}
 		for(int i=1; i<numSpaces; i++){		//follow links to next square if moving > 1 forward
-			landingSquare = landingSquare.getImmediateNextSquare();
+			if(landingSquare.getClass().getName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)landingSquare).getNextSafetySquare().getColor()){
+				landingSquare = ((SafetyEntrySquare)landingSquare).getNextSafetySquare();
+			}
+			else{
+				if(landingSquare.getImmediateNextSquare()==null){
+					throw new OvershotHomeException("Overshot Home");
+				}
+				landingSquare = landingSquare.getImmediateNextSquare();
+			}
+		}
+
+		if(!landingSquare.getClass().getName().equals("HomeSquare")
+			&& landingSquare.isOccupied() 
+				&& landingSquare.getPawn().getColor() == color){
+			throw new LandedOnSquareOccupiedByPlayersOwnPawnException("Cannot move on top of yourself");
 		}
 		return landingSquare;
 	}
