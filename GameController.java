@@ -19,7 +19,7 @@ import javafx.scene.input.MouseEvent;
 
 public class GameController extends BaseController implements Initializable {
 	private static final int squaresPerSideExcludingCornersCount = 14;
-	private static final int boardWidth = 600;
+	private static final int boardWidth = 700;
 	private static final double squareHeightWidth = boardWidth/squaresPerSideExcludingCornersCount;
 	private static final double pawnRadius = squareHeightWidth/4;
 
