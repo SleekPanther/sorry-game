@@ -16,7 +16,7 @@
 }
 
 .boardMiddle{
-	-fx-background-color: #FFFFFF;
+	-fx-background-color: #be55ff;
 }
 
 BorderPane HBox > Square, BorderPane > VBox > Square{

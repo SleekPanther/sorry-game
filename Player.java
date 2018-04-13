@@ -29,8 +29,11 @@ public class Player{
 	}
 
 	protected void bumpOthersOnSlide(Square slideStart){
-		if(slideStart.isOccupied() && slideStart.getPawn().getColor() != color){
+		if(slideStart.isOccupied() && slideStart.getPawn().getColor() != color ){
 			bump(slideStart.getPawn());
+			if(slideStart.getPawn().getColor() == color){
+				bump(slideStart.getPawn());
+			}
 		}
 		Square landingSquare = slideStart.getImmediateNextSquare();
 		for(int i=1; i<slideSquareDestinationForwardOffset; i++){

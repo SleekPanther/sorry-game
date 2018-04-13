@@ -24,6 +24,11 @@ public class MenuController extends BaseController implements Initializable{
 
 
 	@FXML private ChoiceBox player;
+	@FXML private ChoiceBox computer1;
+	@FXML private ChoiceBox computer2;
+	@FXML private ChoiceBox computer3;
+
+
 
 	
 	@FXML private Button newGameButton;
@@ -39,6 +44,19 @@ public class MenuController extends BaseController implements Initializable{
 		player.getItems().add("Blue");
 		player.getItems().add("Green");
 		player.getItems().add("Yellow");
+		computer1.getItems().add("Red");
+		computer1.getItems().add("Blue");
+		computer1.getItems().add("Green");
+		computer1.getItems().add("Yellow");
+		computer2.getItems().add("Red");
+		computer2.getItems().add("Blue");
+		computer2.getItems().add("Green");
+		computer2.getItems().add("Yellow");
+		computer3.getItems().add("Red");
+		computer3.getItems().add("Blue");
+		computer3.getItems().add("Green");
+		computer3.getItems().add("Yellow");
+
 	}
 	
 	public void setGameScene(Scene scene) {
