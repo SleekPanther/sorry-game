@@ -5,6 +5,7 @@ import javafx.scene.control.Alert.AlertType;
 public class Human extends Player{
 	private Square selectedSquare;
 	private Square landingSquare;
+	private boolean shouldBump = false;
 	
 	public Human(String name, Color color, ArrayList<Pawn> pawns, ArrayList<StartSquare> startSquares, ArrayList<HomeSquare> homeSquares, int slideSquareDestinationForwardOffset){
 		super(name, color, pawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
@@ -36,10 +37,12 @@ public class Human extends Player{
 
 			selectedSquare=clickedSquare;
 
+			shouldBump=false;
 			try{
 				landingSquare = selectedSquare.getPawn().calculateLandingSquare(numSpaces);
 				if(landingSquare.getClass().getName().equals("SlideStartSquare") && landingSquare.getColor()!=color){
 					landingSquare = ((SlideStartSquare)landingSquare).getDestinationSquare();
+					shouldBump = true;
 				}
 				selectedSquare.highlight();
 				landingSquare.highlight();
@@ -61,7 +64,7 @@ public class Human extends Player{
 				if(landingSquare.isOccupied() && landingSquare.getPawn().getColor() != color){
 					bump(landingSquare.getPawn());
 				}
-				if(landingSquare.getClass().getName().equals("SlideDestinationSquare") && landingSquare.getColor()!=color){
+				if(landingSquare.getClass().getName().equals("SlideDestinationSquare") && shouldBump && landingSquare.getColor()!=color){
 					bumpOthersOnSlide(selectedSquare.getPawn().calculateLandingSquare(numSpaces));
 				}
 				selectedSquare.getPawn().move(landingSquare);
