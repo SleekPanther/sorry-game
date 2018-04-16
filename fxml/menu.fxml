@@ -15,18 +15,25 @@
 			<Button fx:id="newGameButton" layoutX="153.0" layoutY="294.0" text="Start Game" />
 			<Button fx:id="statsButton" layoutX="172.0" layoutY="346.0" text="Stats" />
 			<Button fx:id="helpButton" layoutX="166.0" layoutY="394.0" prefHeight="32.0" prefWidth="62.0" text="Help" />
-			<ChoiceBox fx:id="player" layoutX="123.0" layoutY="177.0" prefWidth="150.0" />
-			<Label layoutX="35.0" layoutY="182.0" text="player" />
+			<ChoiceBox fx:id="player" layoutX="123.0" layoutY="127.0" prefWidth="150.0" />
+			<Label layoutX="33.0" layoutY="132.0" text="player" />
          <ImageView fitHeight="61.0" fitWidth="284.0" layoutX="106.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@../image/welcome.gif" />
             </image>
          </ImageView>
-         <Label layoutX="49.0" layoutY="101.0" prefHeight="39.0" prefWidth="299.0" text="Choose a color for your pawn!">
+         <Label layoutX="17.0" layoutY="84.0" prefHeight="39.0" prefWidth="299.0" text="Choose a color for your pawn!">
             <font>
                <Font size="20.0" />
             </font>
          </Label>
+         <Label layoutX="19.0" layoutY="170.0" text="computer1" />
+         <Label layoutX="18.0" layoutY="211.0" text="computer2" />
+         <Label layoutX="18.0" layoutY="252.0" text="computer3" />
+         <ChoiceBox fx:id="computer1" layoutX="123.0" layoutY="165.0" prefWidth="150.0" />
+         <ChoiceBox fx:id="computer2" layoutX="121.0" layoutY="206.0" prefWidth="150.0" />
+         <ChoiceBox fx:id="computer3" layoutX="122.0" layoutY="247.0" prefWidth="150.0" />
+         <Button layoutX="316.0" layoutY="397.0" mnemonicParsing="false" text="resume" />
 		</children>
 	</AnchorPane>
 </FlowPane>
