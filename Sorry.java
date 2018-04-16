@@ -9,7 +9,7 @@ import javafx.stage.*;
 
 public class Sorry extends Application {
 	private static final String fxmlFolderPath = "fxml/";
-	private static final Map<String, String> viewFilenames = new HashMap<String, String>();;
+	private static final Map<String, String> viewFilenames = new HashMap<String, String>();
 
 	public Sorry(){
 		viewFilenames.put("menu", fxmlFolderPath+"menu.fxml");
