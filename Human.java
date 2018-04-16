@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+
+import enums.Color;
 import exceptions.*;
 import javafx.scene.control.Alert.AlertType;
 

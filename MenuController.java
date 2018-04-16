@@ -1,5 +1,5 @@
 import structures.*;
-
+import enums.Color;
 import java.net.URL;
 import javafx.fxml.*;
 import javafx.application.Platform;
@@ -69,8 +69,9 @@ public class MenuController extends BaseController implements Initializable{
 		});
 
 		newGameButton.setOnAction((event) ->{
-			HumanData humanData = new HumanData(playerName.getText(), playerColor.getValue());
-			gameController.receiveHumanData(humanData);
+			gameController.receiveHumanData(new HumanData(playerName.getText(), stringToColor(playerColor.getValue())));
+			gameController.receiveComputerData(new ComputerData(computer1Name.getText(), stringToColor(computer1Color.getValue()), "", ""), new ComputerData(computer2Name.getText(), stringToColor(computer2Color.getValue()), "", ""), new ComputerData(computer3Name.getText(), stringToColor(computer3Color.getValue()), "", ""));
+			gameController.setUpPlayerColors();
 			changeScene(gameScene, event);
 		});
 		statsButton.setOnAction((event) -> changeScene(statsScene, event));
@@ -91,6 +92,22 @@ public class MenuController extends BaseController implements Initializable{
 
 	public void linkGameController(GameController controller){
 		gameController = controller;
+	}
+
+	private Color stringToColor(String stringColor){
+		if(stringColor.equals("RED")){
+			return Color.RED;
+		}
+		else if(stringColor.equals("BLUE")){
+			return Color.BLUE;
+		}
+		else if(stringColor.equals("YELLOW")){
+			return Color.YELLOW;
+		}
+		else if(stringColor.equals("GREEN")){
+			return Color.GREEN;
+		}
+		return Color.ANY;
 	}
 
 }

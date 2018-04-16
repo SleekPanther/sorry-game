@@ -1,3 +1,4 @@
+import enums.Color;
 import java.util.ArrayList;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;

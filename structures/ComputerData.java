@@ -1,12 +1,12 @@
 package structures;
 
-public class ComputerData{
-	public String name;		//Maybe unnecessary
-	public String color;
+import enums.Color;
+
+public class ComputerData extends PlayerData{
 	public String difficulity;
 	public String meanness;
 
-	public ComputerData(String name, String color, String difficulity, String meanness){
+	public ComputerData(String name, Color color, String difficulity, String meanness){
 		this.name = name;
 		this.color = color;
 		this.difficulity = difficulity;

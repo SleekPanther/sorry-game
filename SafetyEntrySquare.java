@@ -1,3 +1,5 @@
+import enums.Color;
+
 public class SafetyEntrySquare extends Square {
 	private SafetySquare nextSafetySquare;
 

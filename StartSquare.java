@@ -1,3 +1,4 @@
+import enums.Color;
 import java.util.ArrayList;
 
 public class StartSquare extends MultipleSquare {

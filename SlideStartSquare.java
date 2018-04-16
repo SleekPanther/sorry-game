@@ -1,3 +1,4 @@
+import enums.Color;
 
 public class SlideStartSquare extends Square {
 	private SlideDestinationSquare destinationSquare;

@@ -1,3 +1,4 @@
+import enums.Color;
 import java.util.ArrayList;
 
 public class Player{
@@ -18,6 +19,10 @@ public class Player{
 		this.startSquares = startSquares;
 		this.homeSquares = homeSquares;
 		this.slideSquareDestinationForwardOffset = slideSquareDestinationForwardOffset;
+	}
+
+	public Color getColor(){
+		return color;
 	}
 	
 	public ArrayList<Pawn> getPawns(){
@@ -57,6 +62,11 @@ public class Player{
 		else if(pawn.getColor() == Color.GREEN){
 			pawn.move(startSquares.get(3));
 		}
+	}
+
+	@Override
+	public String toString(){
+		return getClass().getName() + " " + color;
 	}
 
 }

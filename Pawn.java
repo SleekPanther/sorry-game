@@ -1,5 +1,6 @@
-import javafx.scene.shape.Circle;
+import enums.Color;
 import exceptions.*;
+import javafx.scene.shape.Circle;
 
 public class Pawn extends Circle{
 	private Color color;

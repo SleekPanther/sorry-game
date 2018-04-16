@@ -1,10 +1,10 @@
 package structures;
 
-public class HumanData{
-	public String name;
-	public String color;
+import enums.Color;
 
-	public HumanData(String name, String color){
+public class HumanData extends PlayerData{
+	
+	public HumanData(String name, Color color) {
 		this.name = name;
 		this.color = color;
 	}
