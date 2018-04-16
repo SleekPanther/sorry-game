@@ -89,7 +89,8 @@ public class Square extends StackPane {
 
 	public void vacate(){
 		isOccupied = false;
-		getChildren().clear();
+		this.pawn = null;
+		getChildren().clear();		//update UI
 	}
 
 	public void add(Pawn pawn){
@@ -101,7 +102,7 @@ public class Square extends StackPane {
 	
 	@Override
 	public String toString(){
-		String next = "empty";
+		String next = "Empty";
 		if(immediateNextSquare!=null){
 			next=immediateNextSquare.getSquareId()+"";
 		}

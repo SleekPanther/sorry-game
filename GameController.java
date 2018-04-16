@@ -128,6 +128,11 @@ public class GameController extends BaseController implements Initializable {
 		((Square)rightColumn.getChildren().get(0)).add(new Pawn(pawnRadius, Color.BLUE));
 		((Square)rightColumn.getChildren().get(1)).add(new Pawn(pawnRadius, Color.RED));
 		((Square)rightColumn.getChildren().get(2)).add(new Pawn(pawnRadius, Color.GREEN));
+		//pawns on the top row left
+		// ((Square)topRow.getChildren().get(1)).add(new Pawn(pawnRadius, Color.RED));
+		// ((Square)topRow.getChildren().get(0)).add(new Pawn(pawnRadius, Color.BLUE));
+		// ((Square)topRow.getChildren().get(2)).add(new Pawn(pawnRadius, Color.GREEN));
+		// ((Square)rightColumn.getChildren().get(1)).add(new Pawn(pawnRadius, Color.RED));
 
 
 		//need to get color, and name from welcome screen
