@@ -26,10 +26,17 @@ public class MenuController extends BaseController implements Initializable{
 	private Scene statsScene;
 	private Scene helpScene;
 
-	@FXML private ChoiceBox player;
-	@FXML private ChoiceBox computer1;
-	@FXML private ChoiceBox computer2;
-	@FXML private ChoiceBox computer3;
+	private static final ArrayList<String> colorStringsReference = new ArrayList<String>(Arrays.asList(new String[]{"RED", "BLUE", "YELLOW", "GREEN"}));
+
+	@FXML private TextField playerName;
+	@FXML private TextField computer1Name;
+	@FXML private TextField computer2Name;
+	@FXML private TextField computer3Name;
+
+	@FXML private ComboBox<String> playerColor;
+	@FXML private ComboBox<String> computer1Color;
+	@FXML private ComboBox<String> computer2Color;
+	@FXML private ComboBox<String> computer3Color;
 
 
 	@FXML private Button newGameButton;
@@ -38,36 +45,36 @@ public class MenuController extends BaseController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		ArrayList<ComboBox> colorDropDowns = new ArrayList<ComboBox>(Arrays.asList(playerColor, computer1Color, computer2Color, computer3Color));
+
+		//Create 4 dropdowns for colors
+		for(int i=0; i<colorDropDowns.size(); i++){
+			colorDropDowns.get(i).setItems(FXCollections.observableArrayList(colorStringsReference));
+			colorDropDowns.get(i).setVisibleRowCount(colorStringsReference.size());
+			colorDropDowns.get(i).setValue(colorStringsReference.get(i));
+		}
+		
+		playerColor.valueProperty().addListener(new ChangeListener<String>() {
+			@Override public void changed(ObservableValue observableValue, String oldValue, String newValue) {
+				System.out.print("Selection changed event");
+				// if(newValue.equals("RED")){
+				// }
+				// else if(newValue.equals("BLUE")){
+				// }
+				// else if(newValue.equals("YELLOW")){
+				// }
+				// else if(newValue.equals("GREEN")){
+				// }
+			}
+		});
+
 		newGameButton.setOnAction((event) ->{
-			HumanData humanData = new HumanData("Noah", "Red");
+			HumanData humanData = new HumanData(playerName.getText(), playerColor.getValue());
 			gameController.receiveHumanData(humanData);
 			changeScene(gameScene, event);
 		});
 		statsButton.setOnAction((event) -> changeScene(statsScene, event));
 		helpButton.setOnAction((event) -> changeScene(helpScene, event));
-
-		player.getItems().add("Red");
-		player.getItems().add("Blue");
-		player.getItems().add("Green");
-		player.getItems().add("Yellow");
-
-		computer1.getItems().add("Red");
-		computer1.getItems().add("Blue");
-		computer1.getItems().add("Green");
-		computer1.getItems().add("Yellow");
-
-		computer2.getItems().add("Red");
-		computer2.getItems().add("Blue");
-		computer2.getItems().add("Green");
-		computer2.getItems().add("Yellow");
-
-		computer3.getItems().add("Red");
-		computer3.getItems().add("Blue");
-		computer3.getItems().add("Green");
-		computer3.getItems().add("Yellow");
-
-
-
 	}
 	
 	public void setGameScene(Scene scene) {

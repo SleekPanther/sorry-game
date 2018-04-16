@@ -107,7 +107,7 @@ public class GameController extends BaseController implements Initializable {
 	}
 
 	public void receiveHumanData(HumanData humanData){
-		System.out.println("name="+humanData.name);
+		System.out.println("name="+humanData.name+"color="+humanData.color);
 	}
 
 	@Override
