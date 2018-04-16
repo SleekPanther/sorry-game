@@ -1,3 +1,5 @@
+import structures.*;
+
 import java.net.URL;
 import javafx.fxml.*;
 import javafx.application.Platform;
@@ -102,6 +104,10 @@ public class GameController extends BaseController implements Initializable {
 
 	public void setHelpScene(Scene scene) {
 		helpScene = scene;
+	}
+
+	public void receiveHumanData(HumanData humanData){
+		System.out.println("name="+humanData.name);
 	}
 
 	@Override
