@@ -1,19 +1,17 @@
+import structures.*;
+import enums.Color;
 import java.net.URL;
 import javafx.fxml.*;
 import javafx.application.Platform;
 import javafx.stage.Stage;
-import javafx.scene.Node;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.beans.value.*;
 import javafx.event.*;
 import java.util.*;
 import javafx.collections.*;
-import java.text.DecimalFormat;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
@@ -31,6 +29,8 @@ public class GameController extends BaseController implements Initializable {
 
 
 	private Scene helpScene;
+	private Scene statsScene;
+	private Scene menuScene;
 
 	@FXML private HBox topRowContainer;
 	@FXML private HBox bottomRowContainer;
@@ -75,17 +75,17 @@ public class GameController extends BaseController implements Initializable {
 	@FXML private Button switchButton;
 	@FXML private ComboBox<String> activePlayerColor;
 
+	@FXML private CheckBox enableTurns;
+
 
 	private static final int totalSquaresOnBoard = 4*squaresPerSideExcludingCornersCount + 4;	//+4 for corners
 	private ArrayList<Square> allSquares = new ArrayList<Square>();
 
 	private ArrayList<Square> cornersSquares = new ArrayList<Square>();
 
-	private LinkedList<Card> cards;
-	private LinkedList<Card> discards;
-	private Card moveCard = new Card(1);
+	private ArrayList<String> colorStrings = new ArrayList<String>(Arrays.asList(new String[]{"RED", "BLUE", "YELLOW", "GREEN"}));
 
-	private Human human;
+	private Human activePlayer;
 	private Human human1;
 	private Human human2;
 	private Human human3;
@@ -94,14 +94,47 @@ public class GameController extends BaseController implements Initializable {
 	private Computer computer2;
 	private Computer computer3;
 
+	private ArrayList<Player> players;
+
+	private HumanData humanData = new HumanData("Player", Color.RED);
+	private ComputerData computer1Data = new ComputerData("Computer1", Color.BLUE, "", "");
+	private ComputerData computer2Data = new ComputerData("Computer2", Color.YELLOW, "", "");;
+	private ComputerData computer3Data = new ComputerData("Computer3", Color.GREEN, "", "");;
+
 	private ArrayList<Pawn> redPawns = new ArrayList<Pawn>();
 	private ArrayList<Pawn> bluePawns = new ArrayList<Pawn>();
 	private ArrayList<Pawn> yellowPawns = new ArrayList<Pawn>();
 	private ArrayList<Pawn> greenPawns = new ArrayList<Pawn>();
 
 
+	private LinkedList<Card> cards;
+	private LinkedList<Card> discards;
+	private Card moveCard = new Card(1);
+
+	private int turn = 0;	//numbers correspond to indexes in players ArrayList
+
+
 	public void setHelpScene(Scene scene) {
 		helpScene = scene;
+	}
+
+	public void setMenuScene(Scene scene) {
+		menuScene = scene;
+	}
+
+	public void setStatsScene(Scene scene) {
+		statsScene = scene;
+	}
+
+	public void receiveHumanData(HumanData humanData){
+		this.humanData=humanData;
+	}
+
+	public void receiveComputerData(ComputerData computer1Data, ComputerData computer2Data, ComputerData computer3Data){
+		//Must check if null when user selects less than 3 opponents
+		this.computer1Data=computer1Data;
+		this.computer2Data=computer2Data;
+		this.computer3Data=computer3Data;
 	}
 
 	@Override
@@ -124,45 +157,18 @@ public class GameController extends BaseController implements Initializable {
 
 
 		//Testing pawn(s)
+		// ((Square)topRow.getChildren().get(1)).add(new Pawn(pawnRadius, Color.RED));
+		// ((Square)rightColumn.getChildren().get(0)).add(new Pawn(pawnRadius, Color.BLUE));
+		// ((Square)rightColumn.getChildren().get(1)).add(new Pawn(pawnRadius, Color.RED));
+		// ((Square)rightColumn.getChildren().get(2)).add(new Pawn(pawnRadius, Color.GREEN));
+		//pawns on the top row left
 		((Square)topRow.getChildren().get(1)).add(new Pawn(pawnRadius, Color.RED));
-		((Square)rightColumn.getChildren().get(0)).add(new Pawn(pawnRadius, Color.BLUE));
+		((Square)topRow.getChildren().get(0)).add(new Pawn(pawnRadius, Color.BLUE));
+		((Square)topRow.getChildren().get(2)).add(new Pawn(pawnRadius, Color.GREEN));
 		((Square)rightColumn.getChildren().get(1)).add(new Pawn(pawnRadius, Color.RED));
-		((Square)rightColumn.getChildren().get(2)).add(new Pawn(pawnRadius, Color.GREEN));
 
 
-		//need to get color, and name from welcome screen
-		human1 = new Human("Name", Color.RED, redPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
-		human2 = new Human("Human 2", Color.BLUE, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
-		human3 = new Human("Human 3", Color.YELLOW, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
-		human4 = new Human("Human 4", Color.GREEN, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
-		human=human1;	//default to red
-		//Create dropdown to switch between active player for testing
-		ArrayList<String> colorStrings = new ArrayList<String>(Arrays.asList(new String[]{"RED", "BLUE", "YELLOW", "GREEN"}));
-		activePlayerColor.setItems(FXCollections.observableArrayList(colorStrings));
-		activePlayerColor.setVisibleRowCount(colorStrings.size());
-		activePlayerColor.setValue(colorStrings.get(0));
-		activePlayerColor.valueProperty().addListener(new ChangeListener<String>() {
-			@Override public void changed(ObservableValue observableValue, String oldValue, String newValue) {
-				if(newValue.equals("RED")){
-					human=human1;
-				}
-				else if(newValue.equals("BLUE")){
-					human=human2;
-				}
-				else if(newValue.equals("YELLOW")){
-					human=human3;
-				}
-				else if(newValue.equals("GREEN")){
-					human=human4;
-				}
-			}
-		});
-
-		ArrayList<Pawn> humanPawns = redPawns;
-		// human = new Human("Name", Color.RED, humanPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
-		// computer1 = new Computer("Computer 1", Color.BLUE, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
-		// computer2 = new Computer("Computer 2", Color.YELLOW, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
-		// computer3 = new Computer("Computer 3", Color.GREEN, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
+		setUpPlayerColors();
 
 		drawCards.setOnAction((event) -> {
 			if (cards.isEmpty()){
@@ -179,6 +185,70 @@ public class GameController extends BaseController implements Initializable {
 		});
 
 		switchButton.setOnAction((event) -> changeScene(helpScene, event));
+	}
+
+	public void setUpPlayerColors(){
+		//Change these to actual computers later
+		ArrayList<PlayerData> playerDataList = new ArrayList<PlayerData>(Arrays.asList(humanData, computer1Data, computer2Data, computer3Data));
+		players = new ArrayList<Player>(Arrays.asList(null, null, null, null));		//initialize list so players are created in order and can be set at an index
+		for(int i=0; i<playerDataList.size(); i++){
+			if(playerDataList.get(i).color==Color.RED){
+				players.set(0, new Human(playerDataList.get(i).name, playerDataList.get(i).color, redPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+			}
+			else if(playerDataList.get(i).color==Color.BLUE){
+				players.set(1, new Human(playerDataList.get(i).name, playerDataList.get(i).color, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+			}
+			else if(playerDataList.get(i).color==Color.YELLOW){
+				players.set(2, new Human(playerDataList.get(i).name, playerDataList.get(i).color, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+			}
+			else if(playerDataList.get(i).color==Color.GREEN){
+				players.set(3, new Human(playerDataList.get(i).name, playerDataList.get(i).color, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+			}
+		}
+
+		activePlayer = (Human)players.get(colorToPlayerIndex(playerDataList.get(0).color));		//activePlayer is always human and starts
+		turn = colorToPlayerIndex(activePlayer.getColor());
+
+		setUpColorSwitcher();
+	}
+
+	private int colorToPlayerIndex(Color color){
+		return colorToPlayerIndex(color.name());
+	}
+
+	private int colorToPlayerIndex(String color){
+		color = color.toUpperCase();
+		if(color=="RED"){
+			return 0;
+		}
+		else if(color=="BLUE"){
+			return 1;
+		}
+		else if(color=="YELLOW"){
+			return 2;
+		}
+		else if(color=="GREEN"){
+			return 3;
+		}
+		return -1;
+	}
+
+	private void setUpColorSwitcher(){
+		//Create dropdown to switch between active player for testing
+		activePlayerColor.setItems(FXCollections.observableArrayList(colorStrings));
+		activePlayerColor.setVisibleRowCount(colorStrings.size());
+		activePlayerColor.setValue(colorStrings.get(colorToPlayerIndex(activePlayer.getColor())));
+		activePlayerColor.valueProperty().addListener(new ChangeListener<String>() {
+			@Override public void changed(ObservableValue observableValue, String oldValue, String newValue) {
+				activePlayer = (Human)players.get(colorToPlayerIndex(newValue));
+			}
+		});
+
+		// ArrayList<Pawn> humanPawns = redPawns;
+		// human = new Human("Name", Color.RED, humanPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
+		// computer1 = new Computer("Computer 1", Color.BLUE, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
+		// computer2 = new Computer("Computer 2", Color.YELLOW, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
+		// computer3 = new Computer("Computer 3", Color.GREEN, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
 	}
 
 	private void createCards(){
@@ -447,10 +517,38 @@ public class GameController extends BaseController implements Initializable {
 		for(Square square : allSquares){
 			square.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 				public void handle(MouseEvent e) {
-					human.handleSquareClick(square, moveCard.getType());
+					String moveResult = activePlayer.handleSquareClick(square, moveCard.getType());
+					if(moveResult.equals("done")){
+						checkIfGameWon();
+						System.out.println("checked");
+						if(enableTurns.isSelected()){
+							incrementTurn();
+						}
+					}
 				}
 			});
 		}
+	}
+
+	private void checkIfGameWon(){
+		if(activePlayer.getNumPawnsInHome()==4){
+			Popup popup = new Popup(activePlayer.getName()+" won ");
+			popup.show();
+			
+			Stage containingStage = (Stage)topRowContainer.getScene().getWindow();
+			changeScene(statsScene, containingStage);
+		}
+	}
+
+	private void incrementTurn(){
+		turn++;
+		if(turn>=players.size()){	//need to handle less than 4 players later
+			turn = 0;
+		}
+
+		activePlayer = (Human)players.get(turn);
+
+		activePlayerColor.setValue(colorStrings.get(turn));
 	}
 
 }

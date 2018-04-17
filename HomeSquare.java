@@ -1,3 +1,5 @@
+import enums.Color;
+
 public class HomeSquare extends MultipleSquare {
 
 	public HomeSquare(double sideLength, Color color, String cssId) {

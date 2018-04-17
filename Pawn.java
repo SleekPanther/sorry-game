@@ -1,13 +1,19 @@
-import javafx.scene.shape.Circle;
+import enums.Color;
 import exceptions.*;
+import javafx.scene.shape.Circle;
 
 public class Pawn extends Circle{
 	private Color color;
 	private Square currentParentSquare;
+
+	public int pawnId;
+	private static int globalPawnId=0;
 	
 	public Pawn(double radius, Color color){
 		super(radius);
 		this.color=color;
+
+		pawnId=globalPawnId++;
 
 		if(color == Color.RED){
 			setStyle("-fx-fill: #f00");
@@ -77,6 +83,11 @@ public class Pawn extends Circle{
 	public void move(Square destinationSquare){
 		currentParentSquare.vacate();
 		destinationSquare.add(this);
+	}
+
+	@Override
+	public String toString(){
+		return "Pawn id="+pawnId;
 	}
 
 }
