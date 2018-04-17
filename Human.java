@@ -13,16 +13,16 @@ public class Human extends Player{
 		super(name, color, pawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
 	}
 
-	public void handleSquareClick(Square clickedSquare, int numSpaces){
+	public String handleSquareClick(Square clickedSquare, int numSpaces){
 		if(selectedSquare==null){
 			if(clickedSquare.getClass().getName().equals("HomeSquare")){	//Don't allow to move out of Home
-				return;
+				return "error";
 			}
 			else if(!clickedSquare.isOccupied()){	//Square Must have a pawn
-				return;
+				return "error";
 			}
 			else if(clickedSquare.getPawn().getColor() != color){	//Players can only move their pieces
-				return;
+				return "error";
 			}
 			
 			if(clickedSquare.getClass().getName().equals("StartSquare")){
@@ -30,7 +30,7 @@ public class Human extends Player{
 					selectedSquare = null;
 					Popup popup = new Popup("Can only move from start with 1 or 2");
 					popup.show();
-					return;
+					return "error";
 				}
 				else{	//Set numSpaces to 1 in case they drew a 2 since we only want them moving 1 space forward out of Start
 					numSpaces=1;
@@ -73,14 +73,17 @@ public class Human extends Player{
 				selectedSquare.unHighlight();
 				landingSquare.unHighlight();
 				selectedSquare=null;
+
+				return "done";
 			}
-			else{
+			else{	//They didn't click the correct destination square
 				selectedSquare.unHighlight();
 				landingSquare.unHighlight();
 				selectedSquare = null;
 				handleSquareClick(clickedSquare, numSpaces);	//reset and handle as new click
 			}
 		}
+		return "default";
 	}
 	
 }

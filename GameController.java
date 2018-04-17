@@ -1,23 +1,18 @@
 import structures.*;
-
+import enums.Color;
 import java.net.URL;
 import javafx.fxml.*;
 import javafx.application.Platform;
 import javafx.stage.Stage;
-import javafx.scene.Node;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.beans.value.*;
 import javafx.event.*;
 import java.util.*;
-
-import enums.Color;
 import javafx.collections.*;
-import java.text.DecimalFormat;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
@@ -79,15 +74,15 @@ public class GameController extends BaseController implements Initializable {
 	@FXML private Button switchButton;
 	@FXML private ComboBox<String> activePlayerColor;
 
+	@FXML private CheckBox enableTurns;
+
 
 	private static final int totalSquaresOnBoard = 4*squaresPerSideExcludingCornersCount + 4;	//+4 for corners
 	private ArrayList<Square> allSquares = new ArrayList<Square>();
 
 	private ArrayList<Square> cornersSquares = new ArrayList<Square>();
 
-	private LinkedList<Card> cards;
-	private LinkedList<Card> discards;
-	private Card moveCard = new Card(1);
+	private ArrayList<String> colorStrings = new ArrayList<String>(Arrays.asList(new String[]{"RED", "BLUE", "YELLOW", "GREEN"}));
 
 	private Human activePlayer;
 	private Human human1;
@@ -109,6 +104,13 @@ public class GameController extends BaseController implements Initializable {
 	private ArrayList<Pawn> bluePawns = new ArrayList<Pawn>();
 	private ArrayList<Pawn> yellowPawns = new ArrayList<Pawn>();
 	private ArrayList<Pawn> greenPawns = new ArrayList<Pawn>();
+
+
+	private LinkedList<Card> cards;
+	private LinkedList<Card> discards;
+	private Card moveCard = new Card(1);
+
+	private int turn = 0;	//numbers correspond to indexes in players ArrayList
 
 
 	public void setHelpScene(Scene scene) {
@@ -195,7 +197,8 @@ public class GameController extends BaseController implements Initializable {
 			}
 		}
 
-		activePlayer = (Human)players.get(colorToPlayerIndex(playerDataList.get(0).color));		//activeplayer is always human and starts
+		activePlayer = (Human)players.get(colorToPlayerIndex(playerDataList.get(0).color));		//activePlayer is always human and starts
+		turn = colorToPlayerIndex(activePlayer.getColor());
 
 		setUpColorSwitcher();
 	}
@@ -223,7 +226,6 @@ public class GameController extends BaseController implements Initializable {
 
 	private void setUpColorSwitcher(){
 		//Create dropdown to switch between active player for testing
-		ArrayList<String> colorStrings = new ArrayList<String>(Arrays.asList(new String[]{"RED", "BLUE", "YELLOW", "GREEN"}));
 		activePlayerColor.setItems(FXCollections.observableArrayList(colorStrings));
 		activePlayerColor.setVisibleRowCount(colorStrings.size());
 		activePlayerColor.setValue(colorStrings.get(colorToPlayerIndex(activePlayer.getColor())));
@@ -506,10 +508,27 @@ public class GameController extends BaseController implements Initializable {
 		for(Square square : allSquares){
 			square.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 				public void handle(MouseEvent e) {
-					activePlayer.handleSquareClick(square, moveCard.getType());
+					String moveResult = activePlayer.handleSquareClick(square, moveCard.getType());
+					if(!enableTurns.isSelected()){
+						return;
+					}
+					if(moveResult.equals("done")){
+						incrementTurn();
+					}
 				}
 			});
 		}
+	}
+
+	private void incrementTurn(){
+		turn++;
+		if(turn>=players.size()){	//need to handle less than 4 players later
+			turn = 0;
+		}
+
+		activePlayer = (Human)players.get(turn);
+
+		activePlayerColor.setValue(colorStrings.get(turn));
 	}
 
 }
