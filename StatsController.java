@@ -114,9 +114,9 @@ public class StatsController extends BaseController implements Initializable{
 
 			tableView.setItems(statsData);
 			connection.close();
-			System.out.println("Connection closed.");
+
 		} catch (SQLException e) {
-			throw new IllegalStateException("Cannot connect the database!", e);
+			System.out.println("Database failed. proceeding. ");
 		}
 
 
