@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import enums.Color;
+
 public class Computer extends Player{
 	private Square selectedSquare;
 	private Square destinationSquare;

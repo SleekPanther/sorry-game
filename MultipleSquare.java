@@ -1,3 +1,4 @@
+import enums.Color;
 import java.util.ArrayList;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -43,9 +44,9 @@ public class MultipleSquare extends Square {
 		this.pawns.add(pawn);
 		lastPawnPosition++;		//added 1 more pawn
 		int[] coordinates = getGridPaneLocation(lastPawnPosition);
-		int row = coordinates[0];
-		int column = coordinates[1];
-		grid.add(pawn, row, column);
+		int column = coordinates[0];
+		int row = coordinates[1];
+		grid.add(pawn, column, row);
 	}
 
 	@Override

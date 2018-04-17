@@ -1,3 +1,4 @@
+import enums.Color;
 import javafx.scene.layout.StackPane;
 
 public class Square extends StackPane {

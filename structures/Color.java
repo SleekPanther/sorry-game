@@ -1,3 +1,6 @@
+package structures;
+
+//Duplicate
 public enum Color {
 	RED,
 	BLUE,

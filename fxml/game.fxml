@@ -46,6 +46,7 @@
 					<TextField text='1' fx:id='numberArea' prefWidth='40'></TextField>
 					<ComboBox fx:id="activePlayerColor"></ComboBox>
 					<Button text='Go to help' fx:id='switchButton' />
+					<CheckBox fx:id="enableTurns" text="Enable Turns" selected='true' />
 				</FlowPane>
 			</AnchorPane>
 		</center>
