@@ -6,8 +6,11 @@ import javafx.stage.Stage;
 public class BaseController {
 
 	public void changeScene(Scene scene, ActionEvent actionEvent) {
-		Stage containingStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-		containingStage.setScene(scene);
+		changeScene(scene, (Stage)((Node)actionEvent.getSource()).getScene().getWindow());
+	}
+
+	public void changeScene(Scene scene, Stage stage) {
+		stage.setScene(scene);
 	}
 	
 }

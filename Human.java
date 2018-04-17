@@ -74,6 +74,10 @@ public class Human extends Player{
 				landingSquare.unHighlight();
 				selectedSquare=null;
 
+				if(landingSquare.getClass().getName().equals("HomeSquare")){
+					numPawnsInHome++;
+				}
+
 				return "done";
 			}
 			else{	//They didn't click the correct destination square

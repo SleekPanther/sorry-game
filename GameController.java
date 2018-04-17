@@ -6,7 +6,6 @@ import javafx.application.Platform;
 import javafx.stage.Stage;
 import javafx.scene.*;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.beans.value.*;
@@ -30,6 +29,8 @@ public class GameController extends BaseController implements Initializable {
 
 
 	private Scene helpScene;
+	private Scene statsScene;
+	private Scene menuScene;
 
 	@FXML private HBox topRowContainer;
 	@FXML private HBox bottomRowContainer;
@@ -115,6 +116,14 @@ public class GameController extends BaseController implements Initializable {
 
 	public void setHelpScene(Scene scene) {
 		helpScene = scene;
+	}
+
+	public void setMenuScene(Scene scene) {
+		menuScene = scene;
+	}
+
+	public void setStatsScene(Scene scene) {
+		statsScene = scene;
 	}
 
 	public void receiveHumanData(HumanData humanData){
@@ -509,14 +518,25 @@ public class GameController extends BaseController implements Initializable {
 			square.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 				public void handle(MouseEvent e) {
 					String moveResult = activePlayer.handleSquareClick(square, moveCard.getType());
-					if(!enableTurns.isSelected()){
-						return;
-					}
 					if(moveResult.equals("done")){
-						incrementTurn();
+						checkIfGameWon();
+						System.out.println("checked");
+						if(enableTurns.isSelected()){
+							incrementTurn();
+						}
 					}
 				}
 			});
+		}
+	}
+
+	private void checkIfGameWon(){
+		if(activePlayer.getNumPawnsInHome()==4){
+			Popup popup = new Popup(activePlayer.getName()+" won ");
+			popup.show();
+			
+			Stage containingStage = (Stage)topRowContainer.getScene().getWindow();
+			changeScene(statsScene, containingStage);
 		}
 	}
 
