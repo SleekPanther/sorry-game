@@ -63,9 +63,12 @@ public class StatsController extends BaseController implements Initializable{
 
 		try (Connection connection = DriverManager.getConnection(url, username, password)) {
 			System.out.println("Database connected!");
+			connection.close();
+			System.out.println("Connection closed.");
 		} catch (SQLException e) {
 			throw new IllegalStateException("Cannot connect the database!", e);
 		}
+
 	}
 
 	public void buildTable(){
@@ -110,6 +113,8 @@ public class StatsController extends BaseController implements Initializable{
 
 
 			tableView.setItems(statsData);
+			connection.close();
+			System.out.println("Connection closed.");
 		} catch (SQLException e) {
 			throw new IllegalStateException("Cannot connect the database!", e);
 		}
