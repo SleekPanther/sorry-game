@@ -241,6 +241,7 @@ public class GameController extends BaseController implements Initializable {
 		activePlayerColor.valueProperty().addListener(new ChangeListener<String>() {
 			@Override public void changed(ObservableValue observableValue, String oldValue, String newValue) {
 				activePlayer = (Human)players.get(colorToPlayerIndex(newValue));
+				turn = colorToPlayerIndex(newValue);
 			}
 		});
 
@@ -520,7 +521,6 @@ public class GameController extends BaseController implements Initializable {
 					String moveResult = activePlayer.handleSquareClick(square, moveCard.getType());
 					if(moveResult.equals("done")){
 						checkIfGameWon();
-						System.out.println("checked");
 						if(enableTurns.isSelected()){
 							incrementTurn();
 						}
