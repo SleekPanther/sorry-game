@@ -10,6 +10,11 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.beans.value.*;
 import javafx.event.*;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 import javafx.collections.*;
 import javafx.event.EventHandler;
@@ -534,7 +539,23 @@ public class GameController extends BaseController implements Initializable {
 		if(activePlayer.getNumPawnsInHome()==4){
 			Popup popup = new Popup(activePlayer.getName()+" won ");
 			popup.show();
-			
+
+			String jdbcUrl = "jdbc:mysql://104.154.51.240/sorrygame";
+			String username = "root";
+			String password = "password";
+
+
+			try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
+				System.out.println("Database connected!");
+				//String SQL = "INSERT INTO tblSorryGame VALUES";
+				//ResultSet rs = connection.createStatement().executeQuery(SQL);
+
+				connection.close();
+
+			} catch (SQLException e) {
+				System.out.println("Database failed. proceeding. ");
+			}
+
 			Stage containingStage = (Stage)topRowContainer.getScene().getWindow();
 			changeScene(statsScene, containingStage);
 		}

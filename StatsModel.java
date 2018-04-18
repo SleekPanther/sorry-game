@@ -3,6 +3,7 @@ import javafx.beans.property.SimpleStringProperty;
 public class StatsModel {
     public SimpleStringProperty gameId = new SimpleStringProperty();
     public SimpleStringProperty playerName = new SimpleStringProperty();
+    public SimpleStringProperty playerColor = new SimpleStringProperty();
     public SimpleStringProperty timeStart = new SimpleStringProperty();
     public SimpleStringProperty timeEnd = new SimpleStringProperty();
     public SimpleStringProperty duration = new SimpleStringProperty();
@@ -17,6 +18,10 @@ public class StatsModel {
 
     public String getPlayerName() {
         return playerName.get();
+    }
+
+    public String getPlayerColor() {
+        return playerColor.get();
     }
 
     public String getTimeStart() {

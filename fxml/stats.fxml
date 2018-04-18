@@ -31,6 +31,8 @@
                 </TableColumn>
 				<TableColumn text="Player Name" fx:id="playerName">
 				</TableColumn>
+				<TableColumn text="Player Color" fx:id="playerColor">
+				</TableColumn>
 				<TableColumn text="Time Started" fx:id="timeStart">
 				</TableColumn>
 				<TableColumn text="Time Ended" fx:id="timeEnd">
