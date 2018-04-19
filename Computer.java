@@ -54,7 +54,9 @@ public class Computer extends Player{
 						}
 					}
 
-					moves.add(new Move(pawn, landingSquare, leavesStart, slide, bumpCount));
+					int movesToHome = pawn.calculateMovesToHome();
+
+					moves.add(new Move(pawn, landingSquare, leavesStart, slide, bumpCount, movesToHome));
 				}
 				catch(OvershotHomeException e){
 				}

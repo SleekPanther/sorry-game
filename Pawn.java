@@ -74,6 +74,28 @@ public class Pawn extends Circle{
 		return landingSquare;
 	}
 
+	public int calculateMovesToHome(){
+		//need to handle moving backwards?
+
+		//Get initial next square, but check for SafetyEntrySquare & if colors match
+		Square landingSquare = currentParentSquare.getImmediateNextSquare();
+		int numMoves = 1;		//initialize to 1 move ahead
+		if(currentParentSquare.getClass().getName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)currentParentSquare).getNextSafetySquare().getColor()){
+			landingSquare = ((SafetyEntrySquare)currentParentSquare).getNextSafetySquare();
+		}
+		while(landingSquare.getClass().getName()!="HomeSquare"){
+			if(landingSquare.getClass().getName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)landingSquare).getNextSafetySquare().getColor()){
+				landingSquare = ((SafetyEntrySquare)landingSquare).getNextSafetySquare();
+			}
+			else{
+				landingSquare = landingSquare.getImmediateNextSquare();
+			}
+			numMoves++;
+		}
+
+		return numMoves;
+	}
+
 	public Square move(int numSpaces){
 		Square landingSquare = calculateLandingSquare(numSpaces);
 		move(landingSquare);
