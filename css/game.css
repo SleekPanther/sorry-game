@@ -19,7 +19,7 @@
 	-fx-background-color: #FFFFFF;
 }
 
-BorderPane HBox > Square, BorderPane > VBox > Square{
+BorderPane HBox > Square, BorderPane > VBox > Square, BorderPane HBox > SafetySquare, BorderPane VBox > SafetySquare{
 	-fx-border-width: 1;
 	-fx-border-color: black;
 	-fx-border-style: solid;
@@ -29,8 +29,6 @@ BorderPane HBox > Square, BorderPane > VBox > Square{
 	/*rounded corners 100% to make circle*/
 	-fx-background-radius: 100%;
 	-fx-border-radius: 100%;
-	/*-fx-border-width:5;*/
-	/*-fx-border-color: #FC3D44;*/
 }
 
 HomeSquare GridPane, StartSquare GridPane{

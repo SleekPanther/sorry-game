@@ -1,3 +1,4 @@
+import enums.Color;
 import java.util.ArrayList;
 
 public class Player{
@@ -6,10 +7,11 @@ public class Player{
 	protected ArrayList<Pawn> pawns = new ArrayList<Pawn>();
 	protected ArrayList<HomeSquare> homeSquares;
 	protected ArrayList<StartSquare> startSquares;
-	protected boolean isTheirTurn = true;
 	protected int slideSquareDestinationForwardOffset;
-	private int numPawnsInHome=0;
-	private boolean hasWon=false;
+
+	protected int numPawnsInHome=0;
+	// protected boolean hasWon=false;
+	// protected boolean isTheirTurn = true;
 
 	public Player(String name, Color color, ArrayList<Pawn> pawns, ArrayList<StartSquare> startSquares, ArrayList<HomeSquare> homeSquares, int slideSquareDestinationForwardOffset){
 		this.name = name;
@@ -19,6 +21,14 @@ public class Player{
 		this.homeSquares = homeSquares;
 		this.slideSquareDestinationForwardOffset = slideSquareDestinationForwardOffset;
 	}
+
+	public String getName(){
+		return name;
+	}
+
+	public Color getColor(){
+		return color;
+	}
 	
 	public ArrayList<Pawn> getPawns(){
 		return pawns;
@@ -26,6 +36,10 @@ public class Player{
 
 	public void setPawns(ArrayList<Pawn> pawns){
 		this.pawns=pawns;
+	}
+
+	public int getNumPawnsInHome(){
+		return numPawnsInHome;
 	}
 
 	protected void bumpOthersOnSlide(Square slideStart){
@@ -57,6 +71,11 @@ public class Player{
 		else if(pawn.getColor() == Color.GREEN){
 			pawn.move(startSquares.get(3));
 		}
+	}
+
+	@Override
+	public String toString(){
+		return getClass().getName() + " " + color;
 	}
 
 }

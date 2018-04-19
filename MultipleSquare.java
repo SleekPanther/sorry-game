@@ -1,3 +1,4 @@
+import enums.Color;
 import java.util.ArrayList;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -9,7 +10,7 @@ public class MultipleSquare extends Square {
 	protected int lastPawnPosition = -1;		//index in the pawns ArrayList of the last pawn in the list
 
 	public MultipleSquare(double sideLength, Color color, String cssId) {
-		super(sideLength*3, color);		//diameter of the "circle" is 3 times a square side
+		super(sideLength*3, color);		//diameter of the "circle" (square with rounded corners) is 3 times a square side
 
 		getStyleClass().addAll("circle");
 		setId(cssId);
@@ -41,17 +42,20 @@ public class MultipleSquare extends Square {
 		isOccupied = true;		//kind of unnecessary
 		pawn.setCurrentParentSquare(this);
 		this.pawns.add(pawn);
-		int[] coordinates = getGridPaneLocation(++lastPawnPosition);
-		int row = coordinates[0];
-		int column = coordinates[1];
-		grid.add(pawn, row, column);
+		lastPawnPosition++;		//added 1 more pawn
+		int[] coordinates = getGridPaneLocation(lastPawnPosition);
+		int column = coordinates[0];
+		int row = coordinates[1];
+		grid.add(pawn, column, row);
 	}
 
 	@Override
 	public void vacate(){
-		grid.getChildren().remove(pawns.get(lastPawnPosition));
+		grid.getChildren().remove(pawns.get(lastPawnPosition));		//update UI
+		this.pawn = null;	//not really needed since only used in Square not MultipleSquare
+		this.pawns.remove(lastPawnPosition);	//remove from backend data structure
 		lastPawnPosition--;
-		if(lastPawnPosition<0){
+		if(lastPawnPosition<0){		//not really used in MultipleSquare
 			isOccupied = false;
 		}
 	}

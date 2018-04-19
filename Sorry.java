@@ -9,7 +9,7 @@ import javafx.stage.*;
 
 public class Sorry extends Application {
 	private static final String fxmlFolderPath = "fxml/";
-	private static final Map<String, String> viewFilenames = new HashMap<String, String>();;
+	private static final Map<String, String> viewFilenames = new HashMap<String, String>();
 
 	public Sorry(){
 		viewFilenames.put("menu", fxmlFolderPath+"menu.fxml");
@@ -52,6 +52,8 @@ public class Sorry extends Application {
 
 		GameController gameController = (GameController) gameLoader.getController();
 		gameController.setHelpScene(helpGameScene);
+		gameController.setMenuScene(menuScene);
+		gameController.setStatsScene(statsScene);
 
 		HelpStartController helpStartController = (HelpStartController) helpStartLoader.getController();
 		helpStartController.setMenuScene(menuScene);
@@ -61,7 +63,10 @@ public class Sorry extends Application {
 
 		StatsController statsController = (StatsController) statsLoader.getController();
 		statsController.setMenuScene(menuScene);
-		
+
+
+		menuController.linkGameController(gameController);
+
 
 		primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {	//Destroy window on key PRESS ESC
 			if (KeyCode.ESCAPE == event.getCode()) {
