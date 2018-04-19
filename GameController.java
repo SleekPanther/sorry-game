@@ -537,19 +537,20 @@ public class GameController extends BaseController implements Initializable {
 
 	private void checkIfGameWon(){
 		if(activePlayer.getNumPawnsInHome()==4){
-			Popup popup = new Popup(activePlayer.getName()+" won ");
-			popup.show();
-
 			String jdbcUrl = "jdbc:mysql://104.154.51.240/sorrygame";
 			String username = "root";
 			String password = "password";
 
+			Popup popup = new Popup(activePlayer.getName()+" won ");
+			popup.show();
 
 			try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
 				System.out.println("Database connected!");
-				//String SQL = "INSERT INTO tblSorryGame VALUES";
-				//ResultSet rs = connection.createStatement().executeQuery(SQL);
+				String SQL = "INSERT INTO tblSorryGame (fldPlayerName,fldPlayerColor,fldDateEnded,fldComp1Set,fldComp2Set,fldComp3Set,fldWinner) VALUES (";
+				SQL = SQL +"'"+ humanData.name + "','" + humanData.color + "', now(),'"+ computer1Data.color + "','" + computer2Data.color +"','"+ computer3Data.color+"','"+activePlayer.getName()+"');";
 
+				System.out.println(SQL);
+				connection.createStatement().executeUpdate(SQL);
 				connection.close();
 
 			} catch (SQLException e) {

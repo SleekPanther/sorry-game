@@ -21,6 +21,7 @@ public class StatsController extends BaseController implements Initializable{
 	
 	@FXML private Button mainMenuButton;
 	@FXML private Button dbButton;
+	@FXML private Button statsButton;
 	@FXML private TableView<StatsModel> tableView;
 	@FXML private TableColumn<StatsModel, String> gameId;
 	@FXML private TableColumn<StatsModel, String> playerName;
@@ -37,7 +38,7 @@ public class StatsController extends BaseController implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		mainMenuButton.setOnAction((event) -> changeScene(menuScene, event));
 		dbButton.setOnAction((event) -> connectToDatabase());
-
+		statsButton.setOnAction((event) -> buildTable());
 		gameId.setCellValueFactory(new PropertyValueFactory<>("gameId"));
 		playerName.setCellValueFactory(new PropertyValueFactory<>("playerName"));
         playerColor.setCellValueFactory(new PropertyValueFactory<>("playerColor"));
@@ -49,7 +50,7 @@ public class StatsController extends BaseController implements Initializable{
 		comp3Settings.setCellValueFactory(new PropertyValueFactory<>("comp3Settings"));
 		winner.setCellValueFactory(new PropertyValueFactory<>("winner"));
 
-		buildTable();
+        buildTable();
 	}
 	
 	public void setMenuScene(Scene scene) {
