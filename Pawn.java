@@ -87,7 +87,7 @@ public class Pawn extends Circle{
 
 	@Override
 	public String toString(){
-		return "Pawn id="+pawnId;
+		return "Pawn="+pawnId;
 	}
 
 }

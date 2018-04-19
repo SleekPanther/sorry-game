@@ -31,7 +31,8 @@ public class Player{
 		return pawns;
 	}
 
-	public void addPawn(Pawn pawn){
+	public void addPawn(Pawn pawn, Square parentSquare){
+		pawn.setCurrentParentSquare(parentSquare);
 		pawns.add(pawn);
 	}
 

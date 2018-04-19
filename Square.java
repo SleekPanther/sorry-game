@@ -108,7 +108,7 @@ public class Square extends StackPane {
 			next=immediateNextSquare.getSquareId()+"";
 		}
 
-		return "Id="+id+""+"\tcolor="+color+"\tnext="+next;
+		return "Square="+id+""+"\tcolor="+color+"\tnext="+next;
 	}
 
 }

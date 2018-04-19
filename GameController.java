@@ -176,15 +176,24 @@ public class GameController extends BaseController implements Initializable {
 		Pawn testPawnRed1 = new Pawn(pawnRadius, Color.RED);
 		Pawn testPawnRed2 = new Pawn(pawnRadius, Color.RED);
 		Pawn testPawnBlue1 = new Pawn(pawnRadius, Color.BLUE);
+		Pawn testPawnBlue2 = new Pawn(pawnRadius, Color.BLUE);
 		Pawn testPawnGreen1 = new Pawn(pawnRadius, Color.GREEN);
-		((Square)topRow.getChildren().get(1)).add(testPawnRed1);
-		((Square)topRow.getChildren().get(0)).add(testPawnBlue1);
-		((Square)topRow.getChildren().get(2)).add(testPawnGreen1);
-		((Square)rightColumn.getChildren().get(1)).add(testPawnRed2);
-		players.get(0).addPawn(testPawnRed1);
-		players.get(0).addPawn(testPawnRed2);
-		players.get(1).addPawn(testPawnBlue1);
-		players.get(2).addPawn(testPawnGreen1);
+		// Square blueParentSquare1 = (Square)topRow.getChildren().get(0);
+		Square blueParentSquare1 = cornersSquares.get(0);
+		Square blueParentSquare2 = (Square)topRow.getChildren().get(3);
+		Square redParentSquare1 = (Square)topRow.getChildren().get(0);
+		Square redParentSquare2 = (Square)rightColumn.getChildren().get(1);
+		Square greenParentSquare1 = ((Square)topRow.getChildren().get(2));
+		redParentSquare1.add(testPawnRed1);
+		blueParentSquare1.add(testPawnBlue1);
+		blueParentSquare2.add(testPawnBlue2);
+		greenParentSquare1.add(testPawnGreen1);
+		redParentSquare2.add(testPawnRed2);
+		players.get(0).addPawn(testPawnRed1, redParentSquare1);
+		players.get(0).addPawn(testPawnRed2, redParentSquare2);
+		players.get(1).addPawn(testPawnBlue1, blueParentSquare1);
+		players.get(1).addPawn(testPawnBlue2, blueParentSquare2);
+		players.get(2).addPawn(testPawnGreen1, greenParentSquare1);
 
 
 		drawCards.setOnAction((event) -> pickCard());
@@ -561,7 +570,7 @@ public class GameController extends BaseController implements Initializable {
 		activePlayerColor.setValue(colorStrings.get(turn));
 
 		if(activePlayer.getClass().getName().equals("Computer")){
-			pickCard();
+			// pickCard();
 			activePlayer.executeAutomaticTurn(moveCard.getType());
 		}
 	}
