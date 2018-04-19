@@ -13,6 +13,7 @@ public class Human extends Player{
 		super(name, color, pawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
 	}
 
+	@Override
 	public String handleSquareClick(Square clickedSquare, int numSpaces){
 		if(selectedSquare==null){
 			if(clickedSquare.getClass().getName().equals("HomeSquare")){	//Don't allow to move out of Home

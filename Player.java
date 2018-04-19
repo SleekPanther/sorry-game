@@ -8,10 +8,7 @@ public class Player{
 	protected ArrayList<HomeSquare> homeSquares;
 	protected ArrayList<StartSquare> startSquares;
 	protected int slideSquareDestinationForwardOffset;
-
 	protected int numPawnsInHome=0;
-	// protected boolean hasWon=false;
-	// protected boolean isTheirTurn = true;
 
 	public Player(String name, Color color, ArrayList<Pawn> pawns, ArrayList<StartSquare> startSquares, ArrayList<HomeSquare> homeSquares, int slideSquareDestinationForwardOffset){
 		this.name = name;
@@ -34,12 +31,23 @@ public class Player{
 		return pawns;
 	}
 
+	public void addPawn(Pawn pawn){
+		pawns.add(pawn);
+	}
+
 	public void setPawns(ArrayList<Pawn> pawns){
 		this.pawns=pawns;
 	}
 
 	public int getNumPawnsInHome(){
 		return numPawnsInHome;
+	}
+
+	public String handleSquareClick(Square clickedSquare, int numSpaces){
+		return "player";
+	}
+
+	public void executeAutomaticTurn(int cardValue){
 	}
 
 	protected void bumpOthersOnSlide(Square slideStart){
