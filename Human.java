@@ -43,9 +43,15 @@ public class Human extends Player{
 			shouldBump=false;
 			try{
 				landingSquare = selectedSquare.getPawn().calculateLandingSquare(numSpaces);
-				if(landingSquare.getClass().getName().equals("SlideStartSquare") && landingSquare.getColor()!=color){
-					landingSquare = ((SlideStartSquare)landingSquare).getDestinationSquare();
-					shouldBump = true;
+				if(landingSquare.getClass().getName().equals("SlideStartSquare") && landingSquare.getColor()!=color){	//only slide on other player's slides
+					SlideDestinationSquare tempDestination = ((SlideStartSquare)landingSquare).getDestinationSquare();
+					if(tempDestination.isOccupied() && tempDestination.getPawn().getColor()==color){	//Don't slide and land on yourself
+						throw new LandedOnSquareOccupiedByPlayersOwnPawnException("Can't slide and land on top of yourself");
+					}
+					else{
+						landingSquare = ((SlideStartSquare)landingSquare).getDestinationSquare();
+						shouldBump = true;
+					}
 				}
 				selectedSquare.highlight();
 				landingSquare.highlight();
