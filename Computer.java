@@ -31,6 +31,7 @@ public class Computer extends Player{
 						}
 					}
 
+					//Check simple bumping (move lands on another pawn)
 					int bumpCount = 0;
 					if(landingSquare.isOccupied() && landingSquare.getColor()!=color){
 						bumpCount++;
@@ -48,8 +49,7 @@ public class Computer extends Player{
 							}
 						}
 						landingSquare = slideDestinationSquare;
-						if(slideDestinationSquare.isOccupied() 
-								&& slideDestinationSquare.getPawn().getColor() == color){
+						if(slideDestinationSquare.isOccupied() && slideDestinationSquare.getPawn().getColor() == color){
 							throw new LandedOnSquareOccupiedByPlayersOwnPawnException("Can't slide and land on yourself");
 						}
 					}
@@ -69,14 +69,36 @@ public class Computer extends Player{
 			}
 		}
 
-		System.out.println("\nMoves");
+		System.out.println("\nAvailable Moves");
 		for(Move move : moves){
 			System.out.println(move);
 		}
 
 		if(moves.isEmpty()){
+			//maybe not a popup
 			Popup popup = new Popup("No moves for "+name);
 			popup.show();
+		}
+		else{
+			Move chosenMove = moves.getLast();
+			// Move chosenMove = moves.get(4);
+			//highligh and timeout?
+
+			//Bump first, or else the pawn to be bumped is the one we are moving
+			if(chosenMove.slide){
+				bumpOthersOnSlide(chosenMove.pawnToMove.calculateLandingSquare(numSpaces));
+			}
+			else if(chosenMove.numPawnsBumpted > 0){	//simple bumping shouldn't happen as well as sliding bumping
+				bump(chosenMove.landingSquare.getPawn());
+			}
+
+			chosenMove.pawnToMove.move(chosenMove.landingSquare);	//actually move (any exceptions and illegal moves will be taken care of)
+
+			if(chosenMove.landingSquare.getClass().getName().equals("HomeSquare")){
+				numPawnsInHome++;
+				Popup popup = new Popup(name+" got to home");
+				popup.show();
+			}
 		}
 	}
 

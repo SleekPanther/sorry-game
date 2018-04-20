@@ -19,7 +19,7 @@ public class Move{
 
 	@Override
 	public String toString(){
-		return pawnToMove + " --> " +landingSquare + ", Left Start="+leavesStart+", slide="+slide+", (" + numPawnsBumpted +" bumped), moves to home="+movesToHome;
+		return pawnToMove + " --> " +landingSquare + ", Left Start="+leavesStart+", slide="+slide+", (" + numPawnsBumpted +" bumped), "+movesToHome+" moves to home";
 	}
 
 }
