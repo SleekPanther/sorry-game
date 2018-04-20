@@ -212,16 +212,36 @@ public class GameController extends BaseController implements Initializable {
 		players = new ArrayList<Player>(Arrays.asList(null, null, null, null));		//initialize list so players are created in order and can be set at an index
 		for(int i=0; i<playerDataList.size(); i++){
 			if(playerDataList.get(i).color==Color.RED){
-				players.set(0, new Human(playerDataList.get(i).name, playerDataList.get(i).color, redPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+				if(playerDataList.get(i).getClass().getSimpleName().equals("HumanData")){
+					players.set(0, new Human(playerDataList.get(i).name, playerDataList.get(i).color, redPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+				}
+				else{
+					players.set(0, new Computer(playerDataList.get(i).name, playerDataList.get(i).color, redPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+				}
 			}
 			else if(playerDataList.get(i).color==Color.BLUE){
-				players.set(1, new Computer(playerDataList.get(i).name, playerDataList.get(i).color, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+				if(playerDataList.get(i).getClass().getSimpleName().equals("HumanData")){
+					players.set(1, new Human(playerDataList.get(i).name, playerDataList.get(i).color, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+				}
+				else{
+					players.set(1, new Computer(playerDataList.get(i).name, playerDataList.get(i).color, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+				}
 			}
 			else if(playerDataList.get(i).color==Color.YELLOW){
-				players.set(2, new Human(playerDataList.get(i).name, playerDataList.get(i).color, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+				if(playerDataList.get(i).getClass().getSimpleName().equals("HumanData")){
+					players.set(2, new Human(playerDataList.get(i).name, playerDataList.get(i).color, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+				}
+				else{
+					players.set(2, new Computer(playerDataList.get(i).name, playerDataList.get(i).color, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+				}
 			}
 			else if(playerDataList.get(i).color==Color.GREEN){
-				players.set(3, new Human(playerDataList.get(i).name, playerDataList.get(i).color, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+				if(playerDataList.get(i).getClass().getSimpleName().equals("HumanData")){
+					players.set(3, new Human(playerDataList.get(i).name, playerDataList.get(i).color, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+				}
+				else{
+					players.set(3, new Computer(playerDataList.get(i).name, playerDataList.get(i).color, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+				}
 			}
 		}
 
