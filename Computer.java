@@ -15,6 +15,13 @@ public class Computer extends Player{
 
 	@Override
 	public void executeAutomaticTurn(int numSpaces){
+		//Pause execution before computer moves (currently also looks like it prevents the user from finishing)
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+
 		LinkedList<Move> moves = new LinkedList<Move>();
 
 		for(Pawn pawn : pawns){

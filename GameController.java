@@ -592,7 +592,9 @@ public class GameController extends BaseController implements Initializable {
 		if(activePlayer.getClass().getSimpleName().equals("Computer")){
 			// pickCard();
 			activePlayer.executeAutomaticTurn(moveCard.getType());
+			incrementTurn();	//recursively call itself until it gets back to a Human
 		}
+
 	}
 
 }
