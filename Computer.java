@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.concurrent.TimeUnit;
 import exceptions.*;
 
 import enums.Color;
@@ -83,8 +84,8 @@ public class Computer extends Player{
 			if(smartness){
 				Collections.sort(moves);	//sort by moves closes to home first (smart)
 			}
-			else{	//Dumb picks random move
-				Collections.shuffle(moves);		//randomize for dump strategy
+			else{	//Always picks move at the head of the list, so randomize order for Dumb
+				Collections.shuffle(moves);
 			}
 
 			System.out.println("\nMoves");
@@ -110,7 +111,29 @@ public class Computer extends Player{
 			}
 			System.out.println("Chosen move="+chosenMove);
 
-			//highligh and timeout?
+			// try {
+			// 	Square nextHighlighSquare = chosenMove.pawnToMove.getCurrentParentSquare().getImmediateNextSquare();	//normal square
+			// 	//Check if currently sitting on safety entry square
+			// 	if(chosenMove.pawnToMove.getCurrentParentSquare().getClass().getSimpleName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)chosenMove.pawnToMove.getCurrentParentSquare()).getNextSafetySquare().getColor()){
+			// 		nextHighlighSquare = ((SafetyEntrySquare)chosenMove.pawnToMove.getCurrentParentSquare()).getNextSafetySquare();
+			// 	}
+
+			// 	while(nextHighlighSquare.getSquareId() != chosenMove.landingSquare.getSquareId()){
+			// 		nextHighlighSquare.highlight();
+			// 		System.out.println("Highlighting");
+			// 		TimeUnit.MILLISECONDS.sleep(600);
+			// 		// Thread.sleep(600);
+			// 		nextHighlighSquare.unHighlight();
+			// 		if(nextHighlighSquare.getClass().getSimpleName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)nextHighlighSquare).getNextSafetySquare().getColor()){
+			// 			nextHighlighSquare = ((SafetyEntrySquare)nextHighlighSquare).getNextSafetySquare();
+			// 		}
+			// 		else{
+			// 			nextHighlighSquare = nextHighlighSquare.getImmediateNextSquare();
+			// 		}
+			// 	}
+			// } catch (InterruptedException e) {
+			// 	e.printStackTrace();
+			// }
 
 			//Bump first, or else the pawn to be bumped is the one we are moving
 			if(chosenMove.slide){
@@ -124,8 +147,6 @@ public class Computer extends Player{
 
 			if(chosenMove.landingSquare.getClass().getSimpleName().equals("HomeSquare")){
 				numPawnsInHome++;
-				Popup popup = new Popup(name+" got to home");
-				popup.show();
 			}
 		}
 	}
