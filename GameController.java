@@ -589,7 +589,7 @@ public class GameController extends BaseController implements Initializable {
 
 		activePlayerColor.setValue(colorStrings.get(turn));
 
-		if(activePlayer.getClass().getName().equals("Computer")){
+		if(activePlayer.getClass().getSimpleName().equals("Computer")){
 			// pickCard();
 			activePlayer.executeAutomaticTurn(moveCard.getType());
 		}

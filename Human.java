@@ -16,7 +16,7 @@ public class Human extends Player{
 	@Override
 	public String handleSquareClick(Square clickedSquare, int numSpaces){
 		if(selectedSquare==null){
-			if(clickedSquare.getClass().getName().equals("HomeSquare")){	//Don't allow to move out of Home
+			if(clickedSquare.getClass().getSimpleName().equals("HomeSquare")){	//Don't allow to move out of Home
 				return "error";
 			}
 			else if(!clickedSquare.isOccupied()){	//Square Must have a pawn
@@ -26,7 +26,7 @@ public class Human extends Player{
 				return "error";
 			}
 			
-			if(clickedSquare.getClass().getName().equals("StartSquare")){
+			if(clickedSquare.getClass().getSimpleName().equals("StartSquare")){
 				if(numSpaces!=1 && numSpaces!= 2){
 					selectedSquare = null;
 					Popup popup = new Popup("Can only move from start with 1 or 2");
@@ -43,7 +43,7 @@ public class Human extends Player{
 			shouldBump=false;
 			try{
 				landingSquare = selectedSquare.getPawn().calculateLandingSquare(numSpaces);
-				if(landingSquare.getClass().getName().equals("SlideStartSquare") && landingSquare.getColor()!=color){	//only slide on other player's slides
+				if(landingSquare.getClass().getSimpleName().equals("SlideStartSquare") && landingSquare.getColor()!=color){	//only slide on other player's slides
 					SlideDestinationSquare tempDestination = ((SlideStartSquare)landingSquare).getDestinationSquare();
 					if(tempDestination.isOccupied() && tempDestination.getPawn().getColor()==color){	//Don't slide and land on yourself
 						throw new LandedOnSquareOccupiedByPlayersOwnPawnException("Can't slide and land on top of yourself");
@@ -73,7 +73,7 @@ public class Human extends Player{
 				if(landingSquare.isOccupied() && landingSquare.getPawn().getColor() != color){
 					bump(landingSquare.getPawn());
 				}
-				if(landingSquare.getClass().getName().equals("SlideDestinationSquare") && shouldBump && landingSquare.getColor()!=color){
+				if(landingSquare.getClass().getSimpleName().equals("SlideDestinationSquare") && shouldBump && landingSquare.getColor()!=color){
 					bumpOthersOnSlide(selectedSquare.getPawn().calculateLandingSquare(numSpaces));
 				}
 				selectedSquare.getPawn().move(landingSquare);
@@ -81,7 +81,7 @@ public class Human extends Player{
 				landingSquare.unHighlight();
 				selectedSquare=null;
 
-				if(landingSquare.getClass().getName().equals("HomeSquare")){
+				if(landingSquare.getClass().getSimpleName().equals("HomeSquare")){
 					numPawnsInHome++;
 				}
 

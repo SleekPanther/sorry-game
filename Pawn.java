@@ -51,11 +51,11 @@ public class Pawn extends Circle{
 
 		//Get initial next square, but check for SafetyEntrySquare & if colors match
 		Square landingSquare = currentParentSquare.getImmediateNextSquare();
-		if(currentParentSquare.getClass().getName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)currentParentSquare).getNextSafetySquare().getColor()){
+		if(currentParentSquare.getClass().getSimpleName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)currentParentSquare).getNextSafetySquare().getColor()){
 			landingSquare = ((SafetyEntrySquare)currentParentSquare).getNextSafetySquare();
 		}
 		for(int i=1; i<numSpaces; i++){		//follow links to next square if moving > 1 forward
-			if(landingSquare.getClass().getName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)landingSquare).getNextSafetySquare().getColor()){
+			if(landingSquare.getClass().getSimpleName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)landingSquare).getNextSafetySquare().getColor()){
 				landingSquare = ((SafetyEntrySquare)landingSquare).getNextSafetySquare();
 			}
 			else{
@@ -66,7 +66,7 @@ public class Pawn extends Circle{
 			}
 		}
 
-		if(!landingSquare.getClass().getName().equals("HomeSquare")
+		if(!landingSquare.getClass().getSimpleName().equals("HomeSquare")
 			&& landingSquare.isOccupied() 
 				&& landingSquare.getPawn().getColor() == color){
 			throw new LandedOnSquareOccupiedByPlayersOwnPawnException("Cannot move on top of yourself");
@@ -80,11 +80,11 @@ public class Pawn extends Circle{
 		//Get initial next square, but check for SafetyEntrySquare & if colors match
 		Square landingSquare = currentParentSquare.getImmediateNextSquare();
 		int numMoves = 1;		//initialize to 1 move ahead
-		if(currentParentSquare.getClass().getName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)currentParentSquare).getNextSafetySquare().getColor()){
+		if(currentParentSquare.getClass().getSimpleName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)currentParentSquare).getNextSafetySquare().getColor()){
 			landingSquare = ((SafetyEntrySquare)currentParentSquare).getNextSafetySquare();
 		}
-		while(landingSquare.getClass().getName()!="HomeSquare"){
-			if(landingSquare.getClass().getName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)landingSquare).getNextSafetySquare().getColor()){
+		while(landingSquare.getClass().getSimpleName()!="HomeSquare"){
+			if(landingSquare.getClass().getSimpleName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)landingSquare).getNextSafetySquare().getColor()){
 				landingSquare = ((SafetyEntrySquare)landingSquare).getNextSafetySquare();
 			}
 			else{

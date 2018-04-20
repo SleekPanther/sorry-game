@@ -17,12 +17,12 @@ public class Computer extends Player{
 		LinkedList<Move> moves = new LinkedList<Move>();
 
 		for(Pawn pawn : pawns){
-			if(!pawn.getCurrentParentSquare().getClass().getName().equals("HomeSquare")){
+			if(!pawn.getCurrentParentSquare().getClass().getSimpleName().equals("HomeSquare")){
 				try{
 					Square landingSquare = pawn.calculateLandingSquare(numSpaces);
 
 					boolean leavesStart = false;
-					if(pawn.getCurrentParentSquare().getClass().getName().equals("StartSquare")){
+					if(pawn.getCurrentParentSquare().getClass().getSimpleName().equals("StartSquare")){
 						if(numSpaces==1 || numSpaces==2){
 							numSpaces=1;	//Set numSpaces to 1 in case they drew a 2 since we only want them moving 1 space forward out of Start
 							leavesStart =true;
@@ -39,7 +39,7 @@ public class Computer extends Player{
 					}
 
 					boolean slide = false;
-					if(landingSquare.getClass().getName().equals("SlideStartSquare") && landingSquare.getColor()!=color){
+					if(landingSquare.getClass().getSimpleName().equals("SlideStartSquare") && landingSquare.getColor()!=color){
 						slide = true;
 						bumpCount = 0;		//reset for slides since may already bumped by directly landing on
 						Square slideDestinationSquare = ((SlideStartSquare)landingSquare).getDestinationSquare();
@@ -122,7 +122,7 @@ public class Computer extends Player{
 
 			chosenMove.pawnToMove.move(chosenMove.landingSquare);	//actually move (any exceptions and illegal moves will be taken care of)
 
-			if(chosenMove.landingSquare.getClass().getName().equals("HomeSquare")){
+			if(chosenMove.landingSquare.getClass().getSimpleName().equals("HomeSquare")){
 				numPawnsInHome++;
 				Popup popup = new Popup(name+" got to home");
 				popup.show();
