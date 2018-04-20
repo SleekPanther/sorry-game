@@ -52,3 +52,31 @@ HomeSquare Text, StartSquare Text{
 	-fx-border-color: black;
 	-fx-border-style: solid;
 }
+
+#drawPile{
+    -fx-pref-width: 65;
+    -fx-pref-height: 100;
+    -fx-background-color: #fff0f5;
+    -fx-border-width: 1;
+    -fx-border-color: black;
+    -fx-border-style: solid;
+}
+
+#drawLabel {
+    -fx-font-weight: bold;
+    -fx-font-size: 15;
+}
+
+#discardPile{
+    -fx-pref-width: 65;
+    -fx-pref-height: 100;
+    -fx-background-color: #fff0f5;
+    -fx-border-width: 1;
+    -fx-border-color: black;
+    -fx-border-style: solid;
+}
+
+#discardLabel {
+    -fx-font-weight: bold;
+    -fx-font-size: 40;
+}

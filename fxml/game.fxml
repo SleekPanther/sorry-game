@@ -48,6 +48,15 @@
 					<Button text='Go to help' fx:id='switchButton' />
 					<CheckBox fx:id="enableTurns" text="Enable Turns" selected='true' />
 				</FlowPane>
+
+                <HBox fx:id='discardPile' AnchorPane.topAnchor='160' AnchorPane.leftAnchor='200'>
+                    <Label fx:id='discardLabel' text='1'/>
+                </HBox>
+
+                <HBox fx:id='drawPile' AnchorPane.topAnchor='160' AnchorPane.rightAnchor='200'>
+                    <Label fx:id='drawLabel' text='Sorry!'/>
+                </HBox>
+
 			</AnchorPane>
 		</center>
 		<right>

@@ -71,6 +71,8 @@ public class GameController extends BaseController implements Initializable {
 
 	@FXML private Button drawCards;
 	@FXML private TextField numberArea;
+	@FXML private Label discardLabel;
+	@FXML private HBox discardPile;
 
 	@FXML private Button switchButton;
 	@FXML private ComboBox<String> activePlayerColor;
@@ -177,6 +179,7 @@ public class GameController extends BaseController implements Initializable {
 			Card moveCard = cards.poll();
 			discards.add(moveCard);
 			numberArea.setText(moveCard.getType()+"");
+			discardLabel.setText(moveCard.getType()+"");
 		});
 
 		//Mostly for testing, update moveCard any time the value changes, but doesn't matter since moveCard is no longer in the deck
