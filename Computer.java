@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import exceptions.*;
 
@@ -69,19 +70,46 @@ public class Computer extends Player{
 			}
 		}
 
-		System.out.println("\nAvailable Moves");
-		for(Move move : moves){
-			System.out.println(move);
-		}
+		//Actually get these from the computer class later
+		boolean smartness = true;
+		boolean meanness = false;
 
 		if(moves.isEmpty()){
-			//maybe not a popup
+			//or skip turn
 			Popup popup = new Popup("No moves for "+name);
 			popup.show();
 		}
 		else{
-			Move chosenMove = moves.getLast();
-			// Move chosenMove = moves.get(4);
+			if(smartness){
+				Collections.sort(moves);	//sort by moves closes to home first (smart)
+			}
+			else{	//Dumb picks random move
+				Collections.shuffle(moves);		//randomize for dump strategy
+			}
+
+			System.out.println("\nMoves");
+			for(Move move : moves){
+				System.out.println(move);
+			}
+
+			Move chosenMove = moves.removeFirst();
+
+			if(!moves.isEmpty()){	//Must have @ least 1 other move to compare to
+				if(meanness){
+					if(moves.get(0).numPawnsBumpted > chosenMove.numPawnsBumpted){
+						chosenMove = moves.remove(0);
+						System.out.println("mean");
+					}
+				}
+				else{
+					if(moves.get(0).numPawnsBumpted < chosenMove.numPawnsBumpted){
+						chosenMove = moves.remove(0);
+						System.out.println("nice");
+					}
+				}
+			}
+			System.out.println("Chosen move="+chosenMove);
+
 			//highligh and timeout?
 
 			//Bump first, or else the pawn to be bumped is the one we are moving
