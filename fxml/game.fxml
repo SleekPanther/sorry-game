@@ -41,7 +41,7 @@
 				<StackPane styleClass='green, circle' fx:id='greenHomeContainer'></StackPane>
 				<StackPane styleClass='green, circle' fx:id='greenStartContainer'></StackPane>
 
-				<FlowPane AnchorPane.topAnchor='300' AnchorPane.leftAnchor='170' >
+				<FlowPane AnchorPane.topAnchor='450' AnchorPane.leftAnchor='170' >
 					<Button text='Click for card' fx:id='drawCards' />
 					<TextField text='1' fx:id='numberArea' prefWidth='40'></TextField>
 					<ComboBox fx:id="activePlayerColor"></ComboBox>
@@ -49,13 +49,13 @@
 					<CheckBox fx:id="enableTurns" text="Enable Turns" selected='true' />
 				</FlowPane>
 
-                <HBox fx:id='discardPile' AnchorPane.topAnchor='160' AnchorPane.leftAnchor='200'>
+                <StackPane fx:id='discardPile' AnchorPane.topAnchor='180' AnchorPane.leftAnchor='200'>
                     <Label fx:id='discardLabel' text='1'/>
-                </HBox>
+                </StackPane>
 
-                <HBox fx:id='drawPile' AnchorPane.topAnchor='160' AnchorPane.rightAnchor='200'>
+                <StackPane fx:id='drawPile' AnchorPane.topAnchor='180' AnchorPane.rightAnchor='200'>
                     <Label fx:id='drawLabel' text='Sorry!'/>
-                </HBox>
+                </StackPane>
 
 			</AnchorPane>
 		</center>

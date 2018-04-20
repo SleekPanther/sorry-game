@@ -72,7 +72,6 @@ public class GameController extends BaseController implements Initializable {
 	@FXML private Button drawCards;
 	@FXML private TextField numberArea;
 	@FXML private Label discardLabel;
-	@FXML private HBox discardPile;
 
 	@FXML private Button switchButton;
 	@FXML private ComboBox<String> activePlayerColor;
