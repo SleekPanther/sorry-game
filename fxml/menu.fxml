@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -19,7 +20,7 @@
 			<Button fx:id="helpButton" layoutX="242.0" layoutY="470.0" prefHeight="32.0" prefWidth="62.0" text="Help" />
 			<ComboBox fx:id="playerColor" layoutX="123.0" layoutY="141.0" prefWidth="150.0" />
 			<TextField fx:id="playerName" layoutX="23.0" layoutY="141.0" styleClass="nameField" text="player" />
-			<ImageView fitHeight="61.0" fitWidth="284.0" layoutX="180.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+			<ImageView fitHeight="91.0" fitWidth="281.0" layoutX="130.0" pickOnBounds="true" preserveRatio="true">
 				<image>
 					<Image url="@../image/welcome.gif" />
 				</image>
@@ -36,12 +37,21 @@
 			<ComboBox fx:id="computer2Color" layoutX="123.0" layoutY="233.0" prefWidth="150.0" />
 			<ComboBox fx:id="computer3Color" layoutX="123.0" layoutY="281.0" prefWidth="150.0" />
 			<Button layoutX="241.0" layoutY="377.0" mnemonicParsing="false" text="resume" />
-         <RadioButton layoutX="298.0" layoutY="197.0" mnemonicParsing="false" text="mean/nice" />
-         <RadioButton layoutX="408.0" layoutY="197.0" mnemonicParsing="false" text="smart/dumb" />
-         <RadioButton layoutX="298.0" layoutY="286.0" mnemonicParsing="false" text="mean/nice" />
-         <RadioButton layoutX="298.0" layoutY="238.0" mnemonicParsing="false" text="mean/nice" />
-         <RadioButton layoutX="408.0" layoutY="286.0" mnemonicParsing="false" text="smart/dumb" />
-         <RadioButton layoutX="408.0" layoutY="238.0" mnemonicParsing="false" text="smart/dumb" />
+         <RadioButton layoutX="298.0" layoutY="197.0" mnemonicParsing="false" text="mean/nice">
+            <toggleGroup>
+               <ToggleGroup fx:id="computer1Difficulity" />
+            </toggleGroup></RadioButton>
+         <RadioButton layoutX="408.0" layoutY="197.0" mnemonicParsing="false" text="smart/dumb" toggleGroup="$computer1Difficulity" />
+         <RadioButton layoutX="298.0" layoutY="286.0" mnemonicParsing="false" text="mean/nice">
+            <toggleGroup>
+               <ToggleGroup fx:id="type3" />
+            </toggleGroup></RadioButton>
+         <RadioButton layoutX="298.0" layoutY="238.0" mnemonicParsing="false" text="mean/nice">
+            <toggleGroup>
+               <ToggleGroup fx:id="type2" />
+            </toggleGroup></RadioButton>
+         <RadioButton layoutX="408.0" layoutY="286.0" mnemonicParsing="false" text="smart/dumb" toggleGroup="$type3" />
+         <RadioButton layoutX="408.0" layoutY="238.0" mnemonicParsing="false" text="smart/dumb" toggleGroup="$type2" />
 		</children>
 	</AnchorPane>
 </FlowPane>
