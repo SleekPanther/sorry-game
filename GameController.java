@@ -547,8 +547,11 @@ public class GameController extends BaseController implements Initializable {
 			try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
 				System.out.println("Database connected!");
 				String SQL = "INSERT INTO tblSorryGame (fldPlayerName,fldPlayerColor,fldDateEnded,fldComp1Set,fldComp2Set,fldComp3Set,fldWinner) VALUES (";
-				SQL = SQL +"'"+ humanData.name + "','" + humanData.color + "', now(),'"+ computer1Data.color + ", "+computer1Data.difficulity+", "+computer1Data.meanness+"','" +
-						computer2Data.color + ", "+computer2Data.difficulity+", "+computer2Data.meanness+"','"+ computer3Data.color+ ", "+computer3Data.difficulity+", "+computer3Data.meanness+"','"+activePlayer.getName()+"');";
+				SQL = SQL +"'"+ humanData.name + "','" + humanData.color + "', now(),'"+ computer1Data.color + ", "
+                        +computer1Data.difficulity+", "+computer1Data.meanness+"','" +
+						computer2Data.color + ", "+computer2Data.difficulity+", "+computer2Data.meanness+"','"
+                        + computer3Data.color+ ", "+computer3Data.difficulity+", "+computer3Data.meanness+"','"
+                        +activePlayer.getName()+"');";
 
 				System.out.println(SQL);
 				connection.createStatement().executeUpdate(SQL);
