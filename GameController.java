@@ -71,6 +71,7 @@ public class GameController extends BaseController implements Initializable {
 
 	@FXML private Button drawCards;
 	@FXML private TextField numberArea;
+	@FXML private Label discardLabel;
 
 	@FXML private Button switchButton;
 	@FXML private ComboBox<String> activePlayerColor;
@@ -134,6 +135,7 @@ public class GameController extends BaseController implements Initializable {
 		Card moveCard = cards.poll();
 		discards.add(moveCard);
 		numberArea.setText(moveCard.getType()+"");
+		discardLabel.setText(moveCard.getType()+"");
 	}
 
 	@Override
@@ -156,7 +158,6 @@ public class GameController extends BaseController implements Initializable {
 
 
 		setUpPlayerColors();
-
 
 		//Testing pawn(s)
 		Pawn testPawnRed1 = new Pawn(pawnRadius, Color.RED);
