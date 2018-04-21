@@ -168,11 +168,6 @@ public class GameController extends BaseController implements Initializable {
 
 
 		//Testing pawn(s)
-		// ((Square)topRow.getChildren().get(1)).add(new Pawn(pawnRadius, Color.RED));
-		// ((Square)rightColumn.getChildren().get(0)).add(new Pawn(pawnRadius, Color.BLUE));
-		// ((Square)rightColumn.getChildren().get(1)).add(new Pawn(pawnRadius, Color.RED));
-		// ((Square)rightColumn.getChildren().get(2)).add(new Pawn(pawnRadius, Color.GREEN));
-		//pawns on the top row left
 		Pawn testPawnRed1 = new Pawn(pawnRadius, Color.RED);
 		Pawn testPawnRed2 = new Pawn(pawnRadius, Color.RED);
 		Pawn testPawnBlue1 = new Pawn(pawnRadius, Color.BLUE);
@@ -180,9 +175,9 @@ public class GameController extends BaseController implements Initializable {
 		Pawn testPawnGreen1 = new Pawn(pawnRadius, Color.GREEN);
 		// Square blueParentSquare1 = (Square)topRow.getChildren().get(0);
 		Square blueParentSquare1 = cornersSquares.get(0);
-		Square blueParentSquare2 = (Square)topRow.getChildren().get(3);
-		Square redParentSquare1 = (Square)topRow.getChildren().get(0);
-		Square redParentSquare2 = (Square)rightColumn.getChildren().get(1);
+		Square blueParentSquare2 = (Square)rightColumn.getChildren().get(2);
+		Square redParentSquare1 = cornersSquares.get(1);
+		Square redParentSquare2 = (Square)rightColumn.getChildren().get(10);
 		Square greenParentSquare1 = ((Square)topRow.getChildren().get(2));
 		redParentSquare1.add(testPawnRed1);
 		blueParentSquare1.add(testPawnBlue1);
@@ -245,42 +240,28 @@ public class GameController extends BaseController implements Initializable {
 			}
 		}
 
-		activePlayer = players.get(colorToPlayerIndex(playerDataList.get(0).color));		//activePlayer is always human and starts
-		turn = colorToPlayerIndex(activePlayer.getColor());
+		//Hardcode to 1 computer player
+		players.set(0, new Human(playerDataList.get(0).name, playerDataList.get(0).color, redPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+		players.set(1, new Computer(playerDataList.get(1).name, playerDataList.get(1).color, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+		players.set(2, new Human(playerDataList.get(2).name, playerDataList.get(2).color, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+		players.set(3, new Human(playerDataList.get(3).name, playerDataList.get(3).color, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+
+
+		activePlayer = players.get(ColorFunctions.colorToPlayerIndex(playerDataList.get(0).color));		//activePlayer is always human and starts
+		turn = ColorFunctions.colorToPlayerIndex(activePlayer.getColor());
 
 		setUpColorSwitcher();
-	}
-
-	private int colorToPlayerIndex(Color color){
-		return colorToPlayerIndex(color.name());
-	}
-
-	private int colorToPlayerIndex(String color){
-		color = color.toUpperCase();
-		if(color=="RED"){
-			return 0;
-		}
-		else if(color=="BLUE"){
-			return 1;
-		}
-		else if(color=="YELLOW"){
-			return 2;
-		}
-		else if(color=="GREEN"){
-			return 3;
-		}
-		return -1;
 	}
 
 	private void setUpColorSwitcher(){
 		//Create dropdown to switch between active player for testing
 		activePlayerColor.setItems(FXCollections.observableArrayList(colorStrings));
 		activePlayerColor.setVisibleRowCount(colorStrings.size());
-		activePlayerColor.setValue(colorStrings.get(colorToPlayerIndex(activePlayer.getColor())));
+		activePlayerColor.setValue(colorStrings.get(ColorFunctions.colorToPlayerIndex(activePlayer.getColor())));
 		activePlayerColor.valueProperty().addListener(new ChangeListener<String>() {
 			@Override public void changed(ObservableValue observableValue, String oldValue, String newValue) {
-				activePlayer = players.get(colorToPlayerIndex(newValue));
-				turn = colorToPlayerIndex(newValue);
+				activePlayer = players.get(ColorFunctions.colorToPlayerIndex(newValue));
+				turn = ColorFunctions.colorToPlayerIndex(newValue);
 			}
 		});
 

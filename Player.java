@@ -65,18 +65,7 @@ public class Player{
 	}
 
 	protected void bump(Pawn pawn){
-		if(pawn.getColor() == Color.RED){
-			pawn.move(startSquares.get(0));
-		}
-		else if(pawn.getColor() == Color.BLUE){
-			pawn.move(startSquares.get(1));
-		}
-		else if(pawn.getColor() == Color.YELLOW){
-			pawn.move(startSquares.get(2));
-		}
-		else if(pawn.getColor() == Color.GREEN){
-			pawn.move(startSquares.get(3));
-		}
+		pawn.move(startSquares.get(ColorFunctions.colorToPlayerIndex(pawn.getColor())));
 	}
 
 	@Override
