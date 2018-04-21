@@ -16,11 +16,11 @@ public class Computer extends Player{
 	@Override
 	public void executeAutomaticTurn(int numSpaces){
 		//Pause execution before computer moves (currently also looks like it prevents the user from finishing)
-		try {
-			Thread.sleep(600);
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		}
+		// try {
+		// 	Thread.sleep(400);
+		// } catch (InterruptedException e1) {
+		// 	e1.printStackTrace();
+		// }
 
 		LinkedList<Move> moves = new LinkedList<Move>();
 		int numSpacesAdjusted = numSpaces;	//in case leaving start changes 2 to 1
@@ -76,9 +76,9 @@ public class Computer extends Player{
 				}
 			}
 		}
+
 		//Remove "duplicate" moves that leave start so only the last pawn in the ArrayList for the MultipleSquare is allowed to move from start
 		for(int i=moves.size()-1; i>=0; i--){	//loop backwards since remmoving a move shifts the list
-			System.out.println("pawn to move "+startSquares.get(ColorFunctions.colorToPlayerIndex(color)).getPawn().getPawnId());
 			if(moves.get(i).leavesStart && moves.get(i).pawnToMove.getPawnId()!=startSquares.get(ColorFunctions.colorToPlayerIndex(color)).getPawn().getPawnId()){
 				moves.remove(i);
 			}
@@ -86,7 +86,7 @@ public class Computer extends Player{
 
 		//Actually get these from the computer class later
 		boolean smartness = true;
-		boolean meanness = false;
+		boolean meanness = true;
 
 		if(moves.isEmpty()){
 			//or skip turn
@@ -101,7 +101,7 @@ public class Computer extends Player{
 				Collections.shuffle(moves);
 			}
 
-			System.out.println("\nMoves");
+			System.out.println("\n"+color+" Moves");
 			for(Move move : moves){
 				System.out.println(move);
 			}
@@ -125,7 +125,6 @@ public class Computer extends Player{
 					for(int i=0; i<moves.size(); i++){
 						if(moves.get(i).leavesStart){
 							chosenMove = moves.remove(i);
-							System.out.println("found start "+chosenMove);
 							break;
 						}
 					}

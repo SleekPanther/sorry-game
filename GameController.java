@@ -85,16 +85,7 @@ public class GameController extends BaseController implements Initializable {
 	private ArrayList<String> colorStrings = new ArrayList<String>(Arrays.asList(new String[]{"RED", "BLUE", "YELLOW", "GREEN"}));
 
 	private Player activePlayer;
-	private Human human1;
-	private Human human2;
-	private Human human3;
-	private Human human4;
-	private Computer computer1;
-	private Computer computer2;
-	private Computer computer3;
-
 	private ArrayList<Player> players;
-
 	private HumanData humanData = new HumanData("Player", Color.RED);
 	private ComputerData computer1Data = new ComputerData("Computer1", Color.BLUE, "", "");
 	private ComputerData computer2Data = new ComputerData("Computer2", Color.YELLOW, "", "");;
@@ -175,7 +166,7 @@ public class GameController extends BaseController implements Initializable {
 		Pawn testPawnGreen1 = new Pawn(pawnRadius, Color.GREEN);
 		// Square blueParentSquare1 = (Square)topRow.getChildren().get(0);
 		Square blueParentSquare1 = cornersSquares.get(0);
-		Square blueParentSquare2 = (Square)rightColumn.getChildren().get(2);
+		Square blueParentSquare2 = (Square)rightColumn.getChildren().get(1);
 		Square redParentSquare1 = cornersSquares.get(1);
 		Square redParentSquare2 = (Square)rightColumn.getChildren().get(10);
 		Square greenParentSquare1 = ((Square)topRow.getChildren().get(2));
@@ -184,11 +175,11 @@ public class GameController extends BaseController implements Initializable {
 		blueParentSquare2.add(testPawnBlue2);
 		greenParentSquare1.add(testPawnGreen1);
 		redParentSquare2.add(testPawnRed2);
-		players.get(0).addPawn(testPawnRed1, redParentSquare1);
-		players.get(0).addPawn(testPawnRed2, redParentSquare2);
-		players.get(1).addPawn(testPawnBlue1, blueParentSquare1);
-		players.get(1).addPawn(testPawnBlue2, blueParentSquare2);
-		players.get(2).addPawn(testPawnGreen1, greenParentSquare1);
+		players.get(ColorFunctions.colorToPlayerIndex(Color.RED)).addPawn(testPawnRed1, redParentSquare1);
+		players.get(ColorFunctions.colorToPlayerIndex(Color.RED)).addPawn(testPawnRed2, redParentSquare2);
+		players.get(ColorFunctions.colorToPlayerIndex(Color.BLUE)).addPawn(testPawnBlue1, blueParentSquare1);
+		players.get(ColorFunctions.colorToPlayerIndex(Color.BLUE)).addPawn(testPawnBlue2, blueParentSquare2);
+		players.get(ColorFunctions.colorToPlayerIndex(Color.GREEN)).addPawn(testPawnGreen1, greenParentSquare1);
 
 
 		drawCards.setOnAction((event) -> pickCard());
@@ -240,14 +231,16 @@ public class GameController extends BaseController implements Initializable {
 			}
 		}
 
-		//Hardcode to 1 computer player
-		players.set(0, new Human(playerDataList.get(0).name, playerDataList.get(0).color, redPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
-		players.set(1, new Computer(playerDataList.get(1).name, playerDataList.get(1).color, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
-		players.set(2, new Human(playerDataList.get(2).name, playerDataList.get(2).color, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
-		players.set(3, new Human(playerDataList.get(3).name, playerDataList.get(3).color, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+		int activePlayerIndexTemp = ColorFunctions.colorToPlayerIndex(playerDataList.get(0).color);			//activePlayer is always human and starts
 
+		//Hardcode Players
+		activePlayerIndexTemp = 1;
+		players.set(0, new Computer(playerDataList.get(0).name, playerDataList.get(0).color, redPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+		players.set(1, new Human(playerDataList.get(1).name, playerDataList.get(1).color, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+		players.set(2, new Computer(playerDataList.get(2).name, playerDataList.get(2).color, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+		players.set(3, new Computer(playerDataList.get(3).name, playerDataList.get(3).color, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
 
-		activePlayer = players.get(ColorFunctions.colorToPlayerIndex(playerDataList.get(0).color));		//activePlayer is always human and starts
+		activePlayer = players.get(activePlayerIndexTemp);
 		turn = ColorFunctions.colorToPlayerIndex(activePlayer.getColor());
 
 		setUpColorSwitcher();
@@ -264,12 +257,6 @@ public class GameController extends BaseController implements Initializable {
 				turn = ColorFunctions.colorToPlayerIndex(newValue);
 			}
 		});
-
-		// ArrayList<Pawn> humanPawns = redPawns;
-		// human = new Human("Name", Color.RED, humanPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
-		// computer1 = new Computer("Computer 1", Color.BLUE, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
-		// computer2 = new Computer("Computer 2", Color.YELLOW, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
-		// computer3 = new Computer("Computer 3", Color.GREEN, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
 	}
 
 	private void createCards(){
