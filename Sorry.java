@@ -76,8 +76,8 @@ public class Sorry extends Application {
 		
 		primaryStage.setTitle("Sorry");
 		primaryStage.setResizable(false);
-		primaryStage.setScene(gameScene);
-		// primaryStage.setScene(menuScene);
+		// primaryStage.setScene(gameScene);
+		primaryStage.setScene(menuScene);
 		primaryStage.show();
 	}
 

@@ -42,20 +42,23 @@
 				<StackPane styleClass='green, circle' fx:id='greenStartContainer'></StackPane>
 
 				<FlowPane AnchorPane.topAnchor='450' AnchorPane.leftAnchor='170' >
-					<Button text='Click for card' fx:id='drawCards' />
+					<!-- <Button text='Click for card' fx:id='drawCards' /> -->
 					<TextField text='1' fx:id='numberArea' prefWidth='40'></TextField>
 					<ComboBox fx:id="activePlayerColor"></ComboBox>
 					<Button text='Go to help' fx:id='switchButton' />
 					<CheckBox fx:id="enableTurns" text="Enable Turns" selected='true' />
 				</FlowPane>
 
-                <StackPane fx:id='discardPile' AnchorPane.topAnchor='180' AnchorPane.leftAnchor='200'>
-                    <Label fx:id='discardLabel' text='1'/>
-                </StackPane>
+				<StackPane fx:id='discardPile' AnchorPane.topAnchor='180' AnchorPane.leftAnchor='200'>
+					<Label fx:id='discardLabel' text='1'/>
+				</StackPane>
 
-                <StackPane fx:id='drawPile' AnchorPane.topAnchor='180' AnchorPane.rightAnchor='200'>
-                    <Label fx:id='drawLabel' text='Sorry!'/>
-                </StackPane>
+				<StackPane fx:id='drawPile' AnchorPane.topAnchor='180' AnchorPane.rightAnchor='200'>
+					<VBox>
+						<Label fx:id='drawLabel' text='Sorry!'/>
+						<Label fx:id='drawInstructions' text='Click for card'/>
+					</VBox>
+				</StackPane>
 
 			</AnchorPane>
 		</center>

@@ -69,7 +69,7 @@ public class GameController extends BaseController implements Initializable {
 	private ArrayList<Pane> safetySquareSides;
 	private ArrayList<Pane> boardSides;
 
-	@FXML private Button drawCards;
+	@FXML private StackPane drawPile;
 	@FXML private TextField numberArea;
 	@FXML private Label discardLabel;
 
@@ -132,7 +132,7 @@ public class GameController extends BaseController implements Initializable {
 		if (cards.isEmpty()){
 			swapDecks();
 		}
-		Card moveCard = cards.poll();
+		moveCard = cards.poll();
 		discards.add(moveCard);
 		numberArea.setText(moveCard.getType()+"");
 		discardLabel.setText(moveCard.getType()+"");
@@ -183,7 +183,9 @@ public class GameController extends BaseController implements Initializable {
 		players.get(ColorFunctions.colorToPlayerIndex(Color.GREEN)).addPawn(testPawnGreen1, greenParentSquare1);
 
 
-		drawCards.setOnAction((event) -> pickCard());
+		drawPile.addEventFilter(MouseEvent.MOUSE_PRESSED, (e)->{
+			pickCard();
+		});
 
 		//Mostly for testing, update moveCard any time the value changes, but doesn't matter since moveCard is no longer in the deck
 		numberArea.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -264,7 +266,6 @@ public class GameController extends BaseController implements Initializable {
 		cards = new LinkedList<Card>();
 		discards = new LinkedList<Card>();
 
-
 		for(int cardType=0; cardType<=12; cardType++){
 			if(cardType!=6 && cardType!=9){		//Create 4 of each type except 6 & 9
 				for(int j=0; j<4; j++){
@@ -278,7 +279,9 @@ public class GameController extends BaseController implements Initializable {
 	}
 
 	private void swapDecks(){
-		cards=discards;
+		for(Card card : discards){
+			cards.add(card);
+		}
 		Collections.shuffle(cards);
 
 		discards.clear();
