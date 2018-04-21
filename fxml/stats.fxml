@@ -12,8 +12,44 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<FlowPane fx:controller='StatsController' stylesheets='css/stats.css' xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" >
+<?import javafx.geometry.Insets?>
+<FlowPane fx:controller='StatsController' stylesheets='css/stats.css' xmlns='http://javafx.com/javafx/8' xmlns:fx='http://javafx.com/fxml' >
 
 	<Button text='Go to main menu' fx:id='mainMenuButton' />
+	<Button text='Test DB connection' fx:id='dbButton' />
+	<Button text='Update Stats' fx:id='statsButton' />
+	<GridPane alignment="CENTER" hgap="10.0" vgap="10.0" >
+		<padding>
+			<Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+		</padding>
+		<Label style="-fx-font: NORMAL 20 Tahoma;" text="Game Stats"
+			   GridPane.columnIndex="0" GridPane.rowIndex="0">
+		</Label>
+		<TableView fx:id="tableView" GridPane.columnIndex="0"
+				   GridPane.rowIndex="1">
+			<columns>
+                <TableColumn text="Game ID" fx:id="gameId">
+                </TableColumn>
+				<TableColumn text="Player Name" fx:id="playerName">
+				</TableColumn>
+				<TableColumn text="Player Color" fx:id="playerColor">
+				</TableColumn>
+				<TableColumn text="Time Started" fx:id="timeStart">
+				</TableColumn>
+				<TableColumn text="Time Ended" fx:id="timeEnd">
+				</TableColumn>
+				<TableColumn text="Game Duration" fx:id="duration" >
+				</TableColumn>
+				<TableColumn text="Computer 1 Settings" fx:id="comp1Settings">
+				</TableColumn>
+				<TableColumn text="Computer 2 Settings" fx:id="comp2Settings">
+				</TableColumn>
+				<TableColumn text="Computer 3 Settings" fx:id="comp3Settings">
+				</TableColumn>
+				<TableColumn text="Winner" fx:id="winner">
+				</TableColumn>
+			</columns>
+		</TableView>
+	</GridPane>
 
 </FlowPane>

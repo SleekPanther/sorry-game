@@ -10,6 +10,11 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.beans.value.*;
 import javafx.event.*;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 import javafx.collections.*;
 import javafx.event.EventHandler;
@@ -543,9 +548,30 @@ public class GameController extends BaseController implements Initializable {
 
 	private void checkIfGameWon(){
 		if(activePlayer.getNumPawnsInHome()==4){
+			String jdbcUrl = "jdbc:mysql://104.154.51.240/sorrygame";
+			String username = "root";
+			String password = "password";
+
 			Popup popup = new Popup(activePlayer.getName()+" won ");
 			popup.show();
-			
+
+			try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
+				System.out.println("Database connected!");
+				String SQL = "INSERT INTO tblSorryGame (fldPlayerName,fldPlayerColor,fldDateEnded,fldComp1Set,fldComp2Set,fldComp3Set,fldWinner) VALUES (";
+				SQL = SQL +"'"+ humanData.name + "','" + humanData.color + "', now(),'"+ computer1Data.color + ", "
+                        +computer1Data.difficulity+", "+computer1Data.meanness+"','" +
+						computer2Data.color + ", "+computer2Data.difficulity+", "+computer2Data.meanness+"','"
+                        + computer3Data.color+ ", "+computer3Data.difficulity+", "+computer3Data.meanness+"','"
+                        +activePlayer.getName()+"');";
+
+				System.out.println(SQL);
+				connection.createStatement().executeUpdate(SQL);
+				connection.close();
+
+			} catch (SQLException e) {
+				System.out.println("Database failed. proceeding. ");
+			}
+
 			Stage containingStage = (Stage)topRowContainer.getScene().getWindow();
 			changeScene(statsScene, containingStage);
 		}
