@@ -23,13 +23,13 @@ public class MultipleSquare extends Square {
 		if(pawnPosition==0){
 			return new int[]{0, 0};
 		}
-		if(pawnPosition==1){
+		else if(pawnPosition==1){
 			return new int[]{0, 1};
 		}
-		if(pawnPosition==2){
+		else if(pawnPosition==2){
 			return new int[]{1, 0};
 		}
-		return new int[]{1, 1};
+		return new int[]{1, 1};		//Default is bottom right. If more than 5 pawns exist (e.g. in testing, they exist on the pawns ArrayList and are added up top of an existing pawn in grid[1][1] but that's OK)
 	}
 
 	@Override

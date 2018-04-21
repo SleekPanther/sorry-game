@@ -45,6 +45,9 @@ public class Square extends StackPane {
 		hoverProperty().addListener((observable, oldValue, hover)->{
 			if(hover){
 				System.out.print("\n"+this);
+				if(pawn!=null){
+					System.out.print("\t"+pawn);
+				}
 			}
 		});
 	}
@@ -108,7 +111,7 @@ public class Square extends StackPane {
 			next=immediateNextSquare.getSquareId()+"";
 		}
 
-		return "Id="+id+""+"\tcolor="+color+"\tnext="+next;
+		return "Square="+id+""+"\tcolor="+color+"\tnext="+next;
 	}
 
 }
