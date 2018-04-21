@@ -8,10 +8,7 @@ public class Player{
 	protected ArrayList<HomeSquare> homeSquares;
 	protected ArrayList<StartSquare> startSquares;
 	protected int slideSquareDestinationForwardOffset;
-
 	protected int numPawnsInHome=0;
-	// protected boolean hasWon=false;
-	// protected boolean isTheirTurn = true;
 
 	public Player(String name, Color color, ArrayList<Pawn> pawns, ArrayList<StartSquare> startSquares, ArrayList<HomeSquare> homeSquares, int slideSquareDestinationForwardOffset){
 		this.name = name;
@@ -34,6 +31,11 @@ public class Player{
 		return pawns;
 	}
 
+	public void addPawn(Pawn pawn, Square parentSquare){
+		pawn.setCurrentParentSquare(parentSquare);
+		pawns.add(pawn);
+	}
+
 	public void setPawns(ArrayList<Pawn> pawns){
 		this.pawns=pawns;
 	}
@@ -42,12 +44,16 @@ public class Player{
 		return numPawnsInHome;
 	}
 
+	public String handleSquareClick(Square clickedSquare, int numSpaces){
+		return "player";
+	}
+
+	public void executeAutomaticTurn(int cardValue){
+	}
+
 	protected void bumpOthersOnSlide(Square slideStart){
 		if(slideStart.isOccupied() && slideStart.getPawn().getColor() != color ){
 			bump(slideStart.getPawn());
-			if(slideStart.getPawn().getColor() == color){
-				bump(slideStart.getPawn());
-			}
 		}
 		Square landingSquare = slideStart.getImmediateNextSquare();
 		for(int i=1; i<slideSquareDestinationForwardOffset; i++){
@@ -59,18 +65,7 @@ public class Player{
 	}
 
 	protected void bump(Pawn pawn){
-		if(pawn.getColor() == Color.RED){
-			pawn.move(startSquares.get(0));
-		}
-		else if(pawn.getColor() == Color.BLUE){
-			pawn.move(startSquares.get(1));
-		}
-		else if(pawn.getColor() == Color.YELLOW){
-			pawn.move(startSquares.get(2));
-		}
-		else if(pawn.getColor() == Color.GREEN){
-			pawn.move(startSquares.get(3));
-		}
+		pawn.move(startSquares.get(ColorFunctions.colorToPlayerIndex(pawn.getColor())));
 	}
 
 	@Override
