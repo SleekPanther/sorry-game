@@ -6,7 +6,7 @@ public class Pawn extends Circle{
 	private Color color;
 	private Square currentParentSquare;
 
-	public int pawnId;
+	private int pawnId;
 	private static int globalPawnId=0;
 	
 	public Pawn(double radius, Color color){
@@ -32,6 +32,10 @@ public class Pawn extends Circle{
 	public Pawn(double radius, Color color, String fillColor){
 		this(radius, color);
 		setStyle("-fx-fill: "+fillColor);
+	}
+
+	public int getPawnId(){
+		return pawnId;
 	}
 
 	public void setCurrentParentSquare(Square square){

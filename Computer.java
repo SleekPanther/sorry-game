@@ -17,12 +17,13 @@ public class Computer extends Player{
 	public void executeAutomaticTurn(int numSpaces){
 		//Pause execution before computer moves (currently also looks like it prevents the user from finishing)
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(600);
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
 
 		LinkedList<Move> moves = new LinkedList<Move>();
+		int numSpacesAdjusted = numSpaces;	//in case leaving start changes 2 to 1
 
 		for(Pawn pawn : pawns){
 			if(!pawn.getCurrentParentSquare().getClass().getSimpleName().equals("HomeSquare")){
@@ -32,8 +33,8 @@ public class Computer extends Player{
 					boolean leavesStart = false;
 					if(pawn.getCurrentParentSquare().getClass().getSimpleName().equals("StartSquare")){
 						if(numSpaces==1 || numSpaces==2){
-							numSpaces=1;	//Set numSpaces to 1 in case they drew a 2 since we only want them moving 1 space forward out of Start
-							leavesStart =true;
+							numSpacesAdjusted=1;	//Set numSpacesAdjusted to 1 in case they drew a 2 since we only want them moving 1 space forward out of Start
+							leavesStart = true;
 						}
 						else{
 							throw new AttemptedToLeaveStartWithNot1Or2Exception("Attempted To Leave Start With Not 1 Or 2");
@@ -73,8 +74,13 @@ public class Computer extends Player{
 				}
 				catch(AttemptedToLeaveStartWithNot1Or2Exception e){
 				}
-
-				
+			}
+		}
+		//Remove "duplicate" moves that leave start so only the last pawn in the ArrayList for the MultipleSquare is allowed to move from start
+		for(int i=moves.size()-1; i>=0; i--){	//loop backwards since remmoving a move shifts the list
+			System.out.println("pawn to move "+startSquares.get(ColorFunctions.colorToPlayerIndex(color)).getPawn().getPawnId());
+			if(moves.get(i).leavesStart && moves.get(i).pawnToMove.getPawnId()!=startSquares.get(ColorFunctions.colorToPlayerIndex(color)).getPawn().getPawnId()){
+				moves.remove(i);
 			}
 		}
 
@@ -102,17 +108,39 @@ public class Computer extends Player{
 
 			Move chosenMove = moves.removeFirst();
 
-			if(!moves.isEmpty()){	//Must have @ least 1 other move to compare to
+			if(smartness){	//prioritize getting out of start
+				StartSquare startSquare = startSquares.get(ColorFunctions.colorToPlayerIndex(color));
+				Square squareAfterStart = startSquare.getImmediateNextSquare();
+				//Attempt to find a move to get the your pawn off the start destination
+				if(squareAfterStart.isOccupied() && squareAfterStart.getPawn().getColor()==color){
+					for(int i=0; i<moves.size(); i++){
+						if(moves.get(i).pawnToMove.getPawnId() == squareAfterStart.getPawn().getPawnId()){
+							chosenMove = moves.remove(i);
+							break;
+						}
+					}
+				}
+				//Else square after start is clear, attemp to leave start
+				else if(!chosenMove.leavesStart){
+					for(int i=0; i<moves.size(); i++){
+						if(moves.get(i).leavesStart){
+							chosenMove = moves.remove(i);
+							System.out.println("found start "+chosenMove);
+							break;
+						}
+					}
+				}
+			}
+
+			if(!moves.isEmpty()){		//Must have @ least 1 other move to compare to
 				if(meanness){
 					if(moves.get(0).numPawnsBumpted > chosenMove.numPawnsBumpted){
 						chosenMove = moves.remove(0);
-						System.out.println("mean");
 					}
 				}
 				else{
 					if(moves.get(0).numPawnsBumpted < chosenMove.numPawnsBumpted){
 						chosenMove = moves.remove(0);
-						System.out.println("nice");
 					}
 				}
 			}
@@ -144,7 +172,7 @@ public class Computer extends Player{
 
 			//Bump first, or else the pawn to be bumped is the one we are moving
 			if(chosenMove.slide){
-				bumpOthersOnSlide(chosenMove.pawnToMove.calculateLandingSquare(numSpaces));
+				bumpOthersOnSlide(chosenMove.pawnToMove.calculateLandingSquare(numSpacesAdjusted));
 			}
 			else if(chosenMove.numPawnsBumpted > 0){	//simple bumping shouldn't happen as well as sliding bumping
 				bump(chosenMove.landingSquare.getPawn());
