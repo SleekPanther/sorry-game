@@ -1,3 +1,4 @@
+package Functions;
 import enums.Color;
 
 public class ColorFunctions {

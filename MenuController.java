@@ -121,7 +121,7 @@ public class MenuController extends BaseController implements Initializable{
 				new ComputerData(computer2Name.getText(), stringToColor(computer2Color.getValue()), computer2Smartness, computer2Meanness),
 				new ComputerData(computer3Name.getText(), stringToColor(computer3Color.getValue()), computer3Smartness, computer3Meanness)
 			);
-			gameController.setUpPlayerColors();
+			gameController.initializeFromMenu();
 
 			changeScene(gameScene, event);
 		});

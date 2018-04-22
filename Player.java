@@ -1,4 +1,5 @@
 import enums.Color;
+import Functions.ColorFunctions;
 import java.util.ArrayList;
 
 public class Player{

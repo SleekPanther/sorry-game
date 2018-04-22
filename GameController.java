@@ -1,5 +1,6 @@
 import structures.*;
 import enums.Color;
+import Functions.ColorFunctions;
 import java.net.URL;
 import javafx.fxml.*;
 import javafx.application.Platform;
@@ -10,7 +11,6 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.beans.value.*;
 import javafx.event.*;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -22,7 +22,7 @@ import javafx.scene.input.MouseEvent;
 
 public class GameController extends BaseController implements Initializable {
 	private static final int squaresPerSideExcludingCornersCount = 14;
-	private static final int boardWidth = 700;
+	private static final int boardWidth = 600;
 	private static final double squareHeightWidth = boardWidth/squaresPerSideExcludingCornersCount;
 	private static final double pawnRadius = squareHeightWidth/4;
 
@@ -32,6 +32,7 @@ public class GameController extends BaseController implements Initializable {
 	private static final int numSafetySquares = 5;
 	private static final double homeSquareDistanceFromBoardEdge = squareHeightWidth*numSafetySquares;
 
+	private StatsController statsController;
 
 	private Scene helpScene;
 	private Scene statsScene;
@@ -79,9 +80,32 @@ public class GameController extends BaseController implements Initializable {
 	@FXML private Label discardLabel;
 
 	@FXML private Button switchButton;
-	@FXML private ComboBox<String> activePlayerColor;
+	@FXML private Label activePlayerColorDisplay;
 
-	@FXML private CheckBox enableTurns;
+	@FXML private FlowPane testingComponents;
+	@FXML private CheckBox enableTurnsCheckbox;
+	@FXML private ComboBox<String> activePlayerColorDropdown;
+
+
+	private ArrayList<Label> redPlayerSettings;
+	@FXML private Label redPlayerName;
+	@FXML private Label redPlayerSmartness;
+	@FXML private Label redPlayerMeanness;
+
+	private ArrayList<Label> bluePlayerSettings;
+	@FXML private Label bluePlayerName;
+	@FXML private Label bluePlayerSmartness;
+	@FXML private Label bluePlayerMeanness;
+
+	private ArrayList<Label> yellowPlayerSettings;
+	@FXML private Label yellowPlayerName;
+	@FXML private Label yellowPlayerSmartness;
+	@FXML private Label yellowPlayerMeanness;
+
+	private ArrayList<Label> greenPlayerSettings;
+	@FXML private Label greenPlayerName;
+	@FXML private Label greenPlayerSmartness;
+	@FXML private Label greenPlayerMeanness;
 
 
 	private ArrayList<Square> allSquares = new ArrayList<Square>();
@@ -92,6 +116,7 @@ public class GameController extends BaseController implements Initializable {
 
 	private Player activePlayer;
 	private ArrayList<Player> players;
+	private ArrayList<PlayerData> playerDataList;
 	private HumanData humanData = new HumanData("Player", Color.RED);
 	private ComputerData computer1Data = new ComputerData("Computer 1", Color.BLUE, true, false);
 	private ComputerData computer2Data = new ComputerData("Computer 2", Color.YELLOW, true, false);
@@ -106,6 +131,8 @@ public class GameController extends BaseController implements Initializable {
 	private LinkedList<Card> cards;
 	private LinkedList<Card> discards;
 	private Card moveCard = new Card(1);
+
+	private boolean playerCardIsNew = true;
 
 	private int turn = 0;	//numbers correspond to indexes in players ArrayList
 
@@ -122,6 +149,10 @@ public class GameController extends BaseController implements Initializable {
 		statsScene = scene;
 	}
 
+	public void linkStatsController(StatsController controller){
+		statsController = controller;
+	}
+
 	public void receiveHumanData(HumanData humanData){
 		this.humanData=humanData;
 	}
@@ -134,13 +165,22 @@ public class GameController extends BaseController implements Initializable {
 	}
 
 	public void pickCard(){
+		playerCardIsNew = true;	//computers don't care about this
+
 		if (cards.isEmpty()){
 			swapDecks();
 		}
 		moveCard = cards.poll();
 		discards.add(moveCard);
 		numberArea.setText(moveCard.getType()+"");
-		discardLabel.setText(moveCard.getType()+"");
+
+		String cardValue = moveCard.getType() +"";
+		discardLabel.setStyle("-fx-font-size: 50;");	//assume normal card, change text to be smaller if it's a sorry card
+		if(cardValue.equals("0")){
+			discardLabel.setStyle("-fx-font-size: 15;");
+			cardValue = "Sorry";
+		}
+		discardLabel.setText(cardValue);
 	}
 
 	@Override
@@ -165,45 +205,63 @@ public class GameController extends BaseController implements Initializable {
 		setUpPlayerColors();
 
 		//Testing pawn(s)
-		// Pawn testPawnRed1 = new Pawn(pawnRadius, Color.RED);
-		// Pawn testPawnRed2 = new Pawn(pawnRadius, Color.RED);
-		// Pawn testPawnBlue1 = new Pawn(pawnRadius, Color.BLUE);
-		// Pawn testPawnBlue2 = new Pawn(pawnRadius, Color.BLUE);
-		// Pawn testPawnGreen1 = new Pawn(pawnRadius, Color.GREEN);
-		// // Square blueParentSquare1 = (Square)topRow.getChildren().get(0);
-		// Square blueParentSquare1 = cornersSquares.get(0);
-		// Square blueParentSquare2 = (Square)rightColumn.getChildren().get(1);
-		// Square redParentSquare1 = cornersSquares.get(1);
-		// Square redParentSquare2 = (Square)rightColumn.getChildren().get(10);
-		// Square greenParentSquare1 = ((Square)topRow.getChildren().get(2));
-		// redParentSquare1.add(testPawnRed1);
-		// blueParentSquare1.add(testPawnBlue1);
-		// blueParentSquare2.add(testPawnBlue2);
-		// greenParentSquare1.add(testPawnGreen1);
-		// redParentSquare2.add(testPawnRed2);
-		// players.get(ColorFunctions.colorToPlayerIndex(Color.RED)).addPawn(testPawnRed1, redParentSquare1);
-		// players.get(ColorFunctions.colorToPlayerIndex(Color.RED)).addPawn(testPawnRed2, redParentSquare2);
-		// players.get(ColorFunctions.colorToPlayerIndex(Color.BLUE)).addPawn(testPawnBlue1, blueParentSquare1);
-		// players.get(ColorFunctions.colorToPlayerIndex(Color.BLUE)).addPawn(testPawnBlue2, blueParentSquare2);
-		// players.get(ColorFunctions.colorToPlayerIndex(Color.GREEN)).addPawn(testPawnGreen1, greenParentSquare1);
+		Pawn testPawnRed1 = new Pawn(pawnRadius, Color.RED);
+		Pawn testPawnRed2 = new Pawn(pawnRadius, Color.RED);
+		Pawn testPawnBlue1 = new Pawn(pawnRadius, Color.BLUE);
+		Pawn testPawnBlue2 = new Pawn(pawnRadius, Color.BLUE);
+		Pawn testPawnGreen1 = new Pawn(pawnRadius, Color.GREEN);
+		// Square blueParentSquare1 = (Square)topRow.getChildren().get(0);
+		Square blueParentSquare1 = cornersSquares.get(0);
+		Square blueParentSquare2 = (Square)rightColumn.getChildren().get(1);
+		Square redParentSquare1 = cornersSquares.get(1);
+		Square redParentSquare2 = (Square)rightColumn.getChildren().get(10);
+		Square greenParentSquare1 = ((Square)topRow.getChildren().get(2));
+		redParentSquare1.add(testPawnRed1);
+		blueParentSquare1.add(testPawnBlue1);
+		blueParentSquare2.add(testPawnBlue2);
+		greenParentSquare1.add(testPawnGreen1);
+		redParentSquare2.add(testPawnRed2);
+		players.get(ColorFunctions.colorToPlayerIndex(Color.RED)).addPawn(testPawnRed1, redParentSquare1);
+		players.get(ColorFunctions.colorToPlayerIndex(Color.RED)).addPawn(testPawnRed2, redParentSquare2);
+		players.get(ColorFunctions.colorToPlayerIndex(Color.BLUE)).addPawn(testPawnBlue1, blueParentSquare1);
+		players.get(ColorFunctions.colorToPlayerIndex(Color.BLUE)).addPawn(testPawnBlue2, blueParentSquare2);
+		players.get(ColorFunctions.colorToPlayerIndex(Color.GREEN)).addPawn(testPawnGreen1, greenParentSquare1);
+
+
+		createPlayerSettingsDisplays();
 
 
 		drawPile.addEventFilter(MouseEvent.MOUSE_PRESSED, (e)->{
-			pickCard();
+			if(playerCardIsNew){
+				Popup popup = new Popup("Cannot pick multiple cards per turn");
+				popup.show();
+			}
+			else{
+				pickCard();
+			}
 		});
 
 		//Mostly for testing, update moveCard any time the value changes, but doesn't matter since moveCard is no longer in the deck
 		numberArea.textProperty().addListener((observable, oldValue, newValue) -> {
+			playerCardIsNew = true;
 			moveCard = new Card(Integer.parseInt(newValue));
 			discardLabel.setText(moveCard.getType()+"");
 		});
 
 		switchButton.setOnAction((event) -> changeScene(helpScene, event));
+
+		//Uncomment to enable testing
+		// testingComponents.setVisible(false);
 	}
 
-	public void setUpPlayerColors(){
+	public void initializeFromMenu(){
+		setUpPlayerColors();
+		createPlayerSettingsDisplays();
+	}
+
+	private void setUpPlayerColors(){
 		//Change these to actual computers later
-		ArrayList<PlayerData> playerDataList = new ArrayList<PlayerData>(Arrays.asList(humanData, computer1Data, computer2Data, computer3Data));
+		playerDataList = new ArrayList<PlayerData>(Arrays.asList(humanData, computer1Data, computer2Data, computer3Data));
 		players = new ArrayList<Player>(Arrays.asList(null, null, null, null));		//initialize list so players are created in order and can be set at an index
 		for(int i=0; i<playerDataList.size(); i++){
 			if(playerDataList.get(i).color==Color.RED){
@@ -257,15 +315,51 @@ public class GameController extends BaseController implements Initializable {
 
 	private void setUpColorSwitcher(){
 		//Create dropdown to switch between active player for testing
-		activePlayerColor.setItems(FXCollections.observableArrayList(colorStrings));
-		activePlayerColor.setVisibleRowCount(colorStrings.size());
-		activePlayerColor.setValue(colorStrings.get(ColorFunctions.colorToPlayerIndex(activePlayer.getColor())));
-		activePlayerColor.valueProperty().addListener(new ChangeListener<String>() {
+		activePlayerColorDropdown.setItems(FXCollections.observableArrayList(colorStrings));
+		activePlayerColorDropdown.setVisibleRowCount(colorStrings.size());
+		activePlayerColorDropdown.setValue(colorStrings.get(ColorFunctions.colorToPlayerIndex(activePlayer.getColor())));
+		activePlayerColorDropdown.valueProperty().addListener(new ChangeListener<String>() {
 			@Override public void changed(ObservableValue observableValue, String oldValue, String newValue) {
 				activePlayer = players.get(ColorFunctions.colorToPlayerIndex(newValue));
 				turn = ColorFunctions.colorToPlayerIndex(newValue);
+				activePlayerColorDisplay.setText("Current Player: "+colorStrings.get(turn));
 			}
 		});
+	}
+
+	private void createPlayerSettingsDisplays(){
+		redPlayerSettings = new ArrayList<Label>(Arrays.asList(redPlayerName, redPlayerSmartness, redPlayerMeanness));
+		bluePlayerSettings = new ArrayList<Label>(Arrays.asList(bluePlayerName, bluePlayerSmartness, bluePlayerMeanness));
+		yellowPlayerSettings = new ArrayList<Label>(Arrays.asList(yellowPlayerName, yellowPlayerSmartness, yellowPlayerMeanness));
+		greenPlayerSettings = new ArrayList<Label>(Arrays.asList(greenPlayerName, greenPlayerSmartness, greenPlayerMeanness));
+		
+		ArrayList<ArrayList<Label>> playerSettings = new ArrayList<ArrayList<Label>>();
+		playerSettings.add(redPlayerSettings);
+		playerSettings.add(bluePlayerSettings);
+		playerSettings.add(yellowPlayerSettings);
+		playerSettings.add(greenPlayerSettings);
+		
+		Collections.sort(playerDataList);
+
+		for(int i=0; i<playerSettings.size(); i++){
+			playerSettings.get(i).get(0).setText(playerDataList.get(i).name);	//first set the name for any type of player
+			//Only set smartness/meanness text labels for computers
+			if(playerDataList.get(i).getClass().getSimpleName().equals("ComputerData")){
+				if(playerDataList.get(i).smartness){
+					playerSettings.get(i).get(1).setText("Smart");
+				}
+				else{
+					playerSettings.get(i).get(1).setText("Smart");
+				}
+
+				if(playerDataList.get(i).meanness){
+					playerSettings.get(i).get(2).setText("Mean");
+				}
+				else{
+					playerSettings.get(i).get(2).setText("Nice");
+				}
+			}
+		}
 	}
 
 	private void createCards(){
@@ -535,10 +629,16 @@ public class GameController extends BaseController implements Initializable {
 		for(Square square : allSquares){
 			square.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 				public void handle(MouseEvent e) {
+					if(!playerCardIsNew){
+						Popup popup = new Popup("Pick a new card");
+						popup.show();
+						return;
+					}
 					String moveResult = activePlayer.handleSquareClick(square, moveCard.getType());
 					if(moveResult.equals("done")){
+						playerCardIsNew = false;
 						checkIfGameWon();
-						if(enableTurns.isSelected()){
+						if(enableTurnsCheckbox.isSelected()){
 							incrementTurn();
 						}
 					}
@@ -574,6 +674,9 @@ public class GameController extends BaseController implements Initializable {
 				System.out.println("Database failed. proceeding. ");
 			}
 
+			//Update stats scene before switching to it
+			statsController.buildTable();
+
 			Stage containingStage = (Stage)topRowContainer.getScene().getWindow();
 			changeScene(statsScene, containingStage);
 		}
@@ -587,7 +690,8 @@ public class GameController extends BaseController implements Initializable {
 
 		activePlayer = players.get(turn);
 
-		activePlayerColor.setValue(colorStrings.get(turn));
+		activePlayerColorDisplay.setText("Current Player: "+colorStrings.get(turn));
+		activePlayerColorDropdown.setValue(colorStrings.get(turn));
 
 		if(activePlayer.getClass().getSimpleName().equals("Computer")){
 			// pickCard();

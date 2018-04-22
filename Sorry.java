@@ -67,6 +67,8 @@ public class Sorry extends Application {
 
 		menuController.linkGameController(gameController);
 
+		gameController.linkStatsController(statsController);
+
 
 		primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {	//Destroy window on key PRESS ESC
 			if (KeyCode.ESCAPE == event.getCode()) {
