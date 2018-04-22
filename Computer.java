@@ -31,8 +31,6 @@ public class Computer extends Player{
 		for(Pawn pawn : pawns){
 			if(!pawn.getCurrentParentSquare().getClass().getSimpleName().equals("HomeSquare")){
 				try{
-					Square landingSquare = pawn.calculateLandingSquare(numSpaces);
-
 					boolean leavesStart = false;
 					if(pawn.getCurrentParentSquare().getClass().getSimpleName().equals("StartSquare")){
 						if(numSpaces==1 || numSpaces==2){
@@ -43,6 +41,8 @@ public class Computer extends Player{
 							throw new AttemptedToLeaveStartWithNot1Or2Exception("Attempted To Leave Start With Not 1 Or 2");
 						}
 					}
+
+					Square landingSquare = pawn.calculateLandingSquare(numSpacesAdjusted);
 
 					//Check simple bumping (move lands on another pawn)
 					int bumpCount = 0;
@@ -79,6 +79,11 @@ public class Computer extends Player{
 				}
 			}
 		}
+
+		// System.out.println("\n"+color+" Moves Before removing");
+		// for(Move move : moves){
+		// 	System.out.println(move);
+		// }
 
 		//Remove "duplicate" moves that leave start so only the last pawn in the ArrayList for the MultipleSquare is allowed to move from start
 		for(int i=moves.size()-1; i>=0; i--){	//loop backwards since remmoving a move shifts the list
