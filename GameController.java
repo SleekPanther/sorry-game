@@ -32,6 +32,7 @@ public class GameController extends BaseController implements Initializable {
 	private static final int numSafetySquares = 5;
 	private static final double homeSquareDistanceFromBoardEdge = squareHeightWidth*numSafetySquares;
 
+	private StatsController statsController;
 
 	private Scene helpScene;
 	private Scene statsScene;
@@ -144,6 +145,10 @@ public class GameController extends BaseController implements Initializable {
 
 	public void setStatsScene(Scene scene) {
 		statsScene = scene;
+	}
+
+	public void linkStatsController(StatsController controller){
+		statsController = controller;
 	}
 
 	public void receiveHumanData(HumanData humanData){
@@ -650,6 +655,9 @@ public class GameController extends BaseController implements Initializable {
 			} catch (SQLException e) {
 				System.out.println("Database failed. proceeding. ");
 			}
+
+			//Update stats scene before switching to it
+			statsController.buildTable();
 
 			Stage containingStage = (Stage)topRowContainer.getScene().getWindow();
 			changeScene(statsScene, containingStage);

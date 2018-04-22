@@ -1,11 +1,9 @@
 import java.net.URL;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.*;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -25,7 +23,7 @@ public class StatsController extends BaseController implements Initializable{
 	@FXML private TableView<StatsModel> tableView;
 	@FXML private TableColumn<StatsModel, String> gameId;
 	@FXML private TableColumn<StatsModel, String> playerName;
-    @FXML private TableColumn<StatsModel, String> playerColor;
+	@FXML private TableColumn<StatsModel, String> playerColor;
 	@FXML private TableColumn<StatsModel, String> timeStart;
 	@FXML private TableColumn<StatsModel, String> timeEnd;
 	@FXML private TableColumn<StatsModel, String> duration;
@@ -41,7 +39,7 @@ public class StatsController extends BaseController implements Initializable{
 		statsButton.setOnAction((event) -> buildTable());
 		gameId.setCellValueFactory(new PropertyValueFactory<>("gameId"));
 		playerName.setCellValueFactory(new PropertyValueFactory<>("playerName"));
-        playerColor.setCellValueFactory(new PropertyValueFactory<>("playerColor"));
+		playerColor.setCellValueFactory(new PropertyValueFactory<>("playerColor"));
 		timeStart.setCellValueFactory(new PropertyValueFactory<>("timeStart"));
 		timeEnd.setCellValueFactory(new PropertyValueFactory<>("timeEnd"));
 		duration.setCellValueFactory(new PropertyValueFactory<>("duration"));
@@ -50,7 +48,7 @@ public class StatsController extends BaseController implements Initializable{
 		comp3Settings.setCellValueFactory(new PropertyValueFactory<>("comp3Settings"));
 		winner.setCellValueFactory(new PropertyValueFactory<>("winner"));
 
-        buildTable();
+		buildTable();
 	}
 	
 	public void setMenuScene(Scene scene) {
