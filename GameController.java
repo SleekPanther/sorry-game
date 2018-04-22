@@ -629,7 +629,7 @@ public class GameController extends BaseController implements Initializable {
 		for(Square square : allSquares){
 			square.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 				public void handle(MouseEvent e) {
-					if(!playerCardIsNew){
+					if(enableTurnsCheckbox.isSelected() && !playerCardIsNew){
 						Popup popup = new Popup("Pick a new card");
 						popup.show();
 						return;
@@ -696,6 +696,7 @@ public class GameController extends BaseController implements Initializable {
 		if(activePlayer.getClass().getSimpleName().equals("Computer")){
 			pickCard();
 			activePlayer.executeAutomaticTurn(moveCard.getType());
+			playerCardIsNew = false;
 			incrementTurn();	//recursively call itself until it gets back to a Human
 		}
 
