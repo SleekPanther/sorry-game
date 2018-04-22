@@ -19,6 +19,12 @@
 	-fx-background-color: #FFFFFF;
 }
 
+.border{
+	-fx-border-width: 1;
+	-fx-border-color: black;
+	-fx-border-style: solid;
+}
+
 BorderPane HBox > Square, BorderPane > VBox > Square, BorderPane HBox > SafetySquare, BorderPane VBox > SafetySquare{
 	-fx-border-width: 1;
 	-fx-border-color: black;
@@ -53,13 +59,10 @@ HomeSquare Text, StartSquare Text{
 	-fx-border-style: solid;
 }
 
-#drawPile{
-	-fx-pref-width: 130;
-	-fx-pref-height: 200;
+.cardPane{
+	-fx-pref-width: 100;
+	-fx-pref-height: 160;
 	-fx-background-color: #fff0f5;
-	-fx-border-width: 1;
-	-fx-border-color: black;
-	-fx-border-style: solid;
 }
 
 #drawPile VBox{
@@ -75,16 +78,11 @@ HomeSquare Text, StartSquare Text{
 	-fx-font-size: 15;
 }
 
-#discardPile{
-	-fx-pref-width: 130;
-	-fx-pref-height: 200;
-	-fx-background-color: #fff0f5;
-	-fx-border-width: 1;
-	-fx-border-color: black;
-	-fx-border-style: solid;
-}
-
 #discardLabel {
 	-fx-font-weight: bold;
 	-fx-font-size: 50;
+}
+
+#testingComponents{
+	-fx-pref-width: 280;
 }
