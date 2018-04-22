@@ -33,10 +33,12 @@ public class MenuController extends BaseController implements Initializable{
 	@FXML private TextField computer2Name;
 	@FXML private TextField computer3Name;
 
+	private ArrayList<ComboBox<String>> colorDropDowns;
 	@FXML private ComboBox<String> playerColor;
 	@FXML private ComboBox<String> computer1Color;
 	@FXML private ComboBox<String> computer2Color;
 	@FXML private ComboBox<String> computer3Color;
+
 
 	@FXML private Button newGameButton;
 	@FXML private Button statsButton;
@@ -51,30 +53,36 @@ public class MenuController extends BaseController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		ArrayList<ComboBox> colorDropDowns = new ArrayList<ComboBox>(Arrays.asList(playerColor, computer1Color, computer2Color, computer3Color));
+		colorDropDowns = new ArrayList<ComboBox<String>>(Arrays.asList(playerColor, computer1Color, computer2Color, computer3Color));
 
 		//Create 4 dropdowns for colors
 		for(int i=0; i<colorDropDowns.size(); i++){
 			colorDropDowns.get(i).setItems(FXCollections.observableArrayList(colorStringsReference));
 			colorDropDowns.get(i).setVisibleRowCount(colorStringsReference.size());
 			colorDropDowns.get(i).setValue(colorStringsReference.get(i));
+
+
 		}
 		
-		playerColor.valueProperty().addListener(new ChangeListener<String>() {
-			@Override public void changed(ObservableValue observableValue, String oldValue, String newValue) {
-				System.out.print("Selection changed event");
-				// if(newValue.equals("RED")){
-				// }
-				// else if(newValue.equals("BLUE")){
-				// }
-				// else if(newValue.equals("YELLOW")){
-				// }
-				// else if(newValue.equals("GREEN")){
-				// }
-			}
-		});
+		// playerColor.valueProperty().addListener(new ChangeListener<String>() {
+		// 	@Override public void changed(ObservableValue observableValue, String oldValue, String newValue) {
+		// 		System.out.print("Selection changed event");
+		// 	}
+		// });
 
 		newGameButton.setOnAction((event) ->{
+			LinkedList<String> usedColors = new LinkedList<String>();
+			for(ComboBox<String> dropdown : colorDropDowns){
+				if(usedColors.contains(dropdown.getValue())){
+					Popup popup = new Popup("Choose a different color for each player");
+					popup.show();
+					return;
+				}
+				else{
+					usedColors.add(dropdown.getValue());
+				}
+			}
+
 			boolean computer1Meanness = false;
 			if(computer1Mean.isSelected()){
 				computer1Meanness = true;
