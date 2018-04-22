@@ -195,6 +195,7 @@ public class GameController extends BaseController implements Initializable {
 		//Mostly for testing, update moveCard any time the value changes, but doesn't matter since moveCard is no longer in the deck
 		numberArea.textProperty().addListener((observable, oldValue, newValue) -> {
 			moveCard = new Card(Integer.parseInt(newValue));
+			discardLabel.setText(moveCard.getType()+"");
 		});
 
 		switchButton.setOnAction((event) -> changeScene(helpScene, event));
