@@ -164,7 +164,13 @@ public class GameController extends BaseController implements Initializable {
 		moveCard = cards.poll();
 		discards.add(moveCard);
 		numberArea.setText(moveCard.getType()+"");
-		discardLabel.setText(moveCard.getType()+"");
+		String cardValue = moveCard.getType() +"";
+		discardLabel.setStyle("-fx-font-size: 50;");
+		if(cardValue.equals("0")){
+			discardLabel.setStyle("-fx-font-size: 15;");
+			cardValue = "Sorry";
+		}
+		discardLabel.setText(cardValue);
 	}
 
 	@Override
