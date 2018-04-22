@@ -25,6 +25,17 @@
 	-fx-border-style: solid;
 }
 
+.playerSettingsVertical{
+	-fx-padding: 300 10 0 10;
+}
+
+.playerSettingsHorizontal{
+	-fx-padding: 0 0 0 250;
+}
+.playerSettingsHorizontal Label{
+	-fx-padding: 0 10 0 10;
+}
+
 BorderPane HBox > Square, BorderPane > VBox > Square, BorderPane HBox > SafetySquare, BorderPane VBox > SafetySquare{
 	-fx-border-width: 1;
 	-fx-border-color: black;

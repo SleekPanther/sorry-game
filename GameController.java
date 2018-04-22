@@ -1,5 +1,6 @@
 import structures.*;
 import enums.Color;
+import Functions.ColorFunctions;
 import java.net.URL;
 import javafx.fxml.*;
 import javafx.application.Platform;
@@ -10,7 +11,6 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.beans.value.*;
 import javafx.event.*;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -86,6 +86,27 @@ public class GameController extends BaseController implements Initializable {
 	@FXML private ComboBox<String> activePlayerColorDropdown;
 
 
+	private ArrayList<Label> redPlayerSettings;
+	@FXML private Label redPlayerName;
+	@FXML private Label redPlayerSmartness;
+	@FXML private Label redPlayerMeanness;
+
+	private ArrayList<Label> bluePlayerSettings;
+	@FXML private Label bluePlayerName;
+	@FXML private Label bluePlayerSmartness;
+	@FXML private Label bluePlayerMeanness;
+
+	private ArrayList<Label> yellowPlayerSettings;
+	@FXML private Label yellowPlayerName;
+	@FXML private Label yellowPlayerSmartness;
+	@FXML private Label yellowPlayerMeanness;
+
+	private ArrayList<Label> greenPlayerSettings;
+	@FXML private Label greenPlayerName;
+	@FXML private Label greenPlayerSmartness;
+	@FXML private Label greenPlayerMeanness;
+
+
 	private ArrayList<Square> allSquares = new ArrayList<Square>();
 
 	private ArrayList<Square> cornersSquares = new ArrayList<Square>();
@@ -94,6 +115,7 @@ public class GameController extends BaseController implements Initializable {
 
 	private Player activePlayer;
 	private ArrayList<Player> players;
+	private ArrayList<PlayerData> playerDataList;
 	private HumanData humanData = new HumanData("Player", Color.RED);
 	private ComputerData computer1Data = new ComputerData("Computer 1", Color.BLUE, true, false);
 	private ComputerData computer2Data = new ComputerData("Computer 2", Color.YELLOW, true, false);
@@ -190,6 +212,9 @@ public class GameController extends BaseController implements Initializable {
 		players.get(ColorFunctions.colorToPlayerIndex(Color.GREEN)).addPawn(testPawnGreen1, greenParentSquare1);
 
 
+		createPlayerSettingsDisplays();
+
+
 		drawPile.addEventFilter(MouseEvent.MOUSE_PRESSED, (e)->{
 			pickCard();
 		});
@@ -206,9 +231,14 @@ public class GameController extends BaseController implements Initializable {
 		// testingComponents.setVisible(false);
 	}
 
-	public void setUpPlayerColors(){
+	public void initializeFromMenu(){
+		setUpPlayerColors();
+		createPlayerSettingsDisplays();
+	}
+
+	private void setUpPlayerColors(){
 		//Change these to actual computers later
-		ArrayList<PlayerData> playerDataList = new ArrayList<PlayerData>(Arrays.asList(humanData, computer1Data, computer2Data, computer3Data));
+		playerDataList = new ArrayList<PlayerData>(Arrays.asList(humanData, computer1Data, computer2Data, computer3Data));
 		players = new ArrayList<Player>(Arrays.asList(null, null, null, null));		//initialize list so players are created in order and can be set at an index
 		for(int i=0; i<playerDataList.size(); i++){
 			if(playerDataList.get(i).color==Color.RED){
@@ -248,11 +278,11 @@ public class GameController extends BaseController implements Initializable {
 		int activePlayerIndexTemp = ColorFunctions.colorToPlayerIndex(playerDataList.get(0).color);			//activePlayer is always human and starts
 
 		//Hardcode Players
-		activePlayerIndexTemp = 0;
-		players.set(0, new Human(playerDataList.get(0).name, playerDataList.get(0).color, redPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
-		players.set(1, new Computer(playerDataList.get(1).name, playerDataList.get(1).color, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(1).smartness, playerDataList.get(1).meanness));
-		players.set(2, new Computer(playerDataList.get(2).name, playerDataList.get(2).color, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(2).smartness, playerDataList.get(2).meanness));
-		players.set(3, new Computer(playerDataList.get(3).name, playerDataList.get(3).color, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(3).smartness, playerDataList.get(3).meanness));
+		// activePlayerIndexTemp = 0;
+		// players.set(0, new Human(playerDataList.get(0).name, playerDataList.get(0).color, redPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+		// players.set(1, new Computer(playerDataList.get(1).name, playerDataList.get(1).color, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(1).smartness, playerDataList.get(1).meanness));
+		// players.set(2, new Computer(playerDataList.get(2).name, playerDataList.get(2).color, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(2).smartness, playerDataList.get(2).meanness));
+		// players.set(3, new Computer(playerDataList.get(3).name, playerDataList.get(3).color, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(3).smartness, playerDataList.get(3).meanness));
 
 		activePlayer = players.get(activePlayerIndexTemp);
 		turn = ColorFunctions.colorToPlayerIndex(activePlayer.getColor());
@@ -272,6 +302,41 @@ public class GameController extends BaseController implements Initializable {
 				activePlayerColorDisplay.setText("Current Player: "+colorStrings.get(turn));
 			}
 		});
+	}
+
+	private void createPlayerSettingsDisplays(){
+		redPlayerSettings = new ArrayList<Label>(Arrays.asList(redPlayerName, redPlayerSmartness, redPlayerMeanness));
+		bluePlayerSettings = new ArrayList<Label>(Arrays.asList(bluePlayerName, bluePlayerSmartness, bluePlayerMeanness));
+		yellowPlayerSettings = new ArrayList<Label>(Arrays.asList(yellowPlayerName, yellowPlayerSmartness, yellowPlayerMeanness));
+		greenPlayerSettings = new ArrayList<Label>(Arrays.asList(greenPlayerName, greenPlayerSmartness, greenPlayerMeanness));
+		
+		ArrayList<ArrayList<Label>> playerSettings = new ArrayList<ArrayList<Label>>();
+		playerSettings.add(redPlayerSettings);
+		playerSettings.add(bluePlayerSettings);
+		playerSettings.add(yellowPlayerSettings);
+		playerSettings.add(greenPlayerSettings);
+		
+		Collections.sort(playerDataList);
+
+		for(int i=0; i<playerSettings.size(); i++){
+			playerSettings.get(i).get(0).setText(playerDataList.get(i).name);	//first set the name for any type of player
+			//Only set smartness/meanness text labels for computers
+			if(playerDataList.get(i).getClass().getSimpleName().equals("ComputerData")){
+				if(playerDataList.get(i).smartness){
+					playerSettings.get(i).get(1).setText("Smart");
+				}
+				else{
+					playerSettings.get(i).get(1).setText("Smart");
+				}
+
+				if(playerDataList.get(i).meanness){
+					playerSettings.get(i).get(2).setText("Mean");
+				}
+				else{
+					playerSettings.get(i).get(2).setText("Nice");
+				}
+			}
+		}
 	}
 
 	private void createCards(){

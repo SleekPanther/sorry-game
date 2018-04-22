@@ -1,10 +1,10 @@
+import exceptions.*;
+import Functions.ColorFunctions;
+import enums.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
-import exceptions.*;
-
-import enums.Color;
 
 public class Computer extends Player{
 	private boolean smartness;

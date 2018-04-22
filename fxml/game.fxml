@@ -16,62 +16,102 @@
 <Pane fx:controller='GameController' fx:id='mainPane' stylesheets='css/game.css' xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" >
 	<BorderPane>
 		<top>
-			<HBox styleClass='' fx:id='topRowContainer'>
-				<HBox styleClass='red' fx:id='topRow'></HBox>
+			<HBox styleClass='playerSettingsHorizontal'>
+				<Label fx:id='redPlayerName' text='NAME' />
+				<Label text='Red' />
+				<Label fx:id='redPlayerSmartness'/>
+				<Label fx:id='redPlayerMeanness'/>
 			</HBox>
 		</top>
-		<left>
-			<VBox styleClass='green' fx:id='leftColumn'></VBox>
-		</left>
-		<center>
-			<AnchorPane styleClass='boardMiddle' fx:id='boardMiddle'>
-				<VBox fx:id='safetyRed' styleClass='red'></VBox>
-				<StackPane styleClass='red, circle' fx:id='redHomeContainer'></StackPane>
-				<StackPane styleClass='red, circle' fx:id='redStartContainer'></StackPane>
 
-				<HBox fx:id='safetyBlue' styleClass='blue'></HBox>
-				<StackPane styleClass='blue, circle' fx:id='blueHomeContainer'></StackPane>
-				<StackPane styleClass='blue, circle' fx:id='blueStartContainer'></StackPane>
-
-				<VBox fx:id='safetyYellow' styleClass='yellow'></VBox>
-				<StackPane styleClass='yellow, circle' fx:id='yellowHomeContainer'></StackPane>
-				<StackPane styleClass='yellow, circle' fx:id='yellowStartContainer'></StackPane>
-
-				<HBox fx:id='safetyGreen' styleClass='green'></HBox>
-				<StackPane styleClass='green, circle' fx:id='greenHomeContainer'></StackPane>
-				<StackPane styleClass='green, circle' fx:id='greenStartContainer'></StackPane>
-
-				<StackPane fx:id='discardPile' styleClass='cardPane, border' AnchorPane.topAnchor='180' AnchorPane.leftAnchor='180'>
-					<Label fx:id='discardLabel' text='1'/>
-				</StackPane>
-
-				<StackPane fx:id='drawPile' styleClass='cardPane, border' AnchorPane.topAnchor='180' AnchorPane.rightAnchor='180'>
-					<VBox>
-						<Label fx:id='drawLabel' text='Sorry!'/>
-						<Label fx:id='drawInstructions' text='Click for card'/>
-					</VBox>
-				</StackPane>
-
-				<FlowPane fx:id='gameStatusComponents' AnchorPane.topAnchor='390' AnchorPane.leftAnchor='150'>
-					<Button text='Go to help' fx:id='switchButton'/>
-					<Label fx:id="activePlayerColorDisplay" text='Current Player: Red'/>
-				</FlowPane>
-
-				<FlowPane fx:id='testingComponents' styleClass='border' AnchorPane.topAnchor='430' AnchorPane.leftAnchor='150'>
-					<TextField text='1' fx:id='numberArea' prefWidth='40'></TextField>
-					<ComboBox fx:id="activePlayerColorDropdown"></ComboBox>
-					<CheckBox fx:id="enableTurnsCheckbox" text="Enable Turns" selected='true' />
-				</FlowPane>
-			</AnchorPane>
-		</center>
 		<right>
-			<VBox styleClass='blue' fx:id='rightColumn'></VBox>
+			<VBox styleClass='playerSettingsVertical'>
+				<Label fx:id='bluePlayerName' text='NAME' />
+				<Label text='Blue' />
+				<Label fx:id='bluePlayerSmartness'/>
+				<Label fx:id='bluePlayerMeanness'/>
+			</VBox>
 		</right>
+		
+		<center>
+			<BorderPane>
+				<top>
+					<HBox styleClass='' fx:id='topRowContainer'>
+						<HBox styleClass='red' fx:id='topRow'></HBox>
+					</HBox>
+				</top>
+				<left>
+					<VBox styleClass='green' fx:id='leftColumn'></VBox>
+				</left>
+				<center>
+					<AnchorPane styleClass='boardMiddle' fx:id='boardMiddle'>
+						<VBox fx:id='safetyRed' styleClass='red'></VBox>
+						<StackPane styleClass='red, circle' fx:id='redHomeContainer'></StackPane>
+						<StackPane styleClass='red, circle' fx:id='redStartContainer'></StackPane>
+
+						<HBox fx:id='safetyBlue' styleClass='blue'></HBox>
+						<StackPane styleClass='blue, circle' fx:id='blueHomeContainer'></StackPane>
+						<StackPane styleClass='blue, circle' fx:id='blueStartContainer'></StackPane>
+
+						<VBox fx:id='safetyYellow' styleClass='yellow'></VBox>
+						<StackPane styleClass='yellow, circle' fx:id='yellowHomeContainer'></StackPane>
+						<StackPane styleClass='yellow, circle' fx:id='yellowStartContainer'></StackPane>
+
+						<HBox fx:id='safetyGreen' styleClass='green'></HBox>
+						<StackPane styleClass='green, circle' fx:id='greenHomeContainer'></StackPane>
+						<StackPane styleClass='green, circle' fx:id='greenStartContainer'></StackPane>
+
+						<StackPane fx:id='discardPile' styleClass='cardPane, border' AnchorPane.topAnchor='180' AnchorPane.leftAnchor='180'>
+							<Label fx:id='discardLabel' text='1'/>
+						</StackPane>
+
+						<StackPane fx:id='drawPile' styleClass='cardPane, border' AnchorPane.topAnchor='180' AnchorPane.rightAnchor='180'>
+							<VBox>
+								<Label fx:id='drawLabel' text='Sorry!'/>
+								<Label fx:id='drawInstructions' text='Click for card'/>
+							</VBox>
+						</StackPane>
+
+						<FlowPane fx:id='gameStatusComponents' AnchorPane.topAnchor='390' AnchorPane.leftAnchor='150'>
+							<Button text='Go to help' fx:id='switchButton'/>
+							<Label fx:id="activePlayerColorDisplay" text='Current Player: Red'/>
+						</FlowPane>
+
+						<FlowPane fx:id='testingComponents' styleClass='border' AnchorPane.topAnchor='430' AnchorPane.leftAnchor='150'>
+							<TextField text='1' fx:id='numberArea' prefWidth='40'></TextField>
+							<ComboBox fx:id="activePlayerColorDropdown"></ComboBox>
+							<CheckBox fx:id="enableTurnsCheckbox" text="Enable Turns" selected='true' />
+						</FlowPane>
+					</AnchorPane>
+				</center>
+				<right>
+					<VBox styleClass='blue' fx:id='rightColumn'></VBox>
+				</right>
+				<bottom>
+					<HBox styleClass='' fx:id='bottomRowContainer'>
+						<HBox styleClass='yellow' fx:id='bottomRow'></HBox>
+					</HBox>
+				</bottom>
+			</BorderPane>
+		</center>
+
 		<bottom>
-			<HBox styleClass='' fx:id='bottomRowContainer'>
-				<HBox styleClass='yellow' fx:id='bottomRow'></HBox>
+			<HBox styleClass='playerSettingsHorizontal'>
+				<Label fx:id='yellowPlayerName' text='NAME' />
+				<Label text='Yellow' />
+				<Label fx:id='yellowPlayerSmartness'/>
+				<Label fx:id='yellowPlayerMeanness'/>
 			</HBox>
 		</bottom>
+
+		<left>
+			<VBox styleClass='playerSettingsVertical'>
+				<Label fx:id='greenPlayerName' text='NAME' />
+				<Label text='Green' />
+				<Label fx:id='greenPlayerSmartness'/>
+				<Label fx:id='greenPlayerMeanness' />
+			</VBox>
+		</left>
 	</BorderPane>
 
 </Pane>

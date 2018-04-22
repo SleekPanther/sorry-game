@@ -19,7 +19,7 @@
 			<Button fx:id="statsButton" layoutX="249.0" layoutY="551.0" text="Stats" />
 			<Button fx:id="helpButton" layoutX="444.0" layoutY="578.0" prefHeight="32.0" prefWidth="62.0" text="Help?" />
 			<ComboBox fx:id="playerColor" layoutX="123.0" layoutY="141.0" prefWidth="150.0" />
-			<TextField fx:id="playerName" layoutX="23.0" layoutY="141.0" styleClass="nameField" text="player" />
+			<TextField fx:id="playerName" layoutX="23.0" layoutY="141.0" styleClass="nameField" text="Player" />
 			<ImageView fitHeight="91.0" fitWidth="281.0" layoutX="130.0" pickOnBounds="true" preserveRatio="true">
 				<image>
 					<Image url="@../image/welcome.gif" />
@@ -30,9 +30,9 @@
 					<Font size="20.0" />
 				</font>
 			</Label>
-			<TextField fx:id="computer1Name" layoutX="23.0" layoutY="201.0" styleClass="nameField" text="computer1" />
-			<TextField fx:id="computer2Name" layoutX="23.0" layoutY="291.0" styleClass="nameField" text="computer2" />
-			<TextField fx:id="computer3Name" layoutX="23.0" layoutY="379.0" styleClass="nameField" text="computer3" />
+			<TextField fx:id="computer1Name" layoutX="23.0" layoutY="201.0" styleClass="nameField" text="Computer 1"/>
+			<TextField fx:id="computer2Name" layoutX="23.0" layoutY="291.0" styleClass="nameField" text="Computer 2"/>
+			<TextField fx:id="computer3Name" layoutX="23.0" layoutY="379.0" styleClass="nameField" text="Computer 3"/>
 			<ComboBox fx:id="computer1Color" layoutX="123.0" layoutY="201.0" prefWidth="150.0" />
 			<ComboBox fx:id="computer2Color" layoutX="123.0" layoutY="291.0" prefWidth="150.0" />
 			<ComboBox fx:id="computer3Color" layoutX="123.0" layoutY="379.0" prefWidth="150.0" />
