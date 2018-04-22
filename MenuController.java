@@ -83,7 +83,7 @@ public class MenuController extends BaseController implements Initializable{
 			if(computer1Smart.isSelected()){
 				computer1Smartness = true;
 			}
-			System.out.println("c1 mean="+computer1Meanness+" smart="+computer1Smartness);
+			// System.out.println("c1 smart="+computer1Smartness+" mean="+computer1Meanness);
 
 			boolean computer2Meanness = false;
 			if(computer2Mean.isSelected()){
@@ -93,7 +93,7 @@ public class MenuController extends BaseController implements Initializable{
 			if(computer2Smart.isSelected()){
 				computer2Smartness = true;
 			}
-			System.out.println("c2 mean="+computer2Meanness+" smart="+computer2Smartness);
+			// System.out.println("c2 smart="+computer2Smartness+" mean="+computer2Meanness);
 
 			boolean computer3Meanness = false;
 			if(computer3Mean.isSelected()){
@@ -103,14 +103,19 @@ public class MenuController extends BaseController implements Initializable{
 			if(computer3Smart.isSelected()){
 				computer3Smartness = true;
 			}
-			System.out.println("c3 mean="+computer3Meanness+" smart="+computer3Smartness);
-			System.out.println();
+			// System.out.println("c3 smart="+computer3Smartness+" mean="+computer3Meanness);
+			// System.out.println();
 
 
 			gameController.receiveHumanData(new HumanData(playerName.getText(), stringToColor(playerColor.getValue())));
-			gameController.receiveComputerData(new ComputerData(computer1Name.getText(), stringToColor(computer1Color.getValue()), "", ""), new ComputerData(computer2Name.getText(), stringToColor(computer2Color.getValue()), "", ""), new ComputerData(computer3Name.getText(), stringToColor(computer3Color.getValue()), "", ""));
+			gameController.receiveComputerData(
+				new ComputerData(computer1Name.getText(), stringToColor(computer1Color.getValue()), computer1Smartness, computer1Meanness),
+				new ComputerData(computer2Name.getText(), stringToColor(computer2Color.getValue()), computer2Smartness, computer2Meanness),
+				new ComputerData(computer3Name.getText(), stringToColor(computer3Color.getValue()), computer3Smartness, computer3Meanness)
+			);
 			gameController.setUpPlayerColors();
-			// changeScene(gameScene, event);
+
+			changeScene(gameScene, event);
 		});
 		statsButton.setOnAction((event) -> changeScene(statsScene, event));
 		helpButton.setOnAction((event) -> changeScene(helpScene, event));

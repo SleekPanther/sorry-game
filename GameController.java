@@ -93,9 +93,9 @@ public class GameController extends BaseController implements Initializable {
 	private Player activePlayer;
 	private ArrayList<Player> players;
 	private HumanData humanData = new HumanData("Player", Color.RED);
-	private ComputerData computer1Data = new ComputerData("Computer1", Color.BLUE, "", "");
-	private ComputerData computer2Data = new ComputerData("Computer2", Color.YELLOW, "", "");;
-	private ComputerData computer3Data = new ComputerData("Computer3", Color.GREEN, "", "");;
+	private ComputerData computer1Data = new ComputerData("Computer 1", Color.BLUE, true, false);
+	private ComputerData computer2Data = new ComputerData("Computer 2", Color.YELLOW, true, false);
+	private ComputerData computer3Data = new ComputerData("Computer 3", Color.GREEN, true, false);
 
 	private ArrayList<Pawn> redPawns = new ArrayList<Pawn>();
 	private ArrayList<Pawn> bluePawns = new ArrayList<Pawn>();
@@ -165,27 +165,27 @@ public class GameController extends BaseController implements Initializable {
 		setUpPlayerColors();
 
 		//Testing pawn(s)
-		Pawn testPawnRed1 = new Pawn(pawnRadius, Color.RED);
-		Pawn testPawnRed2 = new Pawn(pawnRadius, Color.RED);
-		Pawn testPawnBlue1 = new Pawn(pawnRadius, Color.BLUE);
-		Pawn testPawnBlue2 = new Pawn(pawnRadius, Color.BLUE);
-		Pawn testPawnGreen1 = new Pawn(pawnRadius, Color.GREEN);
-		// Square blueParentSquare1 = (Square)topRow.getChildren().get(0);
-		Square blueParentSquare1 = cornersSquares.get(0);
-		Square blueParentSquare2 = (Square)rightColumn.getChildren().get(1);
-		Square redParentSquare1 = cornersSquares.get(1);
-		Square redParentSquare2 = (Square)rightColumn.getChildren().get(10);
-		Square greenParentSquare1 = ((Square)topRow.getChildren().get(2));
-		redParentSquare1.add(testPawnRed1);
-		blueParentSquare1.add(testPawnBlue1);
-		blueParentSquare2.add(testPawnBlue2);
-		greenParentSquare1.add(testPawnGreen1);
-		redParentSquare2.add(testPawnRed2);
-		players.get(ColorFunctions.colorToPlayerIndex(Color.RED)).addPawn(testPawnRed1, redParentSquare1);
-		players.get(ColorFunctions.colorToPlayerIndex(Color.RED)).addPawn(testPawnRed2, redParentSquare2);
-		players.get(ColorFunctions.colorToPlayerIndex(Color.BLUE)).addPawn(testPawnBlue1, blueParentSquare1);
-		players.get(ColorFunctions.colorToPlayerIndex(Color.BLUE)).addPawn(testPawnBlue2, blueParentSquare2);
-		players.get(ColorFunctions.colorToPlayerIndex(Color.GREEN)).addPawn(testPawnGreen1, greenParentSquare1);
+		// Pawn testPawnRed1 = new Pawn(pawnRadius, Color.RED);
+		// Pawn testPawnRed2 = new Pawn(pawnRadius, Color.RED);
+		// Pawn testPawnBlue1 = new Pawn(pawnRadius, Color.BLUE);
+		// Pawn testPawnBlue2 = new Pawn(pawnRadius, Color.BLUE);
+		// Pawn testPawnGreen1 = new Pawn(pawnRadius, Color.GREEN);
+		// // Square blueParentSquare1 = (Square)topRow.getChildren().get(0);
+		// Square blueParentSquare1 = cornersSquares.get(0);
+		// Square blueParentSquare2 = (Square)rightColumn.getChildren().get(1);
+		// Square redParentSquare1 = cornersSquares.get(1);
+		// Square redParentSquare2 = (Square)rightColumn.getChildren().get(10);
+		// Square greenParentSquare1 = ((Square)topRow.getChildren().get(2));
+		// redParentSquare1.add(testPawnRed1);
+		// blueParentSquare1.add(testPawnBlue1);
+		// blueParentSquare2.add(testPawnBlue2);
+		// greenParentSquare1.add(testPawnGreen1);
+		// redParentSquare2.add(testPawnRed2);
+		// players.get(ColorFunctions.colorToPlayerIndex(Color.RED)).addPawn(testPawnRed1, redParentSquare1);
+		// players.get(ColorFunctions.colorToPlayerIndex(Color.RED)).addPawn(testPawnRed2, redParentSquare2);
+		// players.get(ColorFunctions.colorToPlayerIndex(Color.BLUE)).addPawn(testPawnBlue1, blueParentSquare1);
+		// players.get(ColorFunctions.colorToPlayerIndex(Color.BLUE)).addPawn(testPawnBlue2, blueParentSquare2);
+		// players.get(ColorFunctions.colorToPlayerIndex(Color.GREEN)).addPawn(testPawnGreen1, greenParentSquare1);
 
 
 		drawPile.addEventFilter(MouseEvent.MOUSE_PRESSED, (e)->{
@@ -210,7 +210,7 @@ public class GameController extends BaseController implements Initializable {
 					players.set(0, new Human(playerDataList.get(i).name, playerDataList.get(i).color, redPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
 				}
 				else{
-					players.set(0, new Computer(playerDataList.get(i).name, playerDataList.get(i).color, redPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+					players.set(0, new Computer(playerDataList.get(i).name, playerDataList.get(i).color, redPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(i).smartness, playerDataList.get(i).meanness));
 				}
 			}
 			else if(playerDataList.get(i).color==Color.BLUE){
@@ -218,7 +218,7 @@ public class GameController extends BaseController implements Initializable {
 					players.set(1, new Human(playerDataList.get(i).name, playerDataList.get(i).color, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
 				}
 				else{
-					players.set(1, new Computer(playerDataList.get(i).name, playerDataList.get(i).color, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+					players.set(1, new Computer(playerDataList.get(i).name, playerDataList.get(i).color, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(i).smartness, playerDataList.get(i).meanness));
 				}
 			}
 			else if(playerDataList.get(i).color==Color.YELLOW){
@@ -226,7 +226,7 @@ public class GameController extends BaseController implements Initializable {
 					players.set(2, new Human(playerDataList.get(i).name, playerDataList.get(i).color, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
 				}
 				else{
-					players.set(2, new Computer(playerDataList.get(i).name, playerDataList.get(i).color, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+					players.set(2, new Computer(playerDataList.get(i).name, playerDataList.get(i).color, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(i).smartness, playerDataList.get(i).meanness));
 				}
 			}
 			else if(playerDataList.get(i).color==Color.GREEN){
@@ -234,7 +234,7 @@ public class GameController extends BaseController implements Initializable {
 					players.set(3, new Human(playerDataList.get(i).name, playerDataList.get(i).color, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
 				}
 				else{
-					players.set(3, new Computer(playerDataList.get(i).name, playerDataList.get(i).color, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+					players.set(3, new Computer(playerDataList.get(i).name, playerDataList.get(i).color, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(i).smartness, playerDataList.get(i).meanness));
 				}
 			}
 		}
@@ -242,11 +242,11 @@ public class GameController extends BaseController implements Initializable {
 		int activePlayerIndexTemp = ColorFunctions.colorToPlayerIndex(playerDataList.get(0).color);			//activePlayer is always human and starts
 
 		//Hardcode Players
-		activePlayerIndexTemp = 1;
-		players.set(0, new Computer(playerDataList.get(0).name, playerDataList.get(0).color, redPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
-		players.set(1, new Human(playerDataList.get(1).name, playerDataList.get(1).color, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
-		players.set(2, new Computer(playerDataList.get(2).name, playerDataList.get(2).color, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
-		players.set(3, new Computer(playerDataList.get(3).name, playerDataList.get(3).color, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+		activePlayerIndexTemp = 0;
+		players.set(0, new Human(playerDataList.get(0).name, playerDataList.get(0).color, redPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+		players.set(1, new Computer(playerDataList.get(1).name, playerDataList.get(1).color, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(1).smartness, playerDataList.get(1).meanness));
+		players.set(2, new Computer(playerDataList.get(2).name, playerDataList.get(2).color, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(2).smartness, playerDataList.get(2).meanness));
+		players.set(3, new Computer(playerDataList.get(3).name, playerDataList.get(3).color, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(3).smartness, playerDataList.get(3).meanness));
 
 		activePlayer = players.get(activePlayerIndexTemp);
 		turn = ColorFunctions.colorToPlayerIndex(activePlayer.getColor());
@@ -558,11 +558,12 @@ public class GameController extends BaseController implements Initializable {
 			try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
 				System.out.println("Database connected!");
 				String SQL = "INSERT INTO tblSorryGame (fldPlayerName,fldPlayerColor,fldDateEnded,fldComp1Set,fldComp2Set,fldComp3Set,fldWinner) VALUES (";
+
 				SQL = SQL +"'"+ humanData.name + "','" + humanData.color + "', now(),'"+ computer1Data.color + ", "
-                        +computer1Data.difficulity+", "+computer1Data.meanness+"','" +
-						computer2Data.color + ", "+computer2Data.difficulity+", "+computer2Data.meanness+"','"
-                        + computer3Data.color+ ", "+computer3Data.difficulity+", "+computer3Data.meanness+"','"
-                        +activePlayer.getName()+"');";
+						+computer1Data.difficulty()+", "+computer1Data.meanness()+"','" +
+						computer2Data.color + ", "+computer2Data.difficulty()+", "+computer2Data.meanness()+"','"
+						+ computer3Data.color+ ", "+computer3Data.difficulty()+", "+computer3Data.meanness()+"','"
+						+activePlayer.getName()+"');";
 
 				System.out.println(SQL);
 				connection.createStatement().executeUpdate(SQL);

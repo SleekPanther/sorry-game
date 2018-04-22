@@ -3,14 +3,26 @@ package structures;
 import enums.Color;
 
 public class ComputerData extends PlayerData{
-	public String difficulity;
-	public String meanness;
 
-	public ComputerData(String name, Color color, String difficulity, String meanness){
+	public ComputerData(String name, Color color, boolean smartness, boolean meanness){
 		this.name = name;
 		this.color = color;
-		this.difficulity = difficulity;
+		this.smartness = smartness;
 		this.meanness = meanness;
+	}
+
+	public String difficulty(){
+		if(smartness){
+			return "smart";
+		}
+		return "dumb";
+	}
+
+	public String meanness(){
+		if(meanness){
+			return "mean";
+		}
+		return "nice";
 	}
 
 }

@@ -44,12 +44,12 @@
 				</toggleGroup>
 			</RadioButton>
 			<RadioButton fx:id='computer1Nice' layoutX="306.0" layoutY="219.0" mnemonicParsing="false" text="nice" toggleGroup="$computer1Difficulity" selected='true'/>
-			<RadioButton fx:id='computer1Smart' layoutX="394.0" layoutY="192.0" mnemonicParsing="false" text="smart">
+			<RadioButton fx:id='computer1Smart' layoutX="394.0" layoutY="192.0" mnemonicParsing="false" text="smart" selected='true'>
 				<toggleGroup>
 					<ToggleGroup fx:id="computer1Smartness" />
 				</toggleGroup>
 			</RadioButton>
-			<RadioButton fx:id='computer1Dumb' layoutX="394.0" layoutY="219.0" mnemonicParsing="false" text="dumb" toggleGroup="$computer1Smartness" selected='true'/>
+			<RadioButton fx:id='computer1Dumb' layoutX="394.0" layoutY="219.0" mnemonicParsing="false" text="dumb" toggleGroup="$computer1Smartness"/>
 
 			<RadioButton fx:id='computer2Mean' layoutX="306.0" layoutY="296.0" mnemonicParsing="false" text="mean">
 				<toggleGroup>
@@ -57,25 +57,25 @@
 				</toggleGroup>
 			</RadioButton>
 			<RadioButton fx:id='computer2Nice' layoutX="306.0" layoutY="325.0" mnemonicParsing="false" text="nice" toggleGroup="$computer2Difficulity" selected='true'/>
-			<RadioButton fx:id='computer2Smart' layoutX="394.0" layoutY="296.0" mnemonicParsing="false" text="smart">
+			<RadioButton fx:id='computer2Smart' layoutX="394.0" layoutY="296.0" mnemonicParsing="false" text="smart" selected='true'>
 				<toggleGroup>
 					<ToggleGroup fx:id="computer2Meanness" />
 				</toggleGroup>
 			</RadioButton>
-			<RadioButton fx:id='computer2Dumb' layoutX="394.0" layoutY="325.0" mnemonicParsing="false" text="dumb" toggleGroup="$computer2Meanness" selected='true'/>
+			<RadioButton fx:id='computer2Dumb' layoutX="394.0" layoutY="325.0" mnemonicParsing="false" text="dumb" toggleGroup="$computer2Meanness"/>
 
-			<RadioButton fx:id='computer3Mean' layoutX="302.0" layoutY="375.0" mnemonicParsing="false" text="mean" selected='true'>
+			<RadioButton fx:id='computer3Mean' layoutX="302.0" layoutY="375.0" mnemonicParsing="false" text="mean">
 				<toggleGroup>
 					<ToggleGroup fx:id="computer3Difficulity" />
 				</toggleGroup>
 			</RadioButton>
-			<RadioButton fx:id='computer3Nice' layoutX="302.0" layoutY="403.0" mnemonicParsing="false" text="nice" toggleGroup="$computer3Difficulity" />
+			<RadioButton fx:id='computer3Nice' layoutX="302.0" layoutY="403.0" mnemonicParsing="false" text="nice" toggleGroup="$computer3Difficulity" selected='true'/>
 			<RadioButton fx:id='computer3Smart' layoutX="394.0" layoutY="376.0" mnemonicParsing="false" text="smart" selected='true'>
 				<toggleGroup>
 					<ToggleGroup fx:id="computer3Meanness" />
 				</toggleGroup>
 			</RadioButton>
-			<RadioButton fx:id='computer3Dumb' layoutX="394.0" layoutY="403.0" mnemonicParsing="false" text="dumb" toggleGroup="$computer3Meanness" />
+			<RadioButton fx:id='computer3Dumb' layoutX="394.0" layoutY="403.0" mnemonicParsing="false" text="dumb" toggleGroup="$computer3Meanness"/>
 
 			<Label layoutX="293.0" layoutY="195.0" prefHeight="39.0" prefWidth="13.0" text="{">
 				<font>

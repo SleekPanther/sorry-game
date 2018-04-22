@@ -7,10 +7,13 @@ import exceptions.*;
 import enums.Color;
 
 public class Computer extends Player{
-	//difficulty/meanness
+	private boolean smartness;
+	private boolean meanness;
 	
-	public Computer(String name, Color color, ArrayList<Pawn> pawns, ArrayList<StartSquare> startSquares, ArrayList<HomeSquare> homeSquares, int slideSquareDestinationForwardOffset){
+	public Computer(String name, Color color, ArrayList<Pawn> pawns, ArrayList<StartSquare> startSquares, ArrayList<HomeSquare> homeSquares, int slideSquareDestinationForwardOffset, boolean smartness, boolean meanness){
 		super(name, color, pawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
+		this.smartness = smartness;
+		this.meanness = meanness;
 	}
 
 	@Override
@@ -84,10 +87,6 @@ public class Computer extends Player{
 			}
 		}
 
-		//Actually get these from the computer class later
-		boolean smartness = true;
-		boolean meanness = true;
-
 		if(moves.isEmpty()){
 			//or skip turn
 			Popup popup = new Popup("No moves for "+name);
@@ -101,7 +100,7 @@ public class Computer extends Player{
 				Collections.shuffle(moves);
 			}
 
-			System.out.println("\n"+color+" Moves");
+			System.out.println("\n"+color+" Moves\t\tsmart="+smartness+"  mean="+meanness);
 			for(Move move : moves){
 				System.out.println(move);
 			}
