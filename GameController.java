@@ -132,6 +132,8 @@ public class GameController extends BaseController implements Initializable {
 	private LinkedList<Card> discards;
 	private Card moveCard = new Card(1);
 
+	private boolean playerCardIsNew = true;
+
 	private int turn = 0;	//numbers correspond to indexes in players ArrayList
 
 
@@ -163,14 +165,17 @@ public class GameController extends BaseController implements Initializable {
 	}
 
 	public void pickCard(){
+		playerCardIsNew = true;	//computers don't care about this
+
 		if (cards.isEmpty()){
 			swapDecks();
 		}
 		moveCard = cards.poll();
 		discards.add(moveCard);
 		numberArea.setText(moveCard.getType()+"");
+
 		String cardValue = moveCard.getType() +"";
-		discardLabel.setStyle("-fx-font-size: 50;");
+		discardLabel.setStyle("-fx-font-size: 50;");	//assume normal card, change text to be smaller if it's a sorry card
 		if(cardValue.equals("0")){
 			discardLabel.setStyle("-fx-font-size: 15;");
 			cardValue = "Sorry";
@@ -227,11 +232,18 @@ public class GameController extends BaseController implements Initializable {
 
 
 		drawPile.addEventFilter(MouseEvent.MOUSE_PRESSED, (e)->{
-			pickCard();
+			if(playerCardIsNew){
+				Popup popup = new Popup("Cannot pick multiple cards per turn");
+				popup.show();
+			}
+			else{
+				pickCard();
+			}
 		});
 
 		//Mostly for testing, update moveCard any time the value changes, but doesn't matter since moveCard is no longer in the deck
 		numberArea.textProperty().addListener((observable, oldValue, newValue) -> {
+			playerCardIsNew = true;
 			moveCard = new Card(Integer.parseInt(newValue));
 			discardLabel.setText(moveCard.getType()+"");
 		});
@@ -617,8 +629,14 @@ public class GameController extends BaseController implements Initializable {
 		for(Square square : allSquares){
 			square.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 				public void handle(MouseEvent e) {
+					if(!playerCardIsNew){
+						Popup popup = new Popup("Pick a new card");
+						popup.show();
+						return;
+					}
 					String moveResult = activePlayer.handleSquareClick(square, moveCard.getType());
 					if(moveResult.equals("done")){
+						playerCardIsNew = false;
 						checkIfGameWon();
 						if(enableTurnsCheckbox.isSelected()){
 							incrementTurn();
