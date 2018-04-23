@@ -175,9 +175,11 @@ public class GameController extends BaseController implements Initializable {
 		numberArea.setText(moveCard.getType()+"");
 
 		String cardValue = moveCard.getType() +"";
-		discardLabel.setStyle("-fx-font-size: 50;");	//assume normal card, change text to be smaller if it's a sorry card
+		discardLabel.getStyleClass().addAll("largeDiscardFont");		//assume normal card, change text to be smaller if it's a sorry card
+		discardLabel.getStyleClass().removeAll("smallDiscardFont");
 		if(cardValue.equals("0")){
-			discardLabel.setStyle("-fx-font-size: 15;");
+			discardLabel.getStyleClass().removeAll("largeDiscardFont");
+			discardLabel.getStyleClass().addAll("smallDiscardFont");
 			cardValue = "Sorry";
 		}
 		discardLabel.setText(cardValue);

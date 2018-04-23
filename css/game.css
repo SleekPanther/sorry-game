@@ -91,7 +91,14 @@ HomeSquare Text, StartSquare Text{
 
 #discardLabel {
 	-fx-font-weight: bold;
+}
+
+.largeDiscardFont{
 	-fx-font-size: 50;
+}
+
+.smallDiscardFont{
+	-fx-font-size: 15;
 }
 
 #testingComponents{

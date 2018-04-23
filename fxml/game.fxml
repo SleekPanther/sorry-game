@@ -62,7 +62,7 @@
 						<StackPane styleClass='green, circle' fx:id='greenStartContainer'></StackPane>
 
 						<StackPane fx:id='discardPile' styleClass='cardPane, border' AnchorPane.topAnchor='180' AnchorPane.leftAnchor='180'>
-							<Label fx:id='discardLabel' text='1'/>
+							<Label fx:id='discardLabel' styleClass='largeDiscardFont' text='1'/>
 						</StackPane>
 
 						<StackPane fx:id='drawPile' styleClass='cardPane, border' AnchorPane.topAnchor='180' AnchorPane.rightAnchor='180'>
