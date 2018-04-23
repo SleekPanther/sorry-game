@@ -75,6 +75,7 @@
 						<FlowPane fx:id='gameStatusComponents' AnchorPane.topAnchor='390' AnchorPane.leftAnchor='150'>
 							<Button text='Go to help' fx:id='switchButton'/>
 							<Label fx:id="activePlayerColorDisplay" text='Current Player: Red'/>
+							<Button text='Skip Turn' fx:id='skipTurnButton'/>
 						</FlowPane>
 
 						<FlowPane fx:id='testingComponents' styleClass='border' AnchorPane.topAnchor='430' AnchorPane.leftAnchor='150'>

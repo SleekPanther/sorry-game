@@ -80,6 +80,7 @@ public class GameController extends BaseController implements Initializable {
 	@FXML private Label discardLabel;
 
 	@FXML private Button switchButton;
+	@FXML private Button skipTurnButton;
 	@FXML private Label activePlayerColorDisplay;
 
 	@FXML private FlowPane testingComponents;
@@ -253,6 +254,8 @@ public class GameController extends BaseController implements Initializable {
 		});
 
 		switchButton.setOnAction((event) -> changeScene(helpScene, event));
+
+		skipTurnButton.setOnAction((event) -> incrementTurn());
 
 		//Uncomment to enable testing
 		// testingComponents.setVisible(false);
