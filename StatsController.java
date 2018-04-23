@@ -2,7 +2,7 @@ import java.net.URL;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.*;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.control.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,11 +11,12 @@ import java.sql.SQLException;
 import java.util.*;
 import javafx.collections.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class StatsController extends BaseController implements Initializable{
 	private Scene menuScene;
-
+	private Sorry sorryApplication;
 	
 	@FXML private Button mainMenuButton;
 	@FXML private Button dbButton;
@@ -32,9 +33,21 @@ public class StatsController extends BaseController implements Initializable{
 	@FXML private TableColumn<StatsModel, String> comp3Settings;
 	@FXML private TableColumn<StatsModel, String> winner;
 
+	public void linkSorryApplication(Sorry sorryApplication){
+		this.sorryApplication = sorryApplication;
+	}
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		mainMenuButton.setOnAction((event) -> changeScene(menuScene, event));
+		//Reload entire game instead of switching scenes
+		mainMenuButton.setOnAction((event) -> {
+			try {
+				sorryApplication.startNewGame();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+
 		dbButton.setOnAction((event) -> connectToDatabase());
 		statsButton.setOnAction((event) -> buildTable());
 		gameId.setCellValueFactory(new PropertyValueFactory<>("gameId"));

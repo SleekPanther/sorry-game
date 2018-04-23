@@ -91,9 +91,20 @@ HomeSquare Text, StartSquare Text{
 
 #discardLabel {
 	-fx-font-weight: bold;
+}
+
+.largeDiscardFont{
 	-fx-font-size: 50;
 }
 
+.smallDiscardFont{
+	-fx-font-size: 15;
+}
+
 #testingComponents{
-	-fx-pref-width: 280;
+	-fx-pref-width: 310;
+}
+
+#activePlayerColorDropdown{
+	-fx-pref-width: 90;
 }

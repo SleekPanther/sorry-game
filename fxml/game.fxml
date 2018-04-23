@@ -62,7 +62,7 @@
 						<StackPane styleClass='green, circle' fx:id='greenStartContainer'></StackPane>
 
 						<StackPane fx:id='discardPile' styleClass='cardPane, border' AnchorPane.topAnchor='180' AnchorPane.leftAnchor='180'>
-							<Label fx:id='discardLabel' text='1'/>
+							<Label fx:id='discardLabel' styleClass='largeDiscardFont' text='1'/>
 						</StackPane>
 
 						<StackPane fx:id='drawPile' styleClass='cardPane, border' AnchorPane.topAnchor='180' AnchorPane.rightAnchor='180'>
@@ -75,12 +75,14 @@
 						<FlowPane fx:id='gameStatusComponents' AnchorPane.topAnchor='390' AnchorPane.leftAnchor='150'>
 							<Button text='Go to help' fx:id='switchButton'/>
 							<Label fx:id="activePlayerColorDisplay" text='Current Player: Red'/>
+							<Button text='Skip Turn' fx:id='skipTurnButton'/>
 						</FlowPane>
 
 						<FlowPane fx:id='testingComponents' styleClass='border' AnchorPane.topAnchor='430' AnchorPane.leftAnchor='150'>
 							<TextField text='1' fx:id='numberArea' prefWidth='40'></TextField>
 							<ComboBox fx:id="activePlayerColorDropdown"></ComboBox>
 							<CheckBox fx:id="enableTurnsCheckbox" text="Enable Turns" selected='true' />
+							<Button text='Stats' fx:id='statsSwitchButton'/>
 						</FlowPane>
 					</AnchorPane>
 				</center>

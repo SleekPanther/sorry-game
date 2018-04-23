@@ -10,8 +10,8 @@ public class Computer extends Player{
 	private boolean smartness;
 	private boolean meanness;
 	
-	public Computer(String name, Color color, ArrayList<Pawn> pawns, ArrayList<StartSquare> startSquares, ArrayList<HomeSquare> homeSquares, int slideSquareDestinationForwardOffset, boolean smartness, boolean meanness){
-		super(name, color, pawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
+	public Computer(String name, Color color, ArrayList<Pawn> pawns, ArrayList<Pawn> allPawns, ArrayList<StartSquare> startSquares, ArrayList<HomeSquare> homeSquares, int slideSquareDestinationForwardOffset, boolean smartness, boolean meanness){
+		super(name, color, pawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
 		this.smartness = smartness;
 		this.meanness = meanness;
 	}
