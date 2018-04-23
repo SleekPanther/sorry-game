@@ -86,6 +86,7 @@ public class GameController extends BaseController implements Initializable {
 	@FXML private FlowPane testingComponents;
 	@FXML private CheckBox enableTurnsCheckbox;
 	@FXML private ComboBox<String> activePlayerColorDropdown;
+	@FXML private Button statsSwitchButton;
 
 
 	private ArrayList<Label> redPlayerSettings;
@@ -254,8 +255,9 @@ public class GameController extends BaseController implements Initializable {
 		});
 
 		switchButton.setOnAction((event) -> changeScene(helpScene, event));
-
 		skipTurnButton.setOnAction((event) -> incrementTurn());
+
+		statsSwitchButton.setOnAction((event) -> changeScene(statsScene, event));
 
 		//Uncomment to enable testing
 		// testingComponents.setVisible(false);

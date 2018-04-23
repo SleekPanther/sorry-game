@@ -82,6 +82,7 @@
 							<TextField text='1' fx:id='numberArea' prefWidth='40'></TextField>
 							<ComboBox fx:id="activePlayerColorDropdown"></ComboBox>
 							<CheckBox fx:id="enableTurnsCheckbox" text="Enable Turns" selected='true' />
+							<Button text='Stats' fx:id='statsSwitchButton'/>
 						</FlowPane>
 					</AnchorPane>
 				</center>
