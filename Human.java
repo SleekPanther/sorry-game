@@ -55,6 +55,10 @@ public class Human extends Player{
 					for(Move move : moves){
 						move.landingSquare.highlight();
 					}
+					if(moves.isEmpty()){
+						Popup popup = new Popup("No other pawns available to bump for Sorry Card");
+						popup.show();
+					}
 				}
 			}
 			else{
@@ -105,42 +109,44 @@ public class Human extends Player{
 		}
 		//A second square was clicked to finalize a move or cancel
 		else{
-			Move chosenMove = moves.getFirst();
-			boolean clickedValidLandingSquare = false;
-			for(int i=0; i<moves.size(); i++){
-				if(moves.get(i).landingSquare.getSquareId() == clickedSquare.getSquareId()){
-					clickedValidLandingSquare = true;
-					chosenMove = moves.get(i);
-					break;
+			if(!moves.isEmpty()){
+				Move chosenMove = moves.getFirst();
+				boolean clickedValidLandingSquare = false;
+				for(int i=0; i<moves.size(); i++){
+					if(moves.get(i).landingSquare.getSquareId() == clickedSquare.getSquareId()){
+						clickedValidLandingSquare = true;
+						chosenMove = moves.get(i);
+						break;
+					}
+				}
+				if(clickedValidLandingSquare){		//Make sure clicked square is the correct destination
+					if(chosenMove.slide){
+						bumpOthersOnSlide(chosenMove.pawnToMove.calculateLandingSquare(numSpaces));
+					}
+					else if(chosenMove.numPawnsBumpted > 0){	//simple bumping shouldn't happen as well as sliding bumping
+						bump(chosenMove.landingSquare.getPawn());
+					}
+
+					chosenMove.pawnToMove.move(chosenMove.landingSquare);	//actually move (any exceptions and illegal moves will be taken care of)
+
+					if(chosenMove.landingSquare.getClass().getSimpleName().equals("HomeSquare")){
+						numPawnsInHome++;
+					}
+
+					selectedSquare.unHighlight();
+					for(Move move : moves){
+						move.landingSquare.unHighlight();
+					}
+					selectedSquare=null;
+
+					if(chosenMove.landingSquare.getClass().getSimpleName().equals("HomeSquare")){
+						numPawnsInHome++;
+					}
+
+					return "done";
 				}
 			}
-			if(clickedValidLandingSquare){		//Make sure clicked square is the correct destination
-				if(chosenMove.slide){
-					bumpOthersOnSlide(chosenMove.pawnToMove.calculateLandingSquare(numSpaces));
-				}
-				else if(chosenMove.numPawnsBumpted > 0){	//simple bumping shouldn't happen as well as sliding bumping
-					bump(chosenMove.landingSquare.getPawn());
-				}
-
-				chosenMove.pawnToMove.move(chosenMove.landingSquare);	//actually move (any exceptions and illegal moves will be taken care of)
-
-				if(chosenMove.landingSquare.getClass().getSimpleName().equals("HomeSquare")){
-					numPawnsInHome++;
-				}
-
-				selectedSquare.unHighlight();
-				for(Move move : moves){
-					move.landingSquare.unHighlight();
-				}
-				selectedSquare=null;
-
-				if(chosenMove.landingSquare.getClass().getSimpleName().equals("HomeSquare")){
-					numPawnsInHome++;
-				}
-
-				return "done";
-			}
-			else{	//They didn't click the correct destination square
+			else{	//They didn't click the correct destination square or there are no moves
 				selectedSquare.unHighlight();
 				for(Move move : moves){
 					move.landingSquare.unHighlight();
