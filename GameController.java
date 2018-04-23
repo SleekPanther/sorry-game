@@ -122,6 +122,7 @@ public class GameController extends BaseController implements Initializable {
 	private ComputerData computer2Data = new ComputerData("Computer 2", Color.YELLOW, true, false);
 	private ComputerData computer3Data = new ComputerData("Computer 3", Color.GREEN, true, false);
 
+	private ArrayList<Pawn> allPawns = new ArrayList<Pawn>();
 	private ArrayList<Pawn> redPawns = new ArrayList<Pawn>();
 	private ArrayList<Pawn> bluePawns = new ArrayList<Pawn>();
 	private ArrayList<Pawn> yellowPawns = new ArrayList<Pawn>();
@@ -212,6 +213,7 @@ public class GameController extends BaseController implements Initializable {
 		Pawn testPawnBlue1 = new Pawn(pawnRadius, Color.BLUE);
 		Pawn testPawnBlue2 = new Pawn(pawnRadius, Color.BLUE);
 		Pawn testPawnGreen1 = new Pawn(pawnRadius, Color.GREEN);
+		allPawns.addAll(new ArrayList<Pawn>(Arrays.asList(testPawnRed1, testPawnRed2, testPawnBlue1, testPawnBlue2, testPawnGreen1)));
 		// Square blueParentSquare1 = (Square)topRow.getChildren().get(0);
 		Square blueParentSquare1 = cornersSquares.get(0);
 		Square blueParentSquare2 = (Square)rightColumn.getChildren().get(1);
@@ -234,7 +236,7 @@ public class GameController extends BaseController implements Initializable {
 
 
 		drawPile.addEventFilter(MouseEvent.MOUSE_PRESSED, (e)->{
-			if(playerCardIsNew){
+			if(enableTurnsCheckbox.isSelected() && playerCardIsNew){
 				Popup popup = new Popup("Cannot pick multiple cards per turn");
 				popup.show();
 			}
@@ -262,40 +264,39 @@ public class GameController extends BaseController implements Initializable {
 	}
 
 	private void setUpPlayerColors(){
-		//Change these to actual computers later
 		playerDataList = new ArrayList<PlayerData>(Arrays.asList(humanData, computer1Data, computer2Data, computer3Data));
 		players = new ArrayList<Player>(Arrays.asList(null, null, null, null));		//initialize list so players are created in order and can be set at an index
 		for(int i=0; i<playerDataList.size(); i++){
 			if(playerDataList.get(i).color==Color.RED){
 				if(playerDataList.get(i).getClass().getSimpleName().equals("HumanData")){
-					players.set(0, new Human(playerDataList.get(i).name, playerDataList.get(i).color, redPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+					players.set(0, new Human(playerDataList.get(i).name, playerDataList.get(i).color, redPawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
 				}
 				else{
-					players.set(0, new Computer(playerDataList.get(i).name, playerDataList.get(i).color, redPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(i).smartness, playerDataList.get(i).meanness));
+					players.set(0, new Computer(playerDataList.get(i).name, playerDataList.get(i).color, redPawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(i).smartness, playerDataList.get(i).meanness));
 				}
 			}
 			else if(playerDataList.get(i).color==Color.BLUE){
 				if(playerDataList.get(i).getClass().getSimpleName().equals("HumanData")){
-					players.set(1, new Human(playerDataList.get(i).name, playerDataList.get(i).color, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+					players.set(1, new Human(playerDataList.get(i).name, playerDataList.get(i).color, bluePawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
 				}
 				else{
-					players.set(1, new Computer(playerDataList.get(i).name, playerDataList.get(i).color, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(i).smartness, playerDataList.get(i).meanness));
+					players.set(1, new Computer(playerDataList.get(i).name, playerDataList.get(i).color, bluePawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(i).smartness, playerDataList.get(i).meanness));
 				}
 			}
 			else if(playerDataList.get(i).color==Color.YELLOW){
 				if(playerDataList.get(i).getClass().getSimpleName().equals("HumanData")){
-					players.set(2, new Human(playerDataList.get(i).name, playerDataList.get(i).color, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+					players.set(2, new Human(playerDataList.get(i).name, playerDataList.get(i).color, yellowPawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
 				}
 				else{
-					players.set(2, new Computer(playerDataList.get(i).name, playerDataList.get(i).color, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(i).smartness, playerDataList.get(i).meanness));
+					players.set(2, new Computer(playerDataList.get(i).name, playerDataList.get(i).color, yellowPawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(i).smartness, playerDataList.get(i).meanness));
 				}
 			}
 			else if(playerDataList.get(i).color==Color.GREEN){
 				if(playerDataList.get(i).getClass().getSimpleName().equals("HumanData")){
-					players.set(3, new Human(playerDataList.get(i).name, playerDataList.get(i).color, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+					players.set(3, new Human(playerDataList.get(i).name, playerDataList.get(i).color, greenPawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
 				}
 				else{
-					players.set(3, new Computer(playerDataList.get(i).name, playerDataList.get(i).color, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(i).smartness, playerDataList.get(i).meanness));
+					players.set(3, new Computer(playerDataList.get(i).name, playerDataList.get(i).color, greenPawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(i).smartness, playerDataList.get(i).meanness));
 				}
 			}
 		}
@@ -304,10 +305,10 @@ public class GameController extends BaseController implements Initializable {
 
 		//Hardcode Players
 		// activePlayerIndexTemp = 0;
-		// players.set(0, new Human(playerDataList.get(0).name, playerDataList.get(0).color, redPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
-		// players.set(1, new Computer(playerDataList.get(1).name, playerDataList.get(1).color, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(1).smartness, playerDataList.get(1).meanness));
-		// players.set(2, new Computer(playerDataList.get(2).name, playerDataList.get(2).color, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(2).smartness, playerDataList.get(2).meanness));
-		// players.set(3, new Computer(playerDataList.get(3).name, playerDataList.get(3).color, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(3).smartness, playerDataList.get(3).meanness));
+		// players.set(0, new Human(playerDataList.get(0).name, playerDataList.get(0).color, redPawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+		// players.set(1, new Computer(playerDataList.get(1).name, playerDataList.get(1).color, bluePawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(1).smartness, playerDataList.get(1).meanness));
+		// players.set(2, new Computer(playerDataList.get(2).name, playerDataList.get(2).color, yellowPawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(2).smartness, playerDataList.get(2).meanness));
+		// players.set(3, new Computer(playerDataList.get(3).name, playerDataList.get(3).color, greenPawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(3).smartness, playerDataList.get(3).meanness));
 
 		activePlayer = players.get(activePlayerIndexTemp);
 		turn = ColorFunctions.colorToPlayerIndex(activePlayer.getColor());
@@ -392,15 +393,19 @@ public class GameController extends BaseController implements Initializable {
 	private void createPawns(){
 		for(int i=0; i<4; i++){
 			redPawns.add(new Pawn(pawnRadius, Color.RED));
+			allPawns.add(redPawns.get(i));
 		}
 		for(int i=0; i<4; i++){
 			bluePawns.add(new Pawn(pawnRadius, Color.BLUE));
+			allPawns.add(bluePawns.get(i));
 		}
 		for(int i=0; i<4; i++){
 			yellowPawns.add(new Pawn(pawnRadius, Color.YELLOW));
+			allPawns.add(yellowPawns.get(i));
 		}
 		for(int i=0; i<4; i++){
 			greenPawns.add(new Pawn(pawnRadius, Color.GREEN));
+			allPawns.add(greenPawns.get(i));
 		}
 	}
 

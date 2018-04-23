@@ -6,15 +6,17 @@ public class Player{
 	protected String name;
 	protected Color color;
 	protected ArrayList<Pawn> pawns = new ArrayList<Pawn>();
+	protected ArrayList<Pawn> allPawns;
 	protected ArrayList<HomeSquare> homeSquares;
 	protected ArrayList<StartSquare> startSquares;
 	protected int slideSquareDestinationForwardOffset;
 	protected int numPawnsInHome=0;
 
-	public Player(String name, Color color, ArrayList<Pawn> pawns, ArrayList<StartSquare> startSquares, ArrayList<HomeSquare> homeSquares, int slideSquareDestinationForwardOffset){
+	public Player(String name, Color color, ArrayList<Pawn> pawns, ArrayList<Pawn> allPawns, ArrayList<StartSquare> startSquares, ArrayList<HomeSquare> homeSquares, int slideSquareDestinationForwardOffset){
 		this.name = name;
 		this.color = color;
 		this.pawns = pawns;
+		this.allPawns = allPawns;
 		this.startSquares = startSquares;
 		this.homeSquares = homeSquares;
 		this.slideSquareDestinationForwardOffset = slideSquareDestinationForwardOffset;
@@ -35,6 +37,7 @@ public class Player{
 	public void addPawn(Pawn pawn, Square parentSquare){
 		pawn.setCurrentParentSquare(parentSquare);
 		pawns.add(pawn);
+		allPawns.add(pawn);
 	}
 
 	public void setPawns(ArrayList<Pawn> pawns){

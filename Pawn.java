@@ -79,6 +79,13 @@ public class Pawn extends Circle{
 	}
 
 	public int calculateMovesToHome(){
+		return calculateMovesToHome(color);
+	}
+	public int calculateMovesToHome(Color temporarySwitchColor){
+		//Temporarily override pawn color so Sorry card can calculate moves to move for any arbitrary color (has no effect if temporarySwitchColor=color)
+		Color originalPawnColor = color;
+		color = temporarySwitchColor;
+
 		//need to handle moving backwards?
 
 		//Get initial next square, but check for SafetyEntrySquare & if colors match
@@ -96,6 +103,8 @@ public class Pawn extends Circle{
 			}
 			numMoves++;
 		}
+
+		color = originalPawnColor;	//change back original color
 
 		return numMoves;
 	}
