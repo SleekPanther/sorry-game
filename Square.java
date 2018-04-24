@@ -4,6 +4,7 @@ import javafx.scene.layout.StackPane;
 public class Square extends StackPane {
 	protected Color color;
 	protected Square immediateNextSquare;
+	protected Square previousSquare;
 	protected Pawn pawn;
 	protected boolean highlighted=false;
 	protected boolean isOccupied = false;
@@ -85,6 +86,14 @@ public class Square extends StackPane {
 
 	public Square getImmediateNextSquare(){
 		return immediateNextSquare;
+	}
+
+	public void setPreviousSquare(Square square){
+		previousSquare=square;
+	}
+
+	public Square getPreviousSquare(){
+		return previousSquare;
 	}
 
 	public boolean isOccupied(){

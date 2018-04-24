@@ -27,6 +27,9 @@ public class Computer extends Player{
 
 		LinkedList<Move> moves = new LinkedList<Move>();
 		int numSpacesAdjusted = numSpaces;	//in case leaving start changes 2 to 1
+		if(numSpacesAdjusted==4){	//4 moves backwards
+			numSpacesAdjusted = -4;
+		}
 
 		for(Pawn pawn : pawns){
 			if(!pawn.getCurrentParentSquare().getClass().getSimpleName().equals("HomeSquare")){
@@ -51,7 +54,7 @@ public class Computer extends Player{
 					}
 
 					boolean slide = false;
-					if(landingSquare.getClass().getSimpleName().equals("SlideStartSquare") && landingSquare.getColor()!=color){
+					if(numSpacesAdjusted>0 && landingSquare.getClass().getSimpleName().equals("SlideStartSquare") && landingSquare.getColor()!=color){
 						slide = true;
 						bumpCount = 0;		//reset for slides since may already bumped by directly landing on
 						Square slideDestinationSquare = ((SlideStartSquare)landingSquare).getDestinationSquare();
@@ -110,7 +113,7 @@ public class Computer extends Player{
 				System.out.println(move);
 			}
 
-			Move chosenMove = moves.removeFirst();
+			chosenMove = moves.removeFirst();
 
 			if(smartness){	//prioritize getting out of start
 				StartSquare startSquare = startSquares.get(ColorFunctions.colorToPlayerIndex(color));
@@ -173,19 +176,7 @@ public class Computer extends Player{
 			// 	e.printStackTrace();
 			// }
 
-			//Bump first, or else the pawn to be bumped is the one we are moving
-			if(chosenMove.slide){
-				bumpOthersOnSlide(chosenMove.pawnToMove.calculateLandingSquare(numSpacesAdjusted));
-			}
-			else if(chosenMove.numPawnsBumpted > 0){	//simple bumping shouldn't happen as well as sliding bumping
-				bump(chosenMove.landingSquare.getPawn());
-			}
-
-			chosenMove.pawnToMove.move(chosenMove.landingSquare);	//actually move (any exceptions and illegal moves will be taken care of)
-
-			if(chosenMove.landingSquare.getClass().getSimpleName().equals("HomeSquare")){
-				numPawnsInHome++;
-			}
+			actuallyMove(numSpacesAdjusted);
 		}
 	}
 

@@ -36,10 +36,22 @@
 	-fx-padding: 0 10 0 10;
 }
 
-BorderPane HBox > Square, BorderPane > VBox > Square, BorderPane HBox > SafetySquare, BorderPane VBox > SafetySquare{
+BorderPane HBox > Square, BorderPane > VBox > Square, BorderPane HBox > SafetyEntrySquare, BorderPane VBox > SafetyEntrySquare, BorderPane HBox > SafetySquare, BorderPane VBox > SafetySquare{
 	-fx-border-width: 1;
 	-fx-border-color: black;
 	-fx-border-style: solid;
+}
+
+SlideStartSquare{
+	-fx-border-width: 3;
+	-fx-border-color: #fff;
+	-fx-border-style: dashed;
+}
+
+SlideDestinationSquare{
+	-fx-border-width: 3;
+	-fx-border-color: #fff;
+	-fx-border-style: dotted;
 }
 
 .circle{
