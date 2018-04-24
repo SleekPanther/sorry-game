@@ -110,7 +110,7 @@ public class Computer extends Player{
 				System.out.println(move);
 			}
 
-			Move chosenMove = moves.removeFirst();
+			chosenMove = moves.removeFirst();
 
 			if(smartness){	//prioritize getting out of start
 				StartSquare startSquare = startSquares.get(ColorFunctions.colorToPlayerIndex(color));
@@ -173,19 +173,7 @@ public class Computer extends Player{
 			// 	e.printStackTrace();
 			// }
 
-			//Bump first, or else the pawn to be bumped is the one we are moving
-			if(chosenMove.slide){
-				bumpOthersOnSlide(chosenMove.pawnToMove.calculateLandingSquare(numSpacesAdjusted));
-			}
-			else if(chosenMove.numPawnsBumpted > 0){	//simple bumping shouldn't happen as well as sliding bumping
-				bump(chosenMove.landingSquare.getPawn());
-			}
-
-			chosenMove.pawnToMove.move(chosenMove.landingSquare);	//actually move (any exceptions and illegal moves will be taken care of)
-
-			if(chosenMove.landingSquare.getClass().getSimpleName().equals("HomeSquare")){
-				numPawnsInHome++;
-			}
+			actuallyMove(numSpacesAdjusted);
 		}
 	}
 

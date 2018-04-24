@@ -11,6 +11,7 @@ public class Player{
 	protected ArrayList<StartSquare> startSquares;
 	protected int slideSquareDestinationForwardOffset;
 	protected int numPawnsInHome=0;
+	protected Move chosenMove;
 
 	public Player(String name, Color color, ArrayList<Pawn> pawns, ArrayList<Pawn> allPawns, ArrayList<StartSquare> startSquares, ArrayList<HomeSquare> homeSquares, int slideSquareDestinationForwardOffset){
 		this.name = name;
@@ -53,6 +54,22 @@ public class Player{
 	}
 
 	public void executeAutomaticTurn(int cardValue){
+	}
+
+	protected void actuallyMove(int numSpacesAdjusted){
+		//Bump first, or else the pawn to be bumped is the one we are moving
+		if(chosenMove.slide){
+			bumpOthersOnSlide(chosenMove.pawnToMove.calculateLandingSquare(numSpacesAdjusted));
+		}
+		else if(chosenMove.numPawnsBumpted > 0){	//simple bumping shouldn't happen as well as sliding bumping
+			bump(chosenMove.landingSquare.getPawn());
+		}
+
+		chosenMove.pawnToMove.move(chosenMove.landingSquare);	//actually move (any exceptions and illegal moves will be taken care of)
+
+		if(chosenMove.landingSquare.getClass().getSimpleName().equals("HomeSquare")){
+			numPawnsInHome++;
+		}
 	}
 
 	protected void bumpOthersOnSlide(Square slideStart){

@@ -110,7 +110,7 @@ public class Human extends Player{
 		//A second square was clicked to finalize a move or cancel
 		else{
 			if(!moves.isEmpty()){
-				Move chosenMove = moves.getFirst();
+				chosenMove = moves.getFirst();
 				boolean clickedValidLandingSquare = false;
 				for(int i=0; i<moves.size(); i++){
 					if(moves.get(i).landingSquare.getSquareId() == clickedSquare.getSquareId()){
@@ -120,18 +120,7 @@ public class Human extends Player{
 					}
 				}
 				if(clickedValidLandingSquare){		//Make sure clicked square is the correct destination
-					if(chosenMove.slide){
-						bumpOthersOnSlide(chosenMove.pawnToMove.calculateLandingSquare(numSpaces));
-					}
-					else if(chosenMove.numPawnsBumpted > 0){	//simple bumping shouldn't happen as well as sliding bumping
-						bump(chosenMove.landingSquare.getPawn());
-					}
-
-					chosenMove.pawnToMove.move(chosenMove.landingSquare);	//actually move (any exceptions and illegal moves will be taken care of)
-
-					if(chosenMove.landingSquare.getClass().getSimpleName().equals("HomeSquare")){
-						numPawnsInHome++;
-					}
+					actuallyMove(numSpaces);
 
 					selectedSquare.unHighlight();
 					for(Move move : moves){
@@ -145,14 +134,14 @@ public class Human extends Player{
 
 					return "done";
 				}
-			}
-			else{	//They didn't click the correct destination square or there are no moves
-				selectedSquare.unHighlight();
-				for(Move move : moves){
-					move.landingSquare.unHighlight();
+				else{	//They didn't click the correct destination square
+					selectedSquare.unHighlight();
+					for(Move move : moves){
+						move.landingSquare.unHighlight();
+					}
+					selectedSquare = null;
+					handleSquareClick(clickedSquare, numSpaces);	//reset and handle as new click
 				}
-				selectedSquare = null;
-				handleSquareClick(clickedSquare, numSpaces);	//reset and handle as new click
 			}
 		}
 		return "default";
