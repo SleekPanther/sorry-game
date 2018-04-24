@@ -1,5 +1,6 @@
 import structures.*;
 import enums.Color;
+import Functions.ColorFunctions;
 import java.net.URL;
 import javafx.fxml.*;
 import javafx.application.Platform;
@@ -10,7 +11,6 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.beans.value.*;
 import javafx.event.*;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -22,7 +22,7 @@ import javafx.scene.input.MouseEvent;
 
 public class GameController extends BaseController implements Initializable {
 	private static final int squaresPerSideExcludingCornersCount = 14;
-	private static final int boardWidth = 700;
+	private static final int boardWidth = 600;
 	private static final double squareHeightWidth = boardWidth/squaresPerSideExcludingCornersCount;
 	private static final double pawnRadius = squareHeightWidth/4;
 
@@ -32,6 +32,7 @@ public class GameController extends BaseController implements Initializable {
 	private static final int numSafetySquares = 5;
 	private static final double homeSquareDistanceFromBoardEdge = squareHeightWidth*numSafetySquares;
 
+	private StatsController statsController;
 
 	private Scene helpScene;
 	private Scene statsScene;
@@ -74,38 +75,56 @@ public class GameController extends BaseController implements Initializable {
 	private ArrayList<Pane> safetySquareSides;
 	private ArrayList<Pane> boardSides;
 
-	@FXML private Button drawCards;
+	@FXML private StackPane drawPile;
 	@FXML private TextField numberArea;
+	@FXML private Label discardLabel;
 
 	@FXML private Button switchButton;
-	@FXML private ComboBox<String> activePlayerColor;
+	@FXML private Button skipTurnButton;
+	@FXML private Label activePlayerColorDisplay;
 
-	@FXML private CheckBox enableTurns;
+	@FXML private FlowPane testingComponents;
+	@FXML private CheckBox enableTurnsCheckbox;
+	@FXML private ComboBox<String> activePlayerColorDropdown;
+	@FXML private Button statsSwitchButton;
 
 
-	private static final int totalSquaresOnBoard = 4*squaresPerSideExcludingCornersCount + 4;	//+4 for corners
+	private ArrayList<Label> redPlayerSettings;
+	@FXML private Label redPlayerName;
+	@FXML private Label redPlayerSmartness;
+	@FXML private Label redPlayerMeanness;
+
+	private ArrayList<Label> bluePlayerSettings;
+	@FXML private Label bluePlayerName;
+	@FXML private Label bluePlayerSmartness;
+	@FXML private Label bluePlayerMeanness;
+
+	private ArrayList<Label> yellowPlayerSettings;
+	@FXML private Label yellowPlayerName;
+	@FXML private Label yellowPlayerSmartness;
+	@FXML private Label yellowPlayerMeanness;
+
+	private ArrayList<Label> greenPlayerSettings;
+	@FXML private Label greenPlayerName;
+	@FXML private Label greenPlayerSmartness;
+	@FXML private Label greenPlayerMeanness;
+
+
 	private ArrayList<Square> allSquares = new ArrayList<Square>();
 
 	private ArrayList<Square> cornersSquares = new ArrayList<Square>();
 
 	private ArrayList<String> colorStrings = new ArrayList<String>(Arrays.asList(new String[]{"RED", "BLUE", "YELLOW", "GREEN"}));
 
-	private Human activePlayer;
-	private Human human1;
-	private Human human2;
-	private Human human3;
-	private Human human4;
-	private Computer computer1;
-	private Computer computer2;
-	private Computer computer3;
-
+	private Player activePlayer;
 	private ArrayList<Player> players;
-
+	private ArrayList<PlayerData> playerDataList;
 	private HumanData humanData = new HumanData("Player", Color.RED);
-	private ComputerData computer1Data = new ComputerData("Computer1", Color.BLUE, "", "");
-	private ComputerData computer2Data = new ComputerData("Computer2", Color.YELLOW, "", "");;
-	private ComputerData computer3Data = new ComputerData("Computer3", Color.GREEN, "", "");;
+	private ComputerData computer1Data = new ComputerData("Computer 1", Color.BLUE, true, false);
+	private ComputerData computer2Data = new ComputerData("Computer 2", Color.YELLOW, true, false);
+	private ComputerData computer3Data = new ComputerData("Computer 3", Color.GREEN, true, false);
 
+	private ArrayList<Pawn> allPawns = new ArrayList<Pawn>();
 	private ArrayList<Pawn> redPawns = new ArrayList<Pawn>();
 	private ArrayList<Pawn> bluePawns = new ArrayList<Pawn>();
 	private ArrayList<Pawn> yellowPawns = new ArrayList<Pawn>();
@@ -115,6 +134,8 @@ public class GameController extends BaseController implements Initializable {
 	private LinkedList<Card> cards;
 	private LinkedList<Card> discards;
 	private Card moveCard = new Card(1);
+
+	private boolean playerCardIsNew = true;
 
 	private int turn = 0;	//numbers correspond to indexes in players ArrayList
 
@@ -131,6 +152,10 @@ public class GameController extends BaseController implements Initializable {
 		statsScene = scene;
 	}
 
+	public void linkStatsController(StatsController controller){
+		statsController = controller;
+	}
+
 	public void receiveHumanData(HumanData humanData){
 		this.humanData=humanData;
 	}
@@ -140,6 +165,27 @@ public class GameController extends BaseController implements Initializable {
 		this.computer1Data=computer1Data;
 		this.computer2Data=computer2Data;
 		this.computer3Data=computer3Data;
+	}
+
+	public void pickCard(){
+		playerCardIsNew = true;	//computers don't care about this
+
+		if (cards.isEmpty()){
+			swapDecks();
+		}
+		moveCard = cards.poll();
+		discards.add(moveCard);
+		numberArea.setText(moveCard.getType()+"");
+
+		String cardValue = moveCard.getType() +"";
+		discardLabel.getStyleClass().addAll("largeDiscardFont");		//assume normal card, change text to be smaller if it's a sorry card
+		discardLabel.getStyleClass().removeAll("smallDiscardFont");
+		if(cardValue.equals("0")){
+			discardLabel.getStyleClass().removeAll("largeDiscardFont");
+			discardLabel.getStyleClass().addAll("smallDiscardFont");
+			cardValue = "Sorry";
+		}
+		discardLabel.setText(cardValue);
 	}
 
 	@Override
@@ -161,105 +207,171 @@ public class GameController extends BaseController implements Initializable {
 		createSquareClickHandlers();
 
 
-		//Testing pawn(s)
-		// ((Square)topRow.getChildren().get(1)).add(new Pawn(pawnRadius, Color.RED));
-		// ((Square)rightColumn.getChildren().get(0)).add(new Pawn(pawnRadius, Color.BLUE));
-		// ((Square)rightColumn.getChildren().get(1)).add(new Pawn(pawnRadius, Color.RED));
-		// ((Square)rightColumn.getChildren().get(2)).add(new Pawn(pawnRadius, Color.GREEN));
-		//pawns on the top row left
-		((Square)topRow.getChildren().get(1)).add(new Pawn(pawnRadius, Color.RED));
-		((Square)topRow.getChildren().get(0)).add(new Pawn(pawnRadius, Color.BLUE));
-		((Square)topRow.getChildren().get(2)).add(new Pawn(pawnRadius, Color.GREEN));
-		((Square)rightColumn.getChildren().get(1)).add(new Pawn(pawnRadius, Color.RED));
-
-
 		setUpPlayerColors();
 
-		drawCards.setOnAction((event) -> {
-			if (cards.isEmpty()){
-				swapDecks();
+		//Testing pawn(s)
+		Pawn testPawnRed1 = new Pawn(pawnRadius, Color.RED);
+		Pawn testPawnRed2 = new Pawn(pawnRadius, Color.RED);
+		Pawn testPawnBlue1 = new Pawn(pawnRadius, Color.BLUE);
+		Pawn testPawnBlue2 = new Pawn(pawnRadius, Color.BLUE);
+		Pawn testPawnGreen1 = new Pawn(pawnRadius, Color.GREEN);
+		allPawns.addAll(new ArrayList<Pawn>(Arrays.asList(testPawnRed1, testPawnRed2, testPawnBlue1, testPawnBlue2, testPawnGreen1)));
+		Square blueParentSquare1 = (Square)topRow.getChildren().get(8);
+		Square blueParentSquare2 = (Square)rightColumn.getChildren().get(1);
+		Square redParentSquare1 = (Square)topRow.getChildren().get(6);
+		Square redParentSquare2 = (Square)rightColumn.getChildren().get(10);
+		Square greenParentSquare1 = ((Square)topRow.getChildren().get(2));
+		redParentSquare1.add(testPawnRed1);
+		blueParentSquare1.add(testPawnBlue1);
+		blueParentSquare2.add(testPawnBlue2);
+		greenParentSquare1.add(testPawnGreen1);
+		redParentSquare2.add(testPawnRed2);
+		players.get(ColorFunctions.colorToPlayerIndex(Color.RED)).addPawn(testPawnRed1, redParentSquare1);
+		players.get(ColorFunctions.colorToPlayerIndex(Color.RED)).addPawn(testPawnRed2, redParentSquare2);
+		players.get(ColorFunctions.colorToPlayerIndex(Color.BLUE)).addPawn(testPawnBlue1, blueParentSquare1);
+		players.get(ColorFunctions.colorToPlayerIndex(Color.BLUE)).addPawn(testPawnBlue2, blueParentSquare2);
+		players.get(ColorFunctions.colorToPlayerIndex(Color.GREEN)).addPawn(testPawnGreen1, greenParentSquare1);
+
+
+		createPlayerSettingsDisplays();
+
+
+		drawPile.addEventFilter(MouseEvent.MOUSE_PRESSED, (e)->{
+			if(enableTurnsCheckbox.isSelected() && playerCardIsNew){
+				Popup popup = new Popup("Cannot pick multiple cards per turn");
+				popup.show();
 			}
-			Card moveCard = cards.poll();
-			discards.add(moveCard);
-			numberArea.setText(moveCard.getType()+"");
+			else{
+				pickCard();
+			}
 		});
 
 		//Mostly for testing, update moveCard any time the value changes, but doesn't matter since moveCard is no longer in the deck
 		numberArea.textProperty().addListener((observable, oldValue, newValue) -> {
+			playerCardIsNew = true;
 			moveCard = new Card(Integer.parseInt(newValue));
+			discardLabel.setText(moveCard.getType()+"");
 		});
 
 		switchButton.setOnAction((event) -> changeScene(helpScene, event));
+		skipTurnButton.setOnAction((event) -> incrementTurn());
+
+		statsSwitchButton.setOnAction((event) -> changeScene(statsScene, event));
+
+		//Uncomment to enable testing
+		// testingComponents.setVisible(false);
 	}
 
-	public void setUpPlayerColors(){
-		//Change these to actual computers later
-		ArrayList<PlayerData> playerDataList = new ArrayList<PlayerData>(Arrays.asList(humanData, computer1Data, computer2Data, computer3Data));
+	public void initializeFromMenu(){
+		setUpPlayerColors();
+		createPlayerSettingsDisplays();
+	}
+
+	private void setUpPlayerColors(){
+		playerDataList = new ArrayList<PlayerData>(Arrays.asList(humanData, computer1Data, computer2Data, computer3Data));
 		players = new ArrayList<Player>(Arrays.asList(null, null, null, null));		//initialize list so players are created in order and can be set at an index
 		for(int i=0; i<playerDataList.size(); i++){
 			if(playerDataList.get(i).color==Color.RED){
-				players.set(0, new Human(playerDataList.get(i).name, playerDataList.get(i).color, redPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+				if(playerDataList.get(i).getClass().getSimpleName().equals("HumanData")){
+					players.set(0, new Human(playerDataList.get(i).name, playerDataList.get(i).color, redPawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+				}
+				else{
+					players.set(0, new Computer(playerDataList.get(i).name, playerDataList.get(i).color, redPawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(i).smartness, playerDataList.get(i).meanness));
+				}
 			}
 			else if(playerDataList.get(i).color==Color.BLUE){
-				players.set(1, new Human(playerDataList.get(i).name, playerDataList.get(i).color, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+				if(playerDataList.get(i).getClass().getSimpleName().equals("HumanData")){
+					players.set(1, new Human(playerDataList.get(i).name, playerDataList.get(i).color, bluePawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+				}
+				else{
+					players.set(1, new Computer(playerDataList.get(i).name, playerDataList.get(i).color, bluePawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(i).smartness, playerDataList.get(i).meanness));
+				}
 			}
 			else if(playerDataList.get(i).color==Color.YELLOW){
-				players.set(2, new Human(playerDataList.get(i).name, playerDataList.get(i).color, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+				if(playerDataList.get(i).getClass().getSimpleName().equals("HumanData")){
+					players.set(2, new Human(playerDataList.get(i).name, playerDataList.get(i).color, yellowPawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+				}
+				else{
+					players.set(2, new Computer(playerDataList.get(i).name, playerDataList.get(i).color, yellowPawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(i).smartness, playerDataList.get(i).meanness));
+				}
 			}
 			else if(playerDataList.get(i).color==Color.GREEN){
-				players.set(3, new Human(playerDataList.get(i).name, playerDataList.get(i).color, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+				if(playerDataList.get(i).getClass().getSimpleName().equals("HumanData")){
+					players.set(3, new Human(playerDataList.get(i).name, playerDataList.get(i).color, greenPawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+				}
+				else{
+					players.set(3, new Computer(playerDataList.get(i).name, playerDataList.get(i).color, greenPawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(i).smartness, playerDataList.get(i).meanness));
+				}
 			}
 		}
 
-		activePlayer = (Human)players.get(colorToPlayerIndex(playerDataList.get(0).color));		//activePlayer is always human and starts
-		turn = colorToPlayerIndex(activePlayer.getColor());
+		int activePlayerIndexTemp = ColorFunctions.colorToPlayerIndex(playerDataList.get(0).color);			//activePlayer is always human and starts
+
+		//Hardcode Players
+		// activePlayerIndexTemp = 0;
+		// players.set(0, new Human(playerDataList.get(0).name, playerDataList.get(0).color, redPawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
+		// players.set(1, new Computer(playerDataList.get(1).name, playerDataList.get(1).color, bluePawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(1).smartness, playerDataList.get(1).meanness));
+		// players.set(2, new Computer(playerDataList.get(2).name, playerDataList.get(2).color, yellowPawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(2).smartness, playerDataList.get(2).meanness));
+		// players.set(3, new Computer(playerDataList.get(3).name, playerDataList.get(3).color, greenPawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(3).smartness, playerDataList.get(3).meanness));
+
+		activePlayer = players.get(activePlayerIndexTemp);
+		turn = ColorFunctions.colorToPlayerIndex(activePlayer.getColor());
 
 		setUpColorSwitcher();
 	}
 
-	private int colorToPlayerIndex(Color color){
-		return colorToPlayerIndex(color.name());
-	}
-
-	private int colorToPlayerIndex(String color){
-		color = color.toUpperCase();
-		if(color=="RED"){
-			return 0;
-		}
-		else if(color=="BLUE"){
-			return 1;
-		}
-		else if(color=="YELLOW"){
-			return 2;
-		}
-		else if(color=="GREEN"){
-			return 3;
-		}
-		return -1;
-	}
-
 	private void setUpColorSwitcher(){
 		//Create dropdown to switch between active player for testing
-		activePlayerColor.setItems(FXCollections.observableArrayList(colorStrings));
-		activePlayerColor.setVisibleRowCount(colorStrings.size());
-		activePlayerColor.setValue(colorStrings.get(colorToPlayerIndex(activePlayer.getColor())));
-		activePlayerColor.valueProperty().addListener(new ChangeListener<String>() {
+		activePlayerColorDropdown.setItems(FXCollections.observableArrayList(colorStrings));
+		activePlayerColorDropdown.setVisibleRowCount(colorStrings.size());
+		activePlayerColorDropdown.setValue(colorStrings.get(ColorFunctions.colorToPlayerIndex(activePlayer.getColor())));
+		activePlayerColorDropdown.valueProperty().addListener(new ChangeListener<String>() {
 			@Override public void changed(ObservableValue observableValue, String oldValue, String newValue) {
-				activePlayer = (Human)players.get(colorToPlayerIndex(newValue));
+				activePlayer = players.get(ColorFunctions.colorToPlayerIndex(newValue));
+				turn = ColorFunctions.colorToPlayerIndex(newValue);
+				activePlayerColorDisplay.setText("Current Player: "+colorStrings.get(turn));
 			}
 		});
+	}
 
-		// ArrayList<Pawn> humanPawns = redPawns;
-		// human = new Human("Name", Color.RED, humanPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
-		// computer1 = new Computer("Computer 1", Color.BLUE, bluePawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
-		// computer2 = new Computer("Computer 2", Color.YELLOW, yellowPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
-		// computer3 = new Computer("Computer 3", Color.GREEN, greenPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
+	private void createPlayerSettingsDisplays(){
+		redPlayerSettings = new ArrayList<Label>(Arrays.asList(redPlayerName, redPlayerSmartness, redPlayerMeanness));
+		bluePlayerSettings = new ArrayList<Label>(Arrays.asList(bluePlayerName, bluePlayerSmartness, bluePlayerMeanness));
+		yellowPlayerSettings = new ArrayList<Label>(Arrays.asList(yellowPlayerName, yellowPlayerSmartness, yellowPlayerMeanness));
+		greenPlayerSettings = new ArrayList<Label>(Arrays.asList(greenPlayerName, greenPlayerSmartness, greenPlayerMeanness));
+		
+		ArrayList<ArrayList<Label>> playerSettings = new ArrayList<ArrayList<Label>>();
+		playerSettings.add(redPlayerSettings);
+		playerSettings.add(bluePlayerSettings);
+		playerSettings.add(yellowPlayerSettings);
+		playerSettings.add(greenPlayerSettings);
+		
+		Collections.sort(playerDataList);
+
+		for(int i=0; i<playerSettings.size(); i++){
+			playerSettings.get(i).get(0).setText(playerDataList.get(i).name);	//first set the name for any type of player
+			//Only set smartness/meanness text labels for computers
+			if(playerDataList.get(i).getClass().getSimpleName().equals("ComputerData")){
+				if(playerDataList.get(i).smartness){
+					playerSettings.get(i).get(1).setText("Smart");
+				}
+				else{
+					playerSettings.get(i).get(1).setText("Smart");
+				}
+
+				if(playerDataList.get(i).meanness){
+					playerSettings.get(i).get(2).setText("Mean");
+				}
+				else{
+					playerSettings.get(i).get(2).setText("Nice");
+				}
+			}
+		}
 	}
 
 	private void createCards(){
 		cards = new LinkedList<Card>();
 		discards = new LinkedList<Card>();
-
 
 		for(int cardType=0; cardType<=12; cardType++){
 			if(cardType!=6 && cardType!=9){		//Create 4 of each type except 6 & 9
@@ -274,7 +386,9 @@ public class GameController extends BaseController implements Initializable {
 	}
 
 	private void swapDecks(){
-		cards=discards;
+		for(Card card : discards){
+			cards.add(card);
+		}
 		Collections.shuffle(cards);
 
 		discards.clear();
@@ -283,15 +397,19 @@ public class GameController extends BaseController implements Initializable {
 	private void createPawns(){
 		for(int i=0; i<4; i++){
 			redPawns.add(new Pawn(pawnRadius, Color.RED));
+			allPawns.add(redPawns.get(i));
 		}
 		for(int i=0; i<4; i++){
 			bluePawns.add(new Pawn(pawnRadius, Color.BLUE));
+			allPawns.add(bluePawns.get(i));
 		}
 		for(int i=0; i<4; i++){
 			yellowPawns.add(new Pawn(pawnRadius, Color.YELLOW));
+			allPawns.add(yellowPawns.get(i));
 		}
 		for(int i=0; i<4; i++){
 			greenPawns.add(new Pawn(pawnRadius, Color.GREEN));
+			allPawns.add(greenPawns.get(i));
 		}
 	}
 
@@ -357,6 +475,11 @@ public class GameController extends BaseController implements Initializable {
 			currentSquare.setImmediateNextSquare((Square)squares.get(i+1));	//set pointer to next square on a side
 		}
 
+		for(int i=squares.size()-1; i>0; i--){		//stop before 0
+			Square currentSquare = (Square)squares.get(i);
+			currentSquare.setPreviousSquare((Square)squares.get(i-1));	//set pointer to next square on a side
+		}
+
 
 		//Reverse the ArrayList since ObservableList is unmodifiable, clear the UI pane and add all squares in the new reversed order
 		if(reverseCreationDirection){
@@ -373,21 +496,30 @@ public class GameController extends BaseController implements Initializable {
 
 	private void linkCornerSquaresToSequence(){
 		ObservableList<Node> topSquares = topRow.getChildren();
-		cornersSquares.get(0).setImmediateNextSquare((Square)topSquares.get(0));	//link corner square to beginning of row
-		( (Square)topSquares.get(topSquares.size()-1) ).setImmediateNextSquare(cornersSquares.get(1));		//link last square in row to 2nd corner
-
 		ObservableList<Node> rightSquares = rightColumn.getChildren();
+		ObservableList<Node> bottomSquares = bottomRow.getChildren();
+		ObservableList<Node> leftSquares = leftColumn.getChildren();
+		
+		cornersSquares.get(0).setImmediateNextSquare((Square)topSquares.get(0));	//link corner square to beginning of row
+		cornersSquares.get(0).setPreviousSquare((Square)leftSquares.get(0));
+		((Square)topSquares.get(topSquares.size()-1)).setImmediateNextSquare(cornersSquares.get(1));		//link last square in row to 2nd corner
+		((Square)topSquares.get(0)).setPreviousSquare(cornersSquares.get(0));		//link last square in row to 2nd corner
+
 		cornersSquares.get(1).setImmediateNextSquare((Square)rightSquares.get(0));
-		( (Square)rightSquares.get(rightSquares.size()-1) ).setImmediateNextSquare(cornersSquares.get(2));
+		cornersSquares.get(1).setPreviousSquare((Square)topSquares.get(topSquares.size()-1));
+		((Square)rightSquares.get(rightSquares.size()-1)).setImmediateNextSquare(cornersSquares.get(2));
+		((Square)rightSquares.get(0)).setPreviousSquare(cornersSquares.get(1));
 
 		//Bottom and left were created in reverse order
-		ObservableList<Node> bottomSquares = bottomRow.getChildren();
 		cornersSquares.get(2).setImmediateNextSquare((Square)bottomSquares.get(bottomSquares.size()-1));
-		( (Square)bottomSquares.get(0) ).setImmediateNextSquare(cornersSquares.get(3));
+		cornersSquares.get(2).setPreviousSquare((Square)rightSquares.get(rightSquares.size()-1));
+		((Square)bottomSquares.get(0)).setImmediateNextSquare(cornersSquares.get(3));
+		((Square)bottomSquares.get(bottomSquares.size()-1)).setPreviousSquare(cornersSquares.get(2));
 
-		ObservableList<Node> leftSquares = leftColumn.getChildren();
 		cornersSquares.get(3).setImmediateNextSquare((Square)leftSquares.get(leftSquares.size()-1));
-		( (Square)leftSquares.get(0) ).setImmediateNextSquare(cornersSquares.get(0));
+		cornersSquares.get(3).setPreviousSquare((Square)bottomSquares.get(0));
+		((Square)leftSquares.get(0)).setImmediateNextSquare(cornersSquares.get(0));
+		((Square)leftSquares.get(leftSquares.size()-1)).setPreviousSquare(cornersSquares.get(3));
 
 		addCornerSquaresToAllSquares();
 	}
@@ -496,9 +628,9 @@ public class GameController extends BaseController implements Initializable {
 			}
 			
 			ObservableList<Node> safetySquaresObservable = safetySquareSides.get(side).getChildren();
-			ArrayList<SafetySquare> safetySquares = new ArrayList<SafetySquare>();
+			ArrayList<Square> safetySquares = new ArrayList<Square>();
 			for(Node square : safetySquaresObservable){
-				safetySquares.add((SafetySquare)square);
+				safetySquares.add((Square)square);
 			}
 			if(side==1 || side==2){
 				Collections.reverse(safetySquares);
@@ -507,14 +639,18 @@ public class GameController extends BaseController implements Initializable {
 			SafetyEntrySquare safetyEntrySquare = (SafetyEntrySquare)(sideSquares.get(1));
 			SafetySquare firstSafetySquare = (SafetySquare)safetySquares.get(0);
 			safetyEntrySquare.setNextSafetySquare(firstSafetySquare);
+			safetySquares.get(0).setPreviousSquare(safetyEntrySquare);
 
 			for(int i=0; i<numSafetySquares-1; i++){
-				((SafetySquare)safetySquares.get(i)).setImmediateNextSquare((SafetySquare)safetySquares.get(i+1));
+				(safetySquares.get(i)).setImmediateNextSquare(safetySquares.get(i+1));
 			}
-			SafetySquare lastSafetySquare = (SafetySquare)safetySquares.get(numSafetySquares-1);
+			for(int i=numSafetySquares-1; i>0; i--){	//skip 1st SafetySquare since it comes from a SafetyEntrySquare
+				(safetySquares.get(i)).setPreviousSquare(safetySquares.get(i-1));
+			}
+			Square lastSafetySquare = safetySquares.get(numSafetySquares-1);
 			lastSafetySquare.setImmediateNextSquare(homeSquares.get(side));
 
-			startSquares.get(side).setImmediateNextSquare((Square)sideSquares.get(startDestinationOffset));
+			startSquares.get(side).setImmediateNextSquare(sideSquares.get(startDestinationOffset));
 		}
 	}
 
@@ -522,11 +658,16 @@ public class GameController extends BaseController implements Initializable {
 		for(Square square : allSquares){
 			square.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
 				public void handle(MouseEvent e) {
+					if(enableTurnsCheckbox.isSelected() && !playerCardIsNew){
+						Popup popup = new Popup("Pick a new card");
+						popup.show();
+						return;
+					}
 					String moveResult = activePlayer.handleSquareClick(square, moveCard.getType());
 					if(moveResult.equals("done")){
+						playerCardIsNew = false;
 						checkIfGameWon();
-						System.out.println("checked");
-						if(enableTurns.isSelected()){
+						if(enableTurnsCheckbox.isSelected()){
 							incrementTurn();
 						}
 					}
@@ -547,11 +688,12 @@ public class GameController extends BaseController implements Initializable {
 			try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
 				System.out.println("Database connected!");
 				String SQL = "INSERT INTO tblSorryGame (fldPlayerName,fldPlayerColor,fldDateEnded,fldComp1Set,fldComp2Set,fldComp3Set,fldWinner) VALUES (";
+
 				SQL = SQL +"'"+ humanData.name + "','" + humanData.color + "', now(),'"+ computer1Data.color + ", "
-                        +computer1Data.difficulity+", "+computer1Data.meanness+"','" +
-						computer2Data.color + ", "+computer2Data.difficulity+", "+computer2Data.meanness+"','"
-                        + computer3Data.color+ ", "+computer3Data.difficulity+", "+computer3Data.meanness+"','"
-                        +activePlayer.getName()+"');";
+						+computer1Data.difficulty()+", "+computer1Data.meanness()+"','" +
+						computer2Data.color + ", "+computer2Data.difficulty()+", "+computer2Data.meanness()+"','"
+						+ computer3Data.color+ ", "+computer3Data.difficulty()+", "+computer3Data.meanness()+"','"
+						+activePlayer.getName()+"');";
 
 				System.out.println(SQL);
 				connection.createStatement().executeUpdate(SQL);
@@ -560,6 +702,9 @@ public class GameController extends BaseController implements Initializable {
 			} catch (SQLException e) {
 				System.out.println("Database failed. proceeding. ");
 			}
+
+			//Update stats scene before switching to it
+			statsController.buildTable();
 
 			Stage containingStage = (Stage)topRowContainer.getScene().getWindow();
 			changeScene(statsScene, containingStage);
@@ -572,9 +717,18 @@ public class GameController extends BaseController implements Initializable {
 			turn = 0;
 		}
 
-		activePlayer = (Human)players.get(turn);
+		activePlayer = players.get(turn);
 
-		activePlayerColor.setValue(colorStrings.get(turn));
+		activePlayerColorDisplay.setText("Current Player: "+colorStrings.get(turn));
+		activePlayerColorDropdown.setValue(colorStrings.get(turn));
+
+		if(activePlayer.getClass().getSimpleName().equals("Computer")){
+			pickCard();
+			activePlayer.executeAutomaticTurn(moveCard.getType());
+			playerCardIsNew = false;
+			incrementTurn();	//recursively call itself until it gets back to a Human
+		}
+
 	}
 
 }

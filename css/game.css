@@ -19,10 +19,39 @@
 	-fx-background-color: #FFFFFF;
 }
 
-BorderPane HBox > Square, BorderPane > VBox > Square, BorderPane HBox > SafetySquare, BorderPane VBox > SafetySquare{
+.border{
 	-fx-border-width: 1;
 	-fx-border-color: black;
 	-fx-border-style: solid;
+}
+
+.playerSettingsVertical{
+	-fx-padding: 300 10 0 10;
+}
+
+.playerSettingsHorizontal{
+	-fx-padding: 0 0 0 250;
+}
+.playerSettingsHorizontal Label{
+	-fx-padding: 0 10 0 10;
+}
+
+BorderPane HBox > Square, BorderPane > VBox > Square, BorderPane HBox > SafetyEntrySquare, BorderPane VBox > SafetyEntrySquare, BorderPane HBox > SafetySquare, BorderPane VBox > SafetySquare{
+	-fx-border-width: 1;
+	-fx-border-color: black;
+	-fx-border-style: solid;
+}
+
+SlideStartSquare{
+	-fx-border-width: 3;
+	-fx-border-color: #fff;
+	-fx-border-style: dashed;
+}
+
+SlideDestinationSquare{
+	-fx-border-width: 3;
+	-fx-border-color: #fff;
+	-fx-border-style: dotted;
 }
 
 .circle{
@@ -51,4 +80,43 @@ HomeSquare Text, StartSquare Text{
 	-fx-border-width: 1;
 	-fx-border-color: black;
 	-fx-border-style: solid;
+}
+
+.cardPane{
+	-fx-pref-width: 100;
+	-fx-pref-height: 160;
+	-fx-background-color: #fff0f5;
+}
+
+#drawPile VBox{
+	-fx-alignment: center;
+}
+
+#drawLabel {
+	-fx-font-weight: bold;
+	-fx-font-size: 25;
+}
+
+#drawInstructions{
+	-fx-font-size: 15;
+}
+
+#discardLabel {
+	-fx-font-weight: bold;
+}
+
+.largeDiscardFont{
+	-fx-font-size: 50;
+}
+
+.smallDiscardFont{
+	-fx-font-size: 15;
+}
+
+#testingComponents{
+	-fx-pref-width: 310;
+}
+
+#activePlayerColorDropdown{
+	-fx-pref-width: 90;
 }

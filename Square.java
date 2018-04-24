@@ -4,6 +4,7 @@ import javafx.scene.layout.StackPane;
 public class Square extends StackPane {
 	protected Color color;
 	protected Square immediateNextSquare;
+	protected Square previousSquare;
 	protected Pawn pawn;
 	protected boolean highlighted=false;
 	protected boolean isOccupied = false;
@@ -45,6 +46,9 @@ public class Square extends StackPane {
 		hoverProperty().addListener((observable, oldValue, hover)->{
 			if(hover){
 				System.out.print("\n"+this);
+				if(pawn!=null){
+					System.out.print("\t"+pawn);
+				}
 			}
 		});
 	}
@@ -84,6 +88,14 @@ public class Square extends StackPane {
 		return immediateNextSquare;
 	}
 
+	public void setPreviousSquare(Square square){
+		previousSquare=square;
+	}
+
+	public Square getPreviousSquare(){
+		return previousSquare;
+	}
+
 	public boolean isOccupied(){
 		return isOccupied;
 	}
@@ -107,8 +119,7 @@ public class Square extends StackPane {
 		if(immediateNextSquare!=null){
 			next=immediateNextSquare.getSquareId()+"";
 		}
-
-		return "Id="+id+""+"\tcolor="+color+"\tnext="+next;
+		return "Square="+id+""+"\t"+color+"\tnext="+next;
 	}
 
 }

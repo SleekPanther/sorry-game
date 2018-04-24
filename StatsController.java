@@ -1,11 +1,9 @@
 import java.net.URL;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.*;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.control.*;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -13,11 +11,12 @@ import java.sql.SQLException;
 import java.util.*;
 import javafx.collections.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class StatsController extends BaseController implements Initializable{
 	private Scene menuScene;
-
+	private Sorry sorryApplication;
 	
 	@FXML private Button mainMenuButton;
 	@FXML private Button dbButton;
@@ -25,28 +24,44 @@ public class StatsController extends BaseController implements Initializable{
 	@FXML private TableView<StatsModel> tableView;
 	@FXML private TableColumn<StatsModel, String> gameId;
 	@FXML private TableColumn<StatsModel, String> playerName;
-    @FXML private TableColumn<StatsModel, String> playerColor;
+	@FXML private TableColumn<StatsModel, String> playerColor;
+	@FXML private TableColumn<StatsModel, String> timeStart;
 	@FXML private TableColumn<StatsModel, String> timeEnd;
+	@FXML private TableColumn<StatsModel, String> duration;
 	@FXML private TableColumn<StatsModel, String> comp1Settings;
 	@FXML private TableColumn<StatsModel, String> comp2Settings;
 	@FXML private TableColumn<StatsModel, String> comp3Settings;
 	@FXML private TableColumn<StatsModel, String> winner;
 
+	public void linkSorryApplication(Sorry sorryApplication){
+		this.sorryApplication = sorryApplication;
+	}
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		mainMenuButton.setOnAction((event) -> changeScene(menuScene, event));
+		//Reload entire game instead of switching scenes
+		mainMenuButton.setOnAction((event) -> {
+			try {
+				sorryApplication.startNewGame();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+
 		dbButton.setOnAction((event) -> connectToDatabase());
 		statsButton.setOnAction((event) -> buildTable());
 		gameId.setCellValueFactory(new PropertyValueFactory<>("gameId"));
 		playerName.setCellValueFactory(new PropertyValueFactory<>("playerName"));
-        playerColor.setCellValueFactory(new PropertyValueFactory<>("playerColor"));
+		playerColor.setCellValueFactory(new PropertyValueFactory<>("playerColor"));
+		timeStart.setCellValueFactory(new PropertyValueFactory<>("timeStart"));
 		timeEnd.setCellValueFactory(new PropertyValueFactory<>("timeEnd"));
+		duration.setCellValueFactory(new PropertyValueFactory<>("duration"));
 		comp1Settings.setCellValueFactory(new PropertyValueFactory<>("comp1Settings"));
 		comp2Settings.setCellValueFactory(new PropertyValueFactory<>("comp2Settings"));
 		comp3Settings.setCellValueFactory(new PropertyValueFactory<>("comp3Settings"));
 		winner.setCellValueFactory(new PropertyValueFactory<>("winner"));
 
-        buildTable();
+		buildTable();
 	}
 	
 	public void setMenuScene(Scene scene) {
@@ -99,7 +114,9 @@ public class StatsController extends BaseController implements Initializable{
 					pastGame.gameId.set(rs.getString("pmkGameId"));
 					pastGame.playerName.set(rs.getString("fldPlayerName"));
 					pastGame.playerColor.set(rs.getString("fldPlayerColor"));
+					pastGame.timeStart.set(rs.getString("fldDateCreated"));
 					pastGame.timeEnd.set(rs.getString("fldDateEnded"));
+					pastGame.duration.set(rs.getString("fldDuration"));
 					pastGame.comp1Settings.set(rs.getString("fldComp1Set"));
 					pastGame.comp2Settings.set(rs.getString("fldComp2Set"));
 					pastGame.comp3Settings.set(rs.getString("fldComp3Set"));

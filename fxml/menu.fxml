@@ -1,40 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.text.Font?>
 
-<FlowPane prefHeight="389.0" prefWidth="400.0" stylesheets="css/menu.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="MenuController">
-	<AnchorPane prefHeight="454.0" prefWidth="391.0">
+<FlowPane prefHeight="389.0" prefWidth="400.0" stylesheets="css/menu.css" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/" fx:controller="MenuController">
+	<AnchorPane prefHeight="636.0" prefWidth="533.0">
 		<children>
-			<Button fx:id="newGameButton" layoutX="153.0" layoutY="294.0" text="Start Game" />
-			<Button fx:id="statsButton" layoutX="172.0" layoutY="346.0" text="Stats" />
-			<Button fx:id="helpButton" layoutX="166.0" layoutY="394.0" prefHeight="32.0" prefWidth="62.0" text="Help" />
-			<ComboBox fx:id="playerColor" layoutX="123.0" layoutY="127.0" prefWidth="150.0" />
-			<TextField styleClass='nameField' fx:id='playerName' layoutX="18.0" layoutY="132.0" text="player" />
-			<ImageView fitHeight="61.0" fitWidth="284.0" layoutX="106.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+			<Button fx:id="newGameButton" layoutX="229.0" layoutY="474.0" text="Start Game" />
+			<Button fx:id="statsButton" layoutX="249.0" layoutY="551.0" text="Stats" />
+			<Button fx:id="helpButton" layoutX="444.0" layoutY="578.0" prefHeight="32.0" prefWidth="62.0" text="Help?" />
+			<ComboBox fx:id="playerColor" layoutX="123.0" layoutY="141.0" prefWidth="150.0" />
+			<TextField fx:id="playerName" layoutX="23.0" layoutY="141.0" styleClass="nameField" text="Player" />
+			<ImageView fitHeight="91.0" fitWidth="281.0" layoutX="130.0" pickOnBounds="true" preserveRatio="true">
 				<image>
 					<Image url="@../image/welcome.gif" />
 				</image>
 			</ImageView>
-			<Label layoutX="17.0" layoutY="84.0" prefHeight="39.0" prefWidth="299.0" text="Choose a color for your pawn!">
+			<Label layoutX="124.0" layoutY="86.0" prefHeight="39.0" prefWidth="299.0" text="Choose a color for your pawn!">
 				<font>
 					<Font size="20.0" />
 				</font>
 			</Label>
-			<TextField styleClass='nameField' fx:id='computer1Name' layoutX="18.0" layoutY="170.0" text="computer1" />
-			<TextField styleClass='nameField' fx:id='computer2Name' layoutX="18.0" layoutY="211.0" text="computer2" />
-			<TextField styleClass='nameField' fx:id='computer3Name' layoutX="18.0" layoutY="252.0" text="computer3" />
-			<ComboBox fx:id="computer1Color" layoutX="123.0" layoutY="165.0" prefWidth="150.0" />
-			<ComboBox fx:id="computer2Color" layoutX="121.0" layoutY="206.0" prefWidth="150.0" />
-			<ComboBox fx:id="computer3Color" layoutX="122.0" layoutY="247.0" prefWidth="150.0" />
-			<Button layoutX="316.0" layoutY="397.0" mnemonicParsing="false" text="resume" />
+			<TextField fx:id="computer1Name" layoutX="23.0" layoutY="201.0" styleClass="nameField" text="Computer 1"/>
+			<TextField fx:id="computer2Name" layoutX="23.0" layoutY="291.0" styleClass="nameField" text="Computer 2"/>
+			<TextField fx:id="computer3Name" layoutX="23.0" layoutY="379.0" styleClass="nameField" text="Computer 3"/>
+			<ComboBox fx:id="computer1Color" layoutX="123.0" layoutY="201.0" prefWidth="150.0" />
+			<ComboBox fx:id="computer2Color" layoutX="123.0" layoutY="291.0" prefWidth="150.0" />
+			<ComboBox fx:id="computer3Color" layoutX="123.0" layoutY="379.0" prefWidth="150.0" />
+			<Button layoutX="242.0" layoutY="512.0" mnemonicParsing="false" text="resume" />
+
+			<RadioButton fx:id='computer1Mean' layoutX="306.0" layoutY="192.0" mnemonicParsing="false" text="mean">
+				<toggleGroup>
+					<ToggleGroup fx:id="computer1Difficulity" />
+				</toggleGroup>
+			</RadioButton>
+			<RadioButton fx:id='computer1Nice' layoutX="306.0" layoutY="219.0" mnemonicParsing="false" text="nice" toggleGroup="$computer1Difficulity" selected='true'/>
+			<RadioButton fx:id='computer1Smart' layoutX="394.0" layoutY="192.0" mnemonicParsing="false" text="smart" selected='true'>
+				<toggleGroup>
+					<ToggleGroup fx:id="computer1Smartness" />
+				</toggleGroup>
+			</RadioButton>
+			<RadioButton fx:id='computer1Dumb' layoutX="394.0" layoutY="219.0" mnemonicParsing="false" text="dumb" toggleGroup="$computer1Smartness"/>
+
+			<RadioButton fx:id='computer2Mean' layoutX="306.0" layoutY="296.0" mnemonicParsing="false" text="mean">
+				<toggleGroup>
+					<ToggleGroup fx:id="computer2Difficulity" />
+				</toggleGroup>
+			</RadioButton>
+			<RadioButton fx:id='computer2Nice' layoutX="306.0" layoutY="325.0" mnemonicParsing="false" text="nice" toggleGroup="$computer2Difficulity" selected='true'/>
+			<RadioButton fx:id='computer2Smart' layoutX="394.0" layoutY="296.0" mnemonicParsing="false" text="smart" selected='true'>
+				<toggleGroup>
+					<ToggleGroup fx:id="computer2Meanness" />
+				</toggleGroup>
+			</RadioButton>
+			<RadioButton fx:id='computer2Dumb' layoutX="394.0" layoutY="325.0" mnemonicParsing="false" text="dumb" toggleGroup="$computer2Meanness"/>
+
+			<RadioButton fx:id='computer3Mean' layoutX="302.0" layoutY="375.0" mnemonicParsing="false" text="mean">
+				<toggleGroup>
+					<ToggleGroup fx:id="computer3Difficulity" />
+				</toggleGroup>
+			</RadioButton>
+			<RadioButton fx:id='computer3Nice' layoutX="302.0" layoutY="403.0" mnemonicParsing="false" text="nice" toggleGroup="$computer3Difficulity" selected='true'/>
+			<RadioButton fx:id='computer3Smart' layoutX="394.0" layoutY="376.0" mnemonicParsing="false" text="smart" selected='true'>
+				<toggleGroup>
+					<ToggleGroup fx:id="computer3Meanness" />
+				</toggleGroup>
+			</RadioButton>
+			<RadioButton fx:id='computer3Dumb' layoutX="394.0" layoutY="403.0" mnemonicParsing="false" text="dumb" toggleGroup="$computer3Meanness"/>
+
+			<Label layoutX="293.0" layoutY="195.0" prefHeight="39.0" prefWidth="13.0" text="{">
+				<font>
+					<Font size="31.0" />
+				</font>
+			</Label>
+			<Label layoutX="377.0" layoutY="195.0" prefHeight="39.0" prefWidth="13.0" text="{">
+				<font>
+					<Font size="31.0" />
+				</font>
+			</Label>
+			<Label layoutX="287.0" layoutY="299.0" prefHeight="39.0" prefWidth="13.0" text="{">
+				<font>
+					<Font size="31.0" />
+				</font>
+			</Label>
+			<Label layoutX="285.0" layoutY="375.0" prefHeight="39.0" prefWidth="13.0" text="{">
+				<font>
+					<Font size="31.0" />
+				</font>
+			</Label>
+			<Label layoutX="377.0" layoutY="299.0" prefHeight="39.0" prefWidth="13.0" text="{">
+				<font>
+					<Font size="31.0" />
+				</font>
+			</Label>
+			<Label layoutX="377.0" layoutY="378.0" prefHeight="39.0" prefWidth="13.0" text="{">
+				<font>
+					<Font size="31.0" />
+				</font>
+			</Label>
+
 		</children>
 	</AnchorPane>
 </FlowPane>

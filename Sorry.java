@@ -10,6 +10,7 @@ import javafx.stage.*;
 public class Sorry extends Application {
 	private static final String fxmlFolderPath = "fxml/";
 	private static final Map<String, String> viewFilenames = new HashMap<String, String>();
+	private Stage primaryStage;
 
 	public Sorry(){
 		viewFilenames.put("menu", fxmlFolderPath+"menu.fxml");
@@ -21,6 +22,11 @@ public class Sorry extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception{
+		this.primaryStage = primaryStage;
+		startNewGame();
+	}
+
+	public void startNewGame() throws Exception{
 		// getting loader and a pane for the first scene. loader will then give a possibility to get related controller
 		FXMLLoader menuLoader = new FXMLLoader(getClass().getResource(viewFilenames.get("menu")));
 		Parent menuParent = menuLoader.load();
@@ -66,6 +72,9 @@ public class Sorry extends Application {
 
 
 		menuController.linkGameController(gameController);
+		statsController.linkSorryApplication(this);
+
+		gameController.linkStatsController(statsController);
 
 
 		primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {	//Destroy window on key PRESS ESC

@@ -6,7 +6,7 @@ public class Pawn extends Circle{
 	private Color color;
 	private Square currentParentSquare;
 
-	public int pawnId;
+	private int pawnId;
 	private static int globalPawnId=0;
 	
 	public Pawn(double radius, Color color){
@@ -34,6 +34,10 @@ public class Pawn extends Circle{
 		setStyle("-fx-fill: "+fillColor);
 	}
 
+	public int getPawnId(){
+		return pawnId;
+	}
+
 	public void setCurrentParentSquare(Square square){
 		currentParentSquare=square;
 	}
@@ -47,15 +51,13 @@ public class Pawn extends Circle{
 	}
 
 	public Square calculateLandingSquare(int numSpaces){
-		//need to handle moving backwards later
-
 		//Get initial next square, but check for SafetyEntrySquare & if colors match
 		Square landingSquare = currentParentSquare.getImmediateNextSquare();
-		if(currentParentSquare.getClass().getName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)currentParentSquare).getNextSafetySquare().getColor()){
+		if(currentParentSquare.getClass().getSimpleName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)currentParentSquare).getNextSafetySquare().getColor()){
 			landingSquare = ((SafetyEntrySquare)currentParentSquare).getNextSafetySquare();
 		}
 		for(int i=1; i<numSpaces; i++){		//follow links to next square if moving > 1 forward
-			if(landingSquare.getClass().getName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)landingSquare).getNextSafetySquare().getColor()){
+			if(landingSquare.getClass().getSimpleName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)landingSquare).getNextSafetySquare().getColor()){
 				landingSquare = ((SafetyEntrySquare)landingSquare).getNextSafetySquare();
 			}
 			else{
@@ -66,12 +68,52 @@ public class Pawn extends Circle{
 			}
 		}
 
-		if(!landingSquare.getClass().getName().equals("HomeSquare")
+		//Move backwards
+		if(numSpaces<0){
+			//Get 1st square previous
+			landingSquare = currentParentSquare.getPreviousSquare();
+			for(int i=numSpaces+1; i<0; i++){		//follow links to previous squares (i=numSpaces+1 since used 1 move and stop i<0)
+				landingSquare = landingSquare.getPreviousSquare();
+			}
+		}
+
+		if(!landingSquare.getClass().getSimpleName().equals("HomeSquare")
 			&& landingSquare.isOccupied() 
 				&& landingSquare.getPawn().getColor() == color){
 			throw new LandedOnSquareOccupiedByPlayersOwnPawnException("Cannot move on top of yourself");
 		}
 		return landingSquare;
+	}
+
+	public int calculateMovesToHome(){
+		return calculateMovesToHome(color);
+	}
+	public int calculateMovesToHome(Color temporarySwitchColor){
+		//Temporarily override pawn color so Sorry card can calculate moves to move for any arbitrary color (has no effect if temporarySwitchColor=color)
+		Color originalPawnColor = color;
+		color = temporarySwitchColor;
+
+		//need to handle moving backwards?
+
+		//Get initial next square, but check for SafetyEntrySquare & if colors match
+		Square landingSquare = currentParentSquare.getImmediateNextSquare();
+		int numMoves = 1;		//initialize to 1 move ahead
+		if(currentParentSquare.getClass().getSimpleName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)currentParentSquare).getNextSafetySquare().getColor()){
+			landingSquare = ((SafetyEntrySquare)currentParentSquare).getNextSafetySquare();
+		}
+		while(landingSquare.getClass().getSimpleName()!="HomeSquare"){
+			if(landingSquare.getClass().getSimpleName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)landingSquare).getNextSafetySquare().getColor()){
+				landingSquare = ((SafetyEntrySquare)landingSquare).getNextSafetySquare();
+			}
+			else{
+				landingSquare = landingSquare.getImmediateNextSquare();
+			}
+			numMoves++;
+		}
+
+		color = originalPawnColor;	//change back original color
+
+		return numMoves;
 	}
 
 	public Square move(int numSpaces){
@@ -87,7 +129,7 @@ public class Pawn extends Circle{
 
 	@Override
 	public String toString(){
-		return "Pawn id="+pawnId;
+		return "Pawn="+pawnId;
 	}
 
 }
