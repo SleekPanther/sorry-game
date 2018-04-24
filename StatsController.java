@@ -25,9 +25,7 @@ public class StatsController extends BaseController implements Initializable{
 	@FXML private TableColumn<StatsModel, String> gameId;
 	@FXML private TableColumn<StatsModel, String> playerName;
 	@FXML private TableColumn<StatsModel, String> playerColor;
-	@FXML private TableColumn<StatsModel, String> timeStart;
 	@FXML private TableColumn<StatsModel, String> timeEnd;
-	@FXML private TableColumn<StatsModel, String> duration;
 	@FXML private TableColumn<StatsModel, String> comp1Settings;
 	@FXML private TableColumn<StatsModel, String> comp2Settings;
 	@FXML private TableColumn<StatsModel, String> comp3Settings;
@@ -53,9 +51,7 @@ public class StatsController extends BaseController implements Initializable{
 		gameId.setCellValueFactory(new PropertyValueFactory<>("gameId"));
 		playerName.setCellValueFactory(new PropertyValueFactory<>("playerName"));
 		playerColor.setCellValueFactory(new PropertyValueFactory<>("playerColor"));
-		timeStart.setCellValueFactory(new PropertyValueFactory<>("timeStart"));
 		timeEnd.setCellValueFactory(new PropertyValueFactory<>("timeEnd"));
-		duration.setCellValueFactory(new PropertyValueFactory<>("duration"));
 		comp1Settings.setCellValueFactory(new PropertyValueFactory<>("comp1Settings"));
 		comp2Settings.setCellValueFactory(new PropertyValueFactory<>("comp2Settings"));
 		comp3Settings.setCellValueFactory(new PropertyValueFactory<>("comp3Settings"));
@@ -114,9 +110,7 @@ public class StatsController extends BaseController implements Initializable{
 					pastGame.gameId.set(rs.getString("pmkGameId"));
 					pastGame.playerName.set(rs.getString("fldPlayerName"));
 					pastGame.playerColor.set(rs.getString("fldPlayerColor"));
-					pastGame.timeStart.set(rs.getString("fldDateCreated"));
 					pastGame.timeEnd.set(rs.getString("fldDateEnded"));
-					pastGame.duration.set(rs.getString("fldDuration"));
 					pastGame.comp1Settings.set(rs.getString("fldComp1Set"));
 					pastGame.comp2Settings.set(rs.getString("fldComp2Set"));
 					pastGame.comp3Settings.set(rs.getString("fldComp3Set"));
@@ -124,8 +118,6 @@ public class StatsController extends BaseController implements Initializable{
 
 					statsData.add(pastGame);
 				}
-
-
 
 			tableView.setItems(statsData);
 			connection.close();

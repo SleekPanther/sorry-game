@@ -34,11 +34,7 @@
 				</TableColumn>
 				<TableColumn text="Player Color" fx:id="playerColor">
 				</TableColumn>
-				<TableColumn text="Time Started" fx:id="timeStart">
-				</TableColumn>
 				<TableColumn text="Time Ended" fx:id="timeEnd">
-				</TableColumn>
-				<TableColumn text="Game Duration" fx:id="duration" >
 				</TableColumn>
 				<TableColumn text="Computer 1 Settings" fx:id="comp1Settings">
 				</TableColumn>
