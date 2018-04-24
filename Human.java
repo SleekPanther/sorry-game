@@ -39,6 +39,10 @@ public class Human extends Player{
 
 			moves = new LinkedList<Move>();
 
+			if(numSpaces==4){	//4 moves backwards
+				numSpaces = -4;
+			}
+
 			//Sorry card
 			if(numSpaces==0){
 				if(selectedSquare.getClass().getSimpleName().equals("StartSquare")){
@@ -69,7 +73,7 @@ public class Human extends Player{
 						bumpCount++;
 					}
 					boolean slide = false;
-					if(landingSquare.getClass().getSimpleName().equals("SlideStartSquare") && landingSquare.getColor()!=color){	//only slide on other player's slides
+					if(numSpaces>0 && landingSquare.getClass().getSimpleName().equals("SlideStartSquare") && landingSquare.getColor()!=color){	//only slide on other player's slides
 						bumpCount = 0;
 						slide = true;
 						Square slideDestinationSquare = ((SlideStartSquare)landingSquare).getDestinationSquare();

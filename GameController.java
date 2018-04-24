@@ -216,10 +216,9 @@ public class GameController extends BaseController implements Initializable {
 		Pawn testPawnBlue2 = new Pawn(pawnRadius, Color.BLUE);
 		Pawn testPawnGreen1 = new Pawn(pawnRadius, Color.GREEN);
 		allPawns.addAll(new ArrayList<Pawn>(Arrays.asList(testPawnRed1, testPawnRed2, testPawnBlue1, testPawnBlue2, testPawnGreen1)));
-		// Square blueParentSquare1 = (Square)topRow.getChildren().get(0);
-		Square blueParentSquare1 = cornersSquares.get(0);
+		Square blueParentSquare1 = (Square)topRow.getChildren().get(8);
 		Square blueParentSquare2 = (Square)rightColumn.getChildren().get(1);
-		Square redParentSquare1 = cornersSquares.get(1);
+		Square redParentSquare1 = (Square)topRow.getChildren().get(6);
 		Square redParentSquare2 = (Square)rightColumn.getChildren().get(10);
 		Square greenParentSquare1 = ((Square)topRow.getChildren().get(2));
 		redParentSquare1.add(testPawnRed1);
@@ -476,6 +475,11 @@ public class GameController extends BaseController implements Initializable {
 			currentSquare.setImmediateNextSquare((Square)squares.get(i+1));	//set pointer to next square on a side
 		}
 
+		for(int i=squares.size()-1; i>0; i--){		//stop before 0
+			Square currentSquare = (Square)squares.get(i);
+			currentSquare.setPreviousSquare((Square)squares.get(i-1));	//set pointer to next square on a side
+		}
+
 
 		//Reverse the ArrayList since ObservableList is unmodifiable, clear the UI pane and add all squares in the new reversed order
 		if(reverseCreationDirection){
@@ -492,21 +496,30 @@ public class GameController extends BaseController implements Initializable {
 
 	private void linkCornerSquaresToSequence(){
 		ObservableList<Node> topSquares = topRow.getChildren();
-		cornersSquares.get(0).setImmediateNextSquare((Square)topSquares.get(0));	//link corner square to beginning of row
-		( (Square)topSquares.get(topSquares.size()-1) ).setImmediateNextSquare(cornersSquares.get(1));		//link last square in row to 2nd corner
-
 		ObservableList<Node> rightSquares = rightColumn.getChildren();
+		ObservableList<Node> bottomSquares = bottomRow.getChildren();
+		ObservableList<Node> leftSquares = leftColumn.getChildren();
+		
+		cornersSquares.get(0).setImmediateNextSquare((Square)topSquares.get(0));	//link corner square to beginning of row
+		cornersSquares.get(0).setPreviousSquare((Square)leftSquares.get(0));
+		((Square)topSquares.get(topSquares.size()-1)).setImmediateNextSquare(cornersSquares.get(1));		//link last square in row to 2nd corner
+		((Square)topSquares.get(0)).setPreviousSquare(cornersSquares.get(0));		//link last square in row to 2nd corner
+
 		cornersSquares.get(1).setImmediateNextSquare((Square)rightSquares.get(0));
-		( (Square)rightSquares.get(rightSquares.size()-1) ).setImmediateNextSquare(cornersSquares.get(2));
+		cornersSquares.get(1).setPreviousSquare((Square)topSquares.get(topSquares.size()-1));
+		((Square)rightSquares.get(rightSquares.size()-1)).setImmediateNextSquare(cornersSquares.get(2));
+		((Square)rightSquares.get(0)).setPreviousSquare(cornersSquares.get(1));
 
 		//Bottom and left were created in reverse order
-		ObservableList<Node> bottomSquares = bottomRow.getChildren();
 		cornersSquares.get(2).setImmediateNextSquare((Square)bottomSquares.get(bottomSquares.size()-1));
-		( (Square)bottomSquares.get(0) ).setImmediateNextSquare(cornersSquares.get(3));
+		cornersSquares.get(2).setPreviousSquare((Square)rightSquares.get(rightSquares.size()-1));
+		((Square)bottomSquares.get(0)).setImmediateNextSquare(cornersSquares.get(3));
+		((Square)bottomSquares.get(bottomSquares.size()-1)).setPreviousSquare(cornersSquares.get(2));
 
-		ObservableList<Node> leftSquares = leftColumn.getChildren();
 		cornersSquares.get(3).setImmediateNextSquare((Square)leftSquares.get(leftSquares.size()-1));
-		( (Square)leftSquares.get(0) ).setImmediateNextSquare(cornersSquares.get(0));
+		cornersSquares.get(3).setPreviousSquare((Square)bottomSquares.get(0));
+		((Square)leftSquares.get(0)).setImmediateNextSquare(cornersSquares.get(0));
+		((Square)leftSquares.get(leftSquares.size()-1)).setPreviousSquare(cornersSquares.get(3));
 
 		addCornerSquaresToAllSquares();
 	}
@@ -615,9 +628,9 @@ public class GameController extends BaseController implements Initializable {
 			}
 			
 			ObservableList<Node> safetySquaresObservable = safetySquareSides.get(side).getChildren();
-			ArrayList<SafetySquare> safetySquares = new ArrayList<SafetySquare>();
+			ArrayList<Square> safetySquares = new ArrayList<Square>();
 			for(Node square : safetySquaresObservable){
-				safetySquares.add((SafetySquare)square);
+				safetySquares.add((Square)square);
 			}
 			if(side==1 || side==2){
 				Collections.reverse(safetySquares);
@@ -626,14 +639,18 @@ public class GameController extends BaseController implements Initializable {
 			SafetyEntrySquare safetyEntrySquare = (SafetyEntrySquare)(sideSquares.get(1));
 			SafetySquare firstSafetySquare = (SafetySquare)safetySquares.get(0);
 			safetyEntrySquare.setNextSafetySquare(firstSafetySquare);
+			safetySquares.get(0).setPreviousSquare(safetyEntrySquare);
 
 			for(int i=0; i<numSafetySquares-1; i++){
-				((SafetySquare)safetySquares.get(i)).setImmediateNextSquare((SafetySquare)safetySquares.get(i+1));
+				(safetySquares.get(i)).setImmediateNextSquare(safetySquares.get(i+1));
 			}
-			SafetySquare lastSafetySquare = (SafetySquare)safetySquares.get(numSafetySquares-1);
+			for(int i=numSafetySquares-1; i>0; i--){	//skip 1st SafetySquare since it comes from a SafetyEntrySquare
+				(safetySquares.get(i)).setPreviousSquare(safetySquares.get(i-1));
+			}
+			Square lastSafetySquare = safetySquares.get(numSafetySquares-1);
 			lastSafetySquare.setImmediateNextSquare(homeSquares.get(side));
 
-			startSquares.get(side).setImmediateNextSquare((Square)sideSquares.get(startDestinationOffset));
+			startSquares.get(side).setImmediateNextSquare(sideSquares.get(startDestinationOffset));
 		}
 	}
 

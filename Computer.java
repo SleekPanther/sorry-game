@@ -27,6 +27,9 @@ public class Computer extends Player{
 
 		LinkedList<Move> moves = new LinkedList<Move>();
 		int numSpacesAdjusted = numSpaces;	//in case leaving start changes 2 to 1
+		if(numSpacesAdjusted==4){	//4 moves backwards
+			numSpacesAdjusted = -4;
+		}
 
 		for(Pawn pawn : pawns){
 			if(!pawn.getCurrentParentSquare().getClass().getSimpleName().equals("HomeSquare")){
@@ -51,7 +54,7 @@ public class Computer extends Player{
 					}
 
 					boolean slide = false;
-					if(landingSquare.getClass().getSimpleName().equals("SlideStartSquare") && landingSquare.getColor()!=color){
+					if(numSpacesAdjusted>0 && landingSquare.getClass().getSimpleName().equals("SlideStartSquare") && landingSquare.getColor()!=color){
 						slide = true;
 						bumpCount = 0;		//reset for slides since may already bumped by directly landing on
 						Square slideDestinationSquare = ((SlideStartSquare)landingSquare).getDestinationSquare();

@@ -51,8 +51,6 @@ public class Pawn extends Circle{
 	}
 
 	public Square calculateLandingSquare(int numSpaces){
-		//need to handle moving backwards later
-
 		//Get initial next square, but check for SafetyEntrySquare & if colors match
 		Square landingSquare = currentParentSquare.getImmediateNextSquare();
 		if(currentParentSquare.getClass().getSimpleName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)currentParentSquare).getNextSafetySquare().getColor()){
@@ -67,6 +65,15 @@ public class Pawn extends Circle{
 					throw new OvershotHomeException("Overshot Home");
 				}
 				landingSquare = landingSquare.getImmediateNextSquare();
+			}
+		}
+
+		//Move backwards
+		if(numSpaces<0){
+			//Get 1st square previous
+			landingSquare = currentParentSquare.getPreviousSquare();
+			for(int i=numSpaces+1; i<0; i++){		//follow links to previous squares (i=numSpaces+1 since used 1 move and stop i<0)
+				landingSquare = landingSquare.getPreviousSquare();
 			}
 		}
 
