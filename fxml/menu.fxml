@@ -36,7 +36,6 @@
 			<ComboBox fx:id="computer1Color" layoutX="123.0" layoutY="201.0" prefWidth="150.0" />
 			<ComboBox fx:id="computer2Color" layoutX="123.0" layoutY="291.0" prefWidth="150.0" />
 			<ComboBox fx:id="computer3Color" layoutX="123.0" layoutY="379.0" prefWidth="150.0" />
-			<Button layoutX="242.0" layoutY="512.0" mnemonicParsing="false" text="resume" />
 
 			<RadioButton fx:id='computer1Mean' layoutX="306.0" layoutY="192.0" mnemonicParsing="false" text="mean">
 				<toggleGroup>
