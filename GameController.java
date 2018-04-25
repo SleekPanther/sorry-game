@@ -729,7 +729,7 @@ public class GameController extends BaseController implements Initializable {
 			playerCardIsNew = false;
 			incrementTurn();	//recursively call itself until it gets back to a Human
 		}
-
-	}
 		discardLabel.setText("");
+	}
+
 }
