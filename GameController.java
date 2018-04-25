@@ -751,7 +751,7 @@ public class GameController extends BaseController implements Initializable {
 	}
 
 	private void runComputerTurn(){
-		// pickCard();
+		pickCard();
 		activePlayer.executeAutomaticTurn(moveCard.getType());
 		playerCardIsNew = false;
 		//Only increment computer turn if it's NOT a 2 (otherwise they get another turn)
