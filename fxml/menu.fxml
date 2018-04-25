@@ -19,12 +19,16 @@
 			<Button fx:id="statsButton" layoutX="249.0" layoutY="551.0" text="Stats" />
 			<Button fx:id="helpButton" layoutX="444.0" layoutY="578.0" prefHeight="32.0" prefWidth="62.0" text="Help?" />
 			<ComboBox fx:id="playerColor" layoutX="123.0" layoutY="141.0" prefWidth="150.0" />
+<<<<<<< HEAD
 			<TextField fx:id="playerName" layoutX="23.0" layoutY="141.0" styleClass="nameField" text="Player" />
 			<ImageView fitHeight="91.0" fitWidth="281.0" layoutX="130.0" pickOnBounds="true" preserveRatio="true">
 				<image>
 					<Image url="@../image/welcome.gif" />
 				</image>
 			</ImageView>
+=======
+			<TextField fx:id="playerName" layoutX="23.0" layoutY="141.0" styleClass="nameField" text="player" />
+>>>>>>> welcome-screen
 			<Label layoutX="124.0" layoutY="86.0" prefHeight="39.0" prefWidth="299.0" text="Choose a color for your pawn!">
 				<font>
 					<Font size="20.0" />
@@ -37,6 +41,7 @@
 			<ComboBox fx:id="computer2Color" layoutX="123.0" layoutY="291.0" prefWidth="150.0" />
 			<ComboBox fx:id="computer3Color" layoutX="123.0" layoutY="379.0" prefWidth="150.0" />
 			<Button layoutX="242.0" layoutY="512.0" mnemonicParsing="false" text="resume" />
+<<<<<<< HEAD
 
 			<RadioButton fx:id='computer1Mean' layoutX="306.0" layoutY="192.0" mnemonicParsing="false" text="mean">
 				<toggleGroup>
@@ -108,6 +113,75 @@
 				</font>
 			</Label>
 
+=======
+         <RadioButton layoutX="306.0" layoutY="192.0" mnemonicParsing="false" text="mean">
+            <toggleGroup>
+               <ToggleGroup fx:id="computer1Difficulity" />
+            </toggleGroup></RadioButton>
+         <RadioButton layoutX="394.0" layoutY="192.0" mnemonicParsing="false" text="smart">
+            <toggleGroup>
+               <ToggleGroup fx:id="computer1Difficulity2" />
+            </toggleGroup></RadioButton>
+         <RadioButton layoutX="306.0" layoutY="219.0" mnemonicParsing="false" text="nice" toggleGroup="$computer1Difficulity" />
+         <RadioButton layoutX="394.0" layoutY="219.0" mnemonicParsing="false" text="dumb" toggleGroup="$computer1Difficulity2" />
+         <RadioButton layoutX="306.0" layoutY="296.0" mnemonicParsing="false" text="mean">
+            <toggleGroup>
+               <ToggleGroup fx:id="computer2Difficulity2" />
+            </toggleGroup>
+         </RadioButton>
+         <RadioButton layoutX="302.0" layoutY="375.0" mnemonicParsing="false" text="mean">
+            <toggleGroup>
+               <ToggleGroup fx:id="computer3Difficulity2" />
+            </toggleGroup>
+         </RadioButton>
+         <RadioButton layoutX="394.0" layoutY="376.0" mnemonicParsing="false" text="smart">
+            <toggleGroup>
+               <ToggleGroup fx:id="computer3Difficulity" />
+            </toggleGroup></RadioButton>
+         <RadioButton layoutX="394.0" layoutY="296.0" mnemonicParsing="false" text="smart">
+            <toggleGroup>
+               <ToggleGroup fx:id="computer2Difficulity" />
+            </toggleGroup></RadioButton>
+         <RadioButton layoutX="302.0" layoutY="403.0" mnemonicParsing="false" text="nice" toggleGroup="$computer3Difficulity2" />
+         <RadioButton layoutX="306.0" layoutY="325.0" mnemonicParsing="false" text="nice" toggleGroup="$computer2Difficulity2" />
+         <RadioButton layoutX="394.0" layoutY="403.0" mnemonicParsing="false" text="dumb" toggleGroup="$computer3Difficulity" />
+         <RadioButton layoutX="394.0" layoutY="325.0" mnemonicParsing="false" text="dumb" toggleGroup="$computer2Difficulity" />
+         <Label layoutX="293.0" layoutY="195.0" prefHeight="39.0" prefWidth="13.0" text="{">
+            <font>
+               <Font size="31.0" />
+            </font>
+         </Label>
+         <Label layoutX="377.0" layoutY="195.0" prefHeight="39.0" prefWidth="13.0" text="{">
+            <font>
+               <Font size="31.0" />
+            </font>
+         </Label>
+         <Label layoutX="287.0" layoutY="299.0" prefHeight="39.0" prefWidth="13.0" text="{">
+            <font>
+               <Font size="31.0" />
+            </font>
+         </Label>
+         <Label layoutX="285.0" layoutY="375.0" prefHeight="39.0" prefWidth="13.0" text="{">
+            <font>
+               <Font size="31.0" />
+            </font>
+         </Label>
+         <Label layoutX="377.0" layoutY="299.0" prefHeight="39.0" prefWidth="13.0" text="{">
+            <font>
+               <Font size="31.0" />
+            </font>
+         </Label>
+         <Label layoutX="377.0" layoutY="378.0" prefHeight="39.0" prefWidth="13.0" text="{">
+            <font>
+               <Font size="31.0" />
+            </font>
+         </Label>
+         <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="167.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../image/sorry.png" />
+            </image>
+         </ImageView>
+>>>>>>> welcome-screen
 		</children>
 	</AnchorPane>
 </FlowPane>
