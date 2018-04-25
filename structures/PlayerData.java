@@ -11,6 +11,7 @@ public class PlayerData implements Comparable<PlayerData>{
 	public boolean smartness;
 	public boolean meanness;
 	@Override
+	
 	public int compareTo(PlayerData playerData2) {
 		int player1ColorIndex = ColorFunctions.colorToPlayerIndex(this.color);
 		int player2ColorIndex = ColorFunctions.colorToPlayerIndex(playerData2.color);

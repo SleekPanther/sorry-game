@@ -12,6 +12,7 @@ public class Player{
 	protected int slideSquareDestinationForwardOffset;
 	protected int numPawnsInHome=0;
 	protected Move chosenMove;
+	protected boolean completedMove = false;
 
 	public Player(String name, Color color, ArrayList<Pawn> pawns, ArrayList<Pawn> allPawns, ArrayList<StartSquare> startSquares, ArrayList<HomeSquare> homeSquares, int slideSquareDestinationForwardOffset){
 		this.name = name;
@@ -54,6 +55,14 @@ public class Player{
 	}
 
 	public void executeAutomaticTurn(int cardValue){
+	}
+
+	public boolean executedMove(){
+		return completedMove;
+	}
+
+	public void skipTurn(){
+		completedMove = false;
 	}
 
 	protected void actuallyMove(int numSpacesAdjusted){

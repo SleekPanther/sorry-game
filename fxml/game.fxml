@@ -21,6 +21,7 @@
 				<Label text='Red' />
 				<Label fx:id='redPlayerSmartness'/>
 				<Label fx:id='redPlayerMeanness'/>
+				<Label fx:id='redPlayerLastMove'/>
 			</HBox>
 		</top>
 
@@ -30,6 +31,7 @@
 				<Label text='Blue' />
 				<Label fx:id='bluePlayerSmartness'/>
 				<Label fx:id='bluePlayerMeanness'/>
+				<Label fx:id='bluePlayerLastMove'/>
 			</VBox>
 		</right>
 		
@@ -103,6 +105,7 @@
 				<Label text='Yellow' />
 				<Label fx:id='yellowPlayerSmartness'/>
 				<Label fx:id='yellowPlayerMeanness'/>
+				<Label fx:id='yellowPlayerLastMove'/>
 			</HBox>
 		</bottom>
 
@@ -112,6 +115,7 @@
 				<Label text='Green' />
 				<Label fx:id='greenPlayerSmartness'/>
 				<Label fx:id='greenPlayerMeanness' />
+				<Label fx:id='greenPlayerLastMove'/>
 			</VBox>
 		</left>
 	</BorderPane>

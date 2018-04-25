@@ -94,21 +94,27 @@ public class GameController extends BaseController implements Initializable {
 	@FXML private Label redPlayerName;
 	@FXML private Label redPlayerSmartness;
 	@FXML private Label redPlayerMeanness;
+	@FXML private Label redPlayerLastMove;
 
 	private ArrayList<Label> bluePlayerSettings;
 	@FXML private Label bluePlayerName;
 	@FXML private Label bluePlayerSmartness;
 	@FXML private Label bluePlayerMeanness;
+	@FXML private Label bluePlayerLastMove;	
 
 	private ArrayList<Label> yellowPlayerSettings;
 	@FXML private Label yellowPlayerName;
 	@FXML private Label yellowPlayerSmartness;
 	@FXML private Label yellowPlayerMeanness;
+	@FXML private Label yellowPlayerLastMove;
 
 	private ArrayList<Label> greenPlayerSettings;
 	@FXML private Label greenPlayerName;
 	@FXML private Label greenPlayerSmartness;
 	@FXML private Label greenPlayerMeanness;
+	@FXML private Label greenPlayerLastMove;
+
+	private ArrayList<Label> lastMoveLabels;
 
 
 	private ArrayList<Square> allSquares = new ArrayList<Square>();
@@ -233,9 +239,8 @@ public class GameController extends BaseController implements Initializable {
 		players.get(ColorFunctions.colorToPlayerIndex(Color.BLUE)).addPawn(testPawnBlue2, blueParentSquare2);
 		players.get(ColorFunctions.colorToPlayerIndex(Color.GREEN)).addPawn(testPawnGreen1, greenParentSquare1);
 
-
 		createPlayerSettingsDisplays();
-
+		lastMoveLabels = new ArrayList<Label>(Arrays.asList(redPlayerLastMove, bluePlayerLastMove, yellowPlayerLastMove, greenPlayerLastMove));
 
 		drawPile.addEventFilter(MouseEvent.MOUSE_PRESSED, (e)->{
 			if(enableTurnsCheckbox.isSelected() && playerCardIsNew){
@@ -255,7 +260,10 @@ public class GameController extends BaseController implements Initializable {
 		});
 
 		switchButton.setOnAction((event) -> changeScene(helpScene, event));
-		skipTurnButton.setOnAction((event) -> incrementTurn());
+		skipTurnButton.setOnAction((event) -> {
+			activePlayer.skipTurn();
+			incrementTurn();
+		});
 
 		statsSwitchButton.setOnAction((event) -> changeScene(statsScene, event));
 
@@ -715,6 +723,17 @@ public class GameController extends BaseController implements Initializable {
 	}
 
 	private void incrementTurn(){
+		if(activePlayer.executedMove()){
+			String lastMoveDisplayText = moveCard.getType() +"";
+			if(moveCard.getType()==0){
+				lastMoveDisplayText= "Sorry!";
+			}
+			lastMoveLabels.get(turn).setText("Last move = "+lastMoveDisplayText);
+		}
+		else{
+			lastMoveLabels.get(turn).setText("Last move = none");
+		}
+
 		turn++;
 		if(turn>=players.size()){	//need to handle less than 4 players later
 			turn = 0;
@@ -732,7 +751,7 @@ public class GameController extends BaseController implements Initializable {
 	}
 
 	private void runComputerTurn(){
-		pickCard();
+		// pickCard();
 		activePlayer.executeAutomaticTurn(moveCard.getType());
 		playerCardIsNew = false;
 		//Only increment computer turn if it's NOT a 2 (otherwise they get another turn)
@@ -740,8 +759,6 @@ public class GameController extends BaseController implements Initializable {
 			incrementTurn();	//Moves to the next computer or back to player
 		}
 		else{
-			Popup popup = new Popup("rolled 2 ");
-			popup.show();
 			runComputerTurn();	//recursively call itself if it gets to move again
 		}
 	}

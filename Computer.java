@@ -89,11 +89,11 @@ public class Computer extends Player{
 		}
 
 		if(moves.isEmpty()){
-			//or skip turn
-			Popup popup = new Popup("No moves for "+name);
-			popup.show();
+			completedMove = false;
 		}
 		else{
+			completedMove = true;
+
 			if(smartness){
 				Collections.sort(moves);	//sort by moves closes to home first (smart)
 			}

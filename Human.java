@@ -12,6 +12,7 @@ public class Human extends Player{
 
 	@Override
 	public String handleSquareClick(Square clickedSquare, int numSpaces){
+		completedMove = false;
 		if(selectedSquare==null){	//they haven't clicked anything yet
 			if(clickedSquare.getClass().getSimpleName().equals("HomeSquare")){	//Don't allow to move out of Home
 				return "error";
@@ -124,6 +125,7 @@ public class Human extends Player{
 					}
 				}
 				if(clickedValidLandingSquare){		//Make sure clicked square is the correct destination
+					completedMove = true;
 					actuallyMove(numSpaces);
 
 					selectedSquare.unHighlight();
