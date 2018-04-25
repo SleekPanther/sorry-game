@@ -726,15 +726,24 @@ public class GameController extends BaseController implements Initializable {
 		activePlayerColorDropdown.setValue(colorStrings.get(turn));
 
 		if(activePlayer.getClass().getSimpleName().equals("Computer")){
-			pickCard();
-			activePlayer.executeAutomaticTurn(moveCard.getType());
-			playerCardIsNew = false;
-			//Only increment computer turn if it's NOT a 2 (otherwise they get another turn)
-			if(moveCard.getType()!=2){
-				incrementTurn();	//recursively call itself until it gets back to a Human
-			}
+			runComputerTurn();
 		}
 		discardLabel.setText("");
+	}
+
+	private void runComputerTurn(){
+		pickCard();
+		activePlayer.executeAutomaticTurn(moveCard.getType());
+		playerCardIsNew = false;
+		//Only increment computer turn if it's NOT a 2 (otherwise they get another turn)
+		if(moveCard.getType()!=2){
+			incrementTurn();	//Moves to the next computer or back to player
+		}
+		else{
+			Popup popup = new Popup("rolled 2 ");
+			popup.show();
+			runComputerTurn();	//recursively call itself if it gets to move again
+		}
 	}
 
 }
