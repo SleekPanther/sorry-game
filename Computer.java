@@ -18,13 +18,6 @@ public class Computer extends Player{
 
 	@Override
 	public void executeAutomaticTurn(int numSpaces){
-		//Pause execution before computer moves (currently also looks like it prevents the user from finishing)
-		// try {
-		// 	Thread.sleep(400);
-		// } catch (InterruptedException e1) {
-		// 	e1.printStackTrace();
-		// }
-
 		LinkedList<Move> moves = new LinkedList<Move>();
 		int numSpacesAdjusted = numSpaces;	//in case leaving start changes 2 to 1
 		if(numSpacesAdjusted==4){	//4 moves backwards
@@ -151,30 +144,6 @@ public class Computer extends Player{
 				}
 			}
 			System.out.println("Chosen move="+chosenMove);
-
-			// try {
-			// 	Square nextHighlighSquare = chosenMove.pawnToMove.getCurrentParentSquare().getImmediateNextSquare();	//normal square
-			// 	//Check if currently sitting on safety entry square
-			// 	if(chosenMove.pawnToMove.getCurrentParentSquare().getClass().getSimpleName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)chosenMove.pawnToMove.getCurrentParentSquare()).getNextSafetySquare().getColor()){
-			// 		nextHighlighSquare = ((SafetyEntrySquare)chosenMove.pawnToMove.getCurrentParentSquare()).getNextSafetySquare();
-			// 	}
-
-			// 	while(nextHighlighSquare.getSquareId() != chosenMove.landingSquare.getSquareId()){
-			// 		nextHighlighSquare.highlight();
-			// 		System.out.println("Highlighting");
-			// 		TimeUnit.MILLISECONDS.sleep(600);
-			// 		// Thread.sleep(600);
-			// 		nextHighlighSquare.unHighlight();
-			// 		if(nextHighlighSquare.getClass().getSimpleName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)nextHighlighSquare).getNextSafetySquare().getColor()){
-			// 			nextHighlighSquare = ((SafetyEntrySquare)nextHighlighSquare).getNextSafetySquare();
-			// 		}
-			// 		else{
-			// 			nextHighlighSquare = nextHighlighSquare.getImmediateNextSquare();
-			// 		}
-			// 	}
-			// } catch (InterruptedException e) {
-			// 	e.printStackTrace();
-			// }
 
 			actuallyMove(numSpacesAdjusted);
 		}
