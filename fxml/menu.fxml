@@ -20,11 +20,6 @@
 			<Button fx:id="helpButton" layoutX="444.0" layoutY="578.0" prefHeight="32.0" prefWidth="62.0" text="Help?" />
 			<ComboBox fx:id="playerColor" layoutX="123.0" layoutY="141.0" prefWidth="150.0" />
 			<TextField fx:id="playerName" layoutX="23.0" layoutY="141.0" styleClass="nameField" text="player" />
-			<ImageView fitHeight="91.0" fitWidth="281.0" layoutX="130.0" pickOnBounds="true" preserveRatio="true">
-				<image>
-					<Image url="@../image/welcome.gif" />
-				</image>
-			</ImageView>
 			<Label layoutX="124.0" layoutY="86.0" prefHeight="39.0" prefWidth="299.0" text="Choose a color for your pawn!">
 				<font>
 					<Font size="20.0" />
@@ -99,6 +94,11 @@
                <Font size="31.0" />
             </font>
          </Label>
+         <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="167.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../image/sorry.png" />
+            </image>
+         </ImageView>
 		</children>
 	</AnchorPane>
 </FlowPane>
