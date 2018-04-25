@@ -731,5 +731,5 @@ public class GameController extends BaseController implements Initializable {
 		}
 
 	}
-
+		discardLabel.setText("");
 }
