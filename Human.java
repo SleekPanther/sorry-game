@@ -132,10 +132,6 @@ public class Human extends Player{
 					}
 					selectedSquare=null;
 
-					if(chosenMove.landingSquare.getClass().getSimpleName().equals("HomeSquare")){
-						numPawnsInHome++;
-					}
-
 					return "done";
 				}
 				else{	//They didn't click the correct destination square

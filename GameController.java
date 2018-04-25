@@ -31,6 +31,7 @@ public class GameController extends BaseController implements Initializable {
 	private static final int startDestinationOffset = 3;
 	private static final int numSafetySquares = 5;
 	private static final double homeSquareDistanceFromBoardEdge = squareHeightWidth*numSafetySquares;
+	private static final int PAWNS_TO_WIN = 4;
 
 	private StatsController statsController;
 
@@ -677,7 +678,7 @@ public class GameController extends BaseController implements Initializable {
 	}
 
 	private void checkIfGameWon(){
-		if(activePlayer.getNumPawnsInHome()==4){
+		if(activePlayer.getNumPawnsInHome()==PAWNS_TO_WIN){
 			String jdbcUrl = "jdbc:mysql://104.154.51.240/sorrygame";
 			String username = "root";
 			String password = "password";
