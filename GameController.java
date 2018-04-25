@@ -655,6 +655,7 @@ public class GameController extends BaseController implements Initializable {
 		}
 	}
 
+	//Click handler for all square panes. Processes a user move to select or finalize. Movement taken care of in Player and Human
 	private void createSquareClickHandlers(){
 		for(Square square : allSquares){
 			square.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
@@ -668,7 +669,8 @@ public class GameController extends BaseController implements Initializable {
 					if(moveResult.equals("done")){
 						playerCardIsNew = false;
 						checkIfGameWon();
-						if(enableTurnsCheckbox.isSelected()){
+						//Don't increment turn if user got a 2 (they get another turn)
+						if(enableTurnsCheckbox.isSelected() && moveCard.getType()!=2){
 							incrementTurn();
 						}
 					}
@@ -727,7 +729,10 @@ public class GameController extends BaseController implements Initializable {
 			pickCard();
 			activePlayer.executeAutomaticTurn(moveCard.getType());
 			playerCardIsNew = false;
-			incrementTurn();	//recursively call itself until it gets back to a Human
+			//Only increment computer turn if it's NOT a 2 (otherwise they get another turn)
+			if(moveCard.getType()!=2){
+				incrementTurn();	//recursively call itself until it gets back to a Human
+			}
 		}
 		discardLabel.setText("");
 	}
