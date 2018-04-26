@@ -4,7 +4,6 @@ import enums.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.concurrent.TimeUnit;
 
 public class Computer extends Player{
 	private boolean smartness;
@@ -75,11 +74,6 @@ public class Computer extends Player{
 				}
 			}
 		}
-
-		// System.out.println("\n"+color+" Moves Before removing");
-		// for(Move move : moves){
-		// 	System.out.println(move);
-		// }
 
 		//Remove "duplicate" moves that leave start so only the last pawn in the ArrayList for the MultipleSquare is allowed to move from start
 		for(int i=moves.size()-1; i>=0; i--){	//loop backwards since remmoving a move shifts the list

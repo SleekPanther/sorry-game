@@ -2,22 +2,11 @@ import structures.*;
 import enums.Color;
 import java.net.URL;
 import javafx.fxml.*;
-import javafx.application.Platform;
-import javafx.stage.Stage;
 import structures.HumanData;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.scene.shape.Circle;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.*;
 import java.util.*;
 import javafx.collections.*;
-import java.text.DecimalFormat;
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
 
 public class MenuController extends BaseController implements Initializable{
 	private GameController gameController;

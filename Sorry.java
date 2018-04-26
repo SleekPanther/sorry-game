@@ -1,6 +1,5 @@
 import java.util.HashMap;
 import java.util.Map;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
