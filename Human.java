@@ -62,6 +62,8 @@ public class Human extends Player{
 						move.landingSquare.highlight();
 					}
 					if(moves.isEmpty()){
+						selectedSquare.unHighlight();
+						selectedSquare = null;
 						Popup popup = new Popup("No other pawns available to bump for Sorry Card");
 						popup.show();
 					}
