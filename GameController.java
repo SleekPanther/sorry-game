@@ -186,27 +186,27 @@ public class GameController extends BaseController implements Initializable {
 		setUpPlayerColors();
 
 		//Testing pawn(s)
-		Pawn testPawnRed1 = new Pawn(pawnRadius, Color.RED);
-		Pawn testPawnRed2 = new Pawn(pawnRadius, Color.RED);
-		Pawn testPawnBlue1 = new Pawn(pawnRadius, Color.BLUE);
-		Pawn testPawnBlue2 = new Pawn(pawnRadius, Color.BLUE);
-		Pawn testPawnGreen1 = new Pawn(pawnRadius, Color.GREEN);
-		allPawns.addAll(new ArrayList<Pawn>(Arrays.asList(testPawnRed1, testPawnRed2, testPawnBlue1, testPawnBlue2, testPawnGreen1)));
-		Square blueParentSquare1 = (Square)topRow.getChildren().get(8);
-		Square blueParentSquare2 = (Square)rightColumn.getChildren().get(1);
-		Square redParentSquare1 = (Square)topRow.getChildren().get(6);
-		Square redParentSquare2 = (Square)rightColumn.getChildren().get(10);
-		Square greenParentSquare1 = ((Square)topRow.getChildren().get(2));
-		redParentSquare1.add(testPawnRed1);
-		blueParentSquare1.add(testPawnBlue1);
-		blueParentSquare2.add(testPawnBlue2);
-		greenParentSquare1.add(testPawnGreen1);
-		redParentSquare2.add(testPawnRed2);
-		players.get(ColorFunctions.colorToPlayerIndex(Color.RED)).addPawn(testPawnRed1, redParentSquare1);
-		players.get(ColorFunctions.colorToPlayerIndex(Color.RED)).addPawn(testPawnRed2, redParentSquare2);
-		players.get(ColorFunctions.colorToPlayerIndex(Color.BLUE)).addPawn(testPawnBlue1, blueParentSquare1);
-		players.get(ColorFunctions.colorToPlayerIndex(Color.BLUE)).addPawn(testPawnBlue2, blueParentSquare2);
-		players.get(ColorFunctions.colorToPlayerIndex(Color.GREEN)).addPawn(testPawnGreen1, greenParentSquare1);
+		// Pawn testPawnRed1 = new Pawn(pawnRadius, Color.RED);
+		// Pawn testPawnRed2 = new Pawn(pawnRadius, Color.RED);
+		// Pawn testPawnBlue1 = new Pawn(pawnRadius, Color.BLUE);
+		// Pawn testPawnBlue2 = new Pawn(pawnRadius, Color.BLUE);
+		// Pawn testPawnGreen1 = new Pawn(pawnRadius, Color.GREEN);
+		// allPawns.addAll(new ArrayList<Pawn>(Arrays.asList(testPawnRed1, testPawnRed2, testPawnBlue1, testPawnBlue2, testPawnGreen1)));
+		// Square blueParentSquare1 = (Square)topRow.getChildren().get(8);
+		// Square blueParentSquare2 = (Square)rightColumn.getChildren().get(1);
+		// Square redParentSquare1 = (Square)topRow.getChildren().get(6);
+		// Square redParentSquare2 = (Square)rightColumn.getChildren().get(10);
+		// Square greenParentSquare1 = ((Square)topRow.getChildren().get(2));
+		// redParentSquare1.add(testPawnRed1);
+		// blueParentSquare1.add(testPawnBlue1);
+		// blueParentSquare2.add(testPawnBlue2);
+		// greenParentSquare1.add(testPawnGreen1);
+		// redParentSquare2.add(testPawnRed2);
+		// players.get(ColorFunctions.colorToPlayerIndex(Color.RED)).addPawn(testPawnRed1, redParentSquare1);
+		// players.get(ColorFunctions.colorToPlayerIndex(Color.RED)).addPawn(testPawnRed2, redParentSquare2);
+		// players.get(ColorFunctions.colorToPlayerIndex(Color.BLUE)).addPawn(testPawnBlue1, blueParentSquare1);
+		// players.get(ColorFunctions.colorToPlayerIndex(Color.BLUE)).addPawn(testPawnBlue2, blueParentSquare2);
+		// players.get(ColorFunctions.colorToPlayerIndex(Color.GREEN)).addPawn(testPawnGreen1, greenParentSquare1);
 
 		createPlayerSettingsDisplays();
 
