@@ -110,11 +110,15 @@ public class Square extends StackPane {
 	
 	@Override
 	public String toString(){
+		String pawnText = "";
+		if(pawn!=null){
+			pawnText= " pawn="+pawn.getPawnId()+" ";
+		}
 		String next = "Empty";
 		if(immediateNextSquare!=null){
 			next=immediateNextSquare.getSquareId()+"";
 		}
-		return "Square="+id+""+"\t"+color+"\tnext="+next;
+		return "Square="+id+" \t"+color+pawnText+"\tnext="+next;
 	}
 
 }

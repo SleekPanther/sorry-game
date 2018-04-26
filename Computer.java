@@ -53,12 +53,14 @@ public class Computer extends Player{
 						slide = true;
 						bumpCount = 0;		//reset for slides since may already bumped by directly landing on
 						Square slideDestinationSquare = ((SlideStartSquare)landingSquare).getDestinationSquare();
-						//follow the slide forward checking if any pawns exist to bump
-						for(Square square = landingSquare; square.getSquareId()!=slideDestinationSquare.getSquareId(); square=square.getImmediateNextSquare()){
+
+						//Loop forward on the slide checking up and including the slide destination square (loop while the PREVIOUS id is not the destination id)
+						for(Square square = landingSquare; (square.getPreviousSquare()).getSquareId()!=slideDestinationSquare.getSquareId(); square=square.getImmediateNextSquare()){
 							if(square.isOccupied() && square.getPawn().getColor()!=color){
 								bumpCount++;
 							}
 						}
+
 						landingSquare = slideDestinationSquare;
 						if(slideDestinationSquare.isOccupied() && slideDestinationSquare.getPawn().getColor() == color){
 							throw new LandedOnSquareOccupiedByPlayersOwnPawnException("Can't slide and land on yourself");
@@ -80,7 +82,7 @@ public class Computer extends Player{
 		}
 
 		//Remove "duplicate" moves that leave start so only the last pawn in the ArrayList for the MultipleSquare is allowed to move from start
-		for(int i=moves.size()-1; i>=0; i--){	//loop backwards since remmoving a move shifts the list
+		for(int i=moves.size()-1; i>=0; i--){	//loop backwards since removing a move shifts the list
 			if(moves.get(i).leavesStart && moves.get(i).pawnToMove.getPawnId()!=startSquares.get(ColorFunctions.colorToPlayerIndex(color)).getPawn().getPawnId()){
 				moves.remove(i);
 			}
