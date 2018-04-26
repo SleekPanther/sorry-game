@@ -16,8 +16,13 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
 public class GameController extends BaseController implements Initializable {
-	private static final int squaresPerSideExcludingCornersCount = 14;
+	private StatsController statsController;
+
+	private Scene helpScene;
+	private Scene statsScene;
+
 	private static final int boardWidth = 600;
+	private static final int squaresPerSideExcludingCornersCount = 14;
 	private static final double squareHeightWidth = boardWidth/squaresPerSideExcludingCornersCount;
 	private static final double pawnRadius = squareHeightWidth/4;
 
@@ -28,11 +33,33 @@ public class GameController extends BaseController implements Initializable {
 	private static final double homeSquareDistanceFromBoardEdge = squareHeightWidth*numSafetySquares;
 	private static final int PAWNS_TO_WIN = 4;
 
-	private StatsController statsController;
 
-	private Scene helpScene;
-	private Scene statsScene;
-	private Scene menuScene;
+	private ArrayList<Label> redPlayerSettings;
+	@FXML private Label redPlayerName;
+	@FXML private Label redPlayerSmartness;
+	@FXML private Label redPlayerMeanness;
+	@FXML private Label redPlayerLastMove;
+
+	private ArrayList<Label> bluePlayerSettings;
+	@FXML private Label bluePlayerName;
+	@FXML private Label bluePlayerSmartness;
+	@FXML private Label bluePlayerMeanness;
+	@FXML private Label bluePlayerLastMove;	
+
+	private ArrayList<Label> yellowPlayerSettings;
+	@FXML private Label yellowPlayerName;
+	@FXML private Label yellowPlayerSmartness;
+	@FXML private Label yellowPlayerMeanness;
+	@FXML private Label yellowPlayerLastMove;
+
+	private ArrayList<Label> greenPlayerSettings;
+	@FXML private Label greenPlayerName;
+	@FXML private Label greenPlayerSmartness;
+	@FXML private Label greenPlayerMeanness;
+	@FXML private Label greenPlayerLastMove;
+
+	private ArrayList<Label> lastMoveLabels;
+
 
 	@FXML private HBox topRowContainer;
 	@FXML private HBox bottomRowContainer;
@@ -41,7 +68,17 @@ public class GameController extends BaseController implements Initializable {
 	@FXML private VBox leftColumn;
 	@FXML private VBox rightColumn;
 
+	private ArrayList<Square> allSquares = new ArrayList<Square>();
+	private ArrayList<Square> cornersSquares = new ArrayList<Square>();
+
+	private ArrayList<Pawn> allPawns = new ArrayList<Pawn>();
+	private ArrayList<Pawn> redPawns = new ArrayList<Pawn>();
+	private ArrayList<Pawn> bluePawns = new ArrayList<Pawn>();
+	private ArrayList<Pawn> yellowPawns = new ArrayList<Pawn>();
+	private ArrayList<Pawn> greenPawns = new ArrayList<Pawn>();
+
 	@FXML private AnchorPane boardMiddle;
+
 	@FXML private VBox safetyRed;
 	@FXML private StackPane redHomeContainer;
 	private HomeSquare redHomeSquare;
@@ -85,36 +122,6 @@ public class GameController extends BaseController implements Initializable {
 	@FXML private Button statsSwitchButton;
 
 
-	private ArrayList<Label> redPlayerSettings;
-	@FXML private Label redPlayerName;
-	@FXML private Label redPlayerSmartness;
-	@FXML private Label redPlayerMeanness;
-	@FXML private Label redPlayerLastMove;
-
-	private ArrayList<Label> bluePlayerSettings;
-	@FXML private Label bluePlayerName;
-	@FXML private Label bluePlayerSmartness;
-	@FXML private Label bluePlayerMeanness;
-	@FXML private Label bluePlayerLastMove;	
-
-	private ArrayList<Label> yellowPlayerSettings;
-	@FXML private Label yellowPlayerName;
-	@FXML private Label yellowPlayerSmartness;
-	@FXML private Label yellowPlayerMeanness;
-	@FXML private Label yellowPlayerLastMove;
-
-	private ArrayList<Label> greenPlayerSettings;
-	@FXML private Label greenPlayerName;
-	@FXML private Label greenPlayerSmartness;
-	@FXML private Label greenPlayerMeanness;
-	@FXML private Label greenPlayerLastMove;
-
-	private ArrayList<Label> lastMoveLabels;
-
-
-	private ArrayList<Square> allSquares = new ArrayList<Square>();
-
-	private ArrayList<Square> cornersSquares = new ArrayList<Square>();
 	private Player activePlayer;
 	private ArrayList<Player> players;
 	private ArrayList<PlayerData> playerDataList;
@@ -122,12 +129,6 @@ public class GameController extends BaseController implements Initializable {
 	private ComputerData computer1Data = new ComputerData("Computer 1", Color.BLUE, true, false);
 	private ComputerData computer2Data = new ComputerData("Computer 2", Color.YELLOW, true, false);
 	private ComputerData computer3Data = new ComputerData("Computer 3", Color.GREEN, true, false);
-
-	private ArrayList<Pawn> allPawns = new ArrayList<Pawn>();
-	private ArrayList<Pawn> redPawns = new ArrayList<Pawn>();
-	private ArrayList<Pawn> bluePawns = new ArrayList<Pawn>();
-	private ArrayList<Pawn> yellowPawns = new ArrayList<Pawn>();
-	private ArrayList<Pawn> greenPawns = new ArrayList<Pawn>();
 
 
 	private LinkedList<Card> cards;
@@ -323,7 +324,7 @@ public class GameController extends BaseController implements Initializable {
 		activePlayerColorDropdown.setItems(FXCollections.observableArrayList(colorStrings));
 		activePlayerColorDropdown.setVisibleRowCount(colorStrings.size());
 		activePlayerColorDropdown.setValue(colorStrings.get(ColorFunctions.colorToPlayerIndex(activePlayer.getColor())));
-		
+
 		activePlayerColorDropdown.valueProperty().addListener(new ChangeListener<String>() {
 			@Override public void changed(ObservableValue observableValue, String oldValue, String newValue) {
 				activePlayer = players.get(ColorFunctions.colorToPlayerIndex(newValue));
