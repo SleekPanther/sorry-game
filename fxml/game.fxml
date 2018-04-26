@@ -1,17 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.shape.*?>
-
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import java.util.*?>
-<?import javafx.collections.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
 
 <Pane fx:controller='GameController' fx:id='mainPane' stylesheets='css/game.css' xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" >
 	<BorderPane>
@@ -20,7 +9,8 @@
 				<Label fx:id='redPlayerName' text='NAME' />
 				<Label text='Red' />
 				<Label fx:id='redPlayerSmartness'/>
-				<Label fx:id='redPlayerMeanness'/>
+			<Label fx:id='redPlayerMeanness'/>
+				<Label fx:id='redPlayerLastMove'/>
 			</HBox>
 		</top>
 
@@ -30,6 +20,7 @@
 				<Label text='Blue' />
 				<Label fx:id='bluePlayerSmartness'/>
 				<Label fx:id='bluePlayerMeanness'/>
+				<Label fx:id='bluePlayerLastMove'/>
 			</VBox>
 		</right>
 		
@@ -62,12 +53,12 @@
 						<StackPane styleClass='green, circle' fx:id='greenStartContainer'></StackPane>
 
 						<StackPane fx:id='discardPile' styleClass='cardPane, border' AnchorPane.topAnchor='180' AnchorPane.leftAnchor='180'>
-							<Label fx:id='discardLabel' styleClass='largeDiscardFont' text='1'/>
+							<Label fx:id='discardLabel' styleClass='largeDiscardFont, bold'/>
 						</StackPane>
 
 						<StackPane fx:id='drawPile' styleClass='cardPane, border' AnchorPane.topAnchor='180' AnchorPane.rightAnchor='180'>
 							<VBox>
-								<Label fx:id='drawLabel' text='Sorry!'/>
+								<Label fx:id='drawLabel' styleClass='bold' text='Sorry!'/>
 								<Label fx:id='drawInstructions' text='Click for card'/>
 							</VBox>
 						</StackPane>
@@ -103,6 +94,7 @@
 				<Label text='Yellow' />
 				<Label fx:id='yellowPlayerSmartness'/>
 				<Label fx:id='yellowPlayerMeanness'/>
+				<Label fx:id='yellowPlayerLastMove'/>
 			</HBox>
 		</bottom>
 
@@ -112,8 +104,8 @@
 				<Label text='Green' />
 				<Label fx:id='greenPlayerSmartness'/>
 				<Label fx:id='greenPlayerMeanness' />
+				<Label fx:id='greenPlayerLastMove'/>
 			</VBox>
 		</left>
 	</BorderPane>
-
 </Pane>

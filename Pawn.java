@@ -2,12 +2,13 @@ import enums.Color;
 import exceptions.*;
 import javafx.scene.shape.Circle;
 
+//Pawns are the player's pieces and get added to Squares.
+//All movement is done by calling move() on a pawn and telling it where to go
 public class Pawn extends Circle{
+	private int pawnId;
+	private static int globalPawnId=0;		//incremented each time a pawn is created to make pawns unique
 	private Color color;
 	private Square currentParentSquare;
-
-	private int pawnId;
-	private static int globalPawnId=0;
 	
 	public Pawn(double radius, Color color){
 		super(radius);
@@ -29,11 +30,6 @@ public class Pawn extends Circle{
 		}
 	}
 
-	public Pawn(double radius, Color color, String fillColor){
-		this(radius, color);
-		setStyle("-fx-fill: "+fillColor);
-	}
-
 	public int getPawnId(){
 		return pawnId;
 	}
@@ -49,6 +45,7 @@ public class Pawn extends Circle{
 	public Color getColor(){
 		return color;
 	}
+
 
 	public Square calculateLandingSquare(int numSpaces){
 		//Get initial next square, but check for SafetyEntrySquare & if colors match
@@ -85,15 +82,15 @@ public class Pawn extends Circle{
 		return landingSquare;
 	}
 
+	//Default it to calculate for the current player's color
 	public int calculateMovesToHome(){
 		return calculateMovesToHome(color);
 	}
+	//passing in a color enables ability to calculate to any color homesquare (mostly for sorry cards)
 	public int calculateMovesToHome(Color temporarySwitchColor){
 		//Temporarily override pawn color so Sorry card can calculate moves to move for any arbitrary color (has no effect if temporarySwitchColor=color)
 		Color originalPawnColor = color;
 		color = temporarySwitchColor;
-
-		//need to handle moving backwards?
 
 		//Get initial next square, but check for SafetyEntrySquare & if colors match
 		Square landingSquare = currentParentSquare.getImmediateNextSquare();

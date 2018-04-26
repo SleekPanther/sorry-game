@@ -1,6 +1,7 @@
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+//Extend Java Alert class to make easier constructors to display error messages to user
 public class Popup extends Alert{
 	
 	public Popup(String headerMessage) {

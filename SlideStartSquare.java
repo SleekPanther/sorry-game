@@ -3,10 +3,6 @@ import enums.Color;
 public class SlideStartSquare extends Square {
 	private SlideDestinationSquare destinationSquare;
 
-	public SlideStartSquare(double sideLength) {
-		super(sideLength);
-	}
-
 	public SlideStartSquare(double sideLength, Color slideColor) {
 		super(sideLength, slideColor);
 		

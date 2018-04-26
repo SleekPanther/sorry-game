@@ -1,4 +1,4 @@
-//Basically a struct
+//Basically a struct to hold information about a move
 public class Move implements Comparable<Move>{
 	public Pawn pawnToMove;
 	public Square landingSquare;

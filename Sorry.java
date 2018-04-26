@@ -1,6 +1,5 @@
 import java.util.HashMap;
 import java.util.Map;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
@@ -27,20 +26,19 @@ public class Sorry extends Application {
 	}
 
 	public void startNewGame() throws Exception{
-		// getting loader and a pane for the first scene. loader will then give a possibility to get related controller
+		//Create loader, load FXML resource and create scene from resource
 		FXMLLoader menuLoader = new FXMLLoader(getClass().getResource(viewFilenames.get("menu")));
 		Parent menuParent = menuLoader.load();
 		Scene menuScene = new Scene(menuParent);
-
-		FXMLLoader gameLoader = new FXMLLoader(getClass().getResource(viewFilenames.get("game")));
-		Parent gameParent = gameLoader.load();
-		Scene gameScene = new Scene(gameParent);
 
 		FXMLLoader helpStartLoader = new FXMLLoader(getClass().getResource(viewFilenames.get("helpStart")));
 		Parent helpStartParent = helpStartLoader.load();
 		Scene helpStartScene = new Scene(helpStartParent);
 
-		// getting loader and a pane for the second scene
+		FXMLLoader gameLoader = new FXMLLoader(getClass().getResource(viewFilenames.get("game")));
+		Parent gameParent = gameLoader.load();
+		Scene gameScene = new Scene(gameParent);
+
 		FXMLLoader helpGameLoader = new FXMLLoader(getClass().getResource(viewFilenames.get("helpGame")));
 		Parent helpGameParent = helpGameLoader.load();
 		Scene helpGameScene = new Scene(helpGameParent);
@@ -50,7 +48,7 @@ public class Sorry extends Application {
 		Scene statsScene = new Scene(statsParent);
 
 
-		// injecting second scene into the controller of the first scene
+		//Connect the scenes of 1 controller to existing Scene objects so they can switch without reloading from the FXML file
 		MenuController menuController = (MenuController) menuLoader.getController();
 		menuController.setGameScene(gameScene);
 		menuController.setStatsScene(statsScene);
@@ -58,7 +56,6 @@ public class Sorry extends Application {
 
 		GameController gameController = (GameController) gameLoader.getController();
 		gameController.setHelpScene(helpGameScene);
-		gameController.setMenuScene(menuScene);
 		gameController.setStatsScene(statsScene);
 
 		HelpStartController helpStartController = (HelpStartController) helpStartLoader.getController();
@@ -71,13 +68,14 @@ public class Sorry extends Application {
 		statsController.setMenuScene(menuScene);
 
 
+		//Link controllers to controllers that need to call methods on controllers before switching Scenes
 		menuController.linkGameController(gameController);
 		statsController.linkSorryApplication(this);
-
 		gameController.linkStatsController(statsController);
 
 
-		primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {	//Destroy window on key PRESS ESC
+		//Destroy window on key PRESS ESC
+		primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {
 			if (KeyCode.ESCAPE == event.getCode()) {
 				primaryStage.close();
 			}
@@ -85,8 +83,7 @@ public class Sorry extends Application {
 		
 		primaryStage.setTitle("Sorry");
 		primaryStage.setResizable(false);
-		// primaryStage.setScene(gameScene);
-		primaryStage.setScene(menuScene);
+		primaryStage.setScene(menuScene);	//choose default scene to show on startup
 		primaryStage.show();
 	}
 	

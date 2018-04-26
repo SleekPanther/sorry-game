@@ -1,27 +1,15 @@
 import structures.*;
-import enums.Color;
+import structures.HumanData;
+import Functions.ColorFunctions;
 import java.net.URL;
 import javafx.fxml.*;
-import javafx.application.Platform;
-import javafx.stage.Stage;
-import structures.HumanData;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.scene.shape.Circle;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.*;
 import java.util.*;
 import javafx.collections.*;
-import java.text.DecimalFormat;
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
 
 public class MenuController extends BaseController implements Initializable{
 	private GameController gameController;
-
 	private Scene gameScene;
 	private Scene statsScene;
 	private Scene helpScene;
@@ -60,17 +48,11 @@ public class MenuController extends BaseController implements Initializable{
 			colorDropDowns.get(i).setItems(FXCollections.observableArrayList(colorStringsReference));
 			colorDropDowns.get(i).setVisibleRowCount(colorStringsReference.size());
 			colorDropDowns.get(i).setValue(colorStringsReference.get(i));
-
-
 		}
-		
-		// playerColor.valueProperty().addListener(new ChangeListener<String>() {
-		// 	@Override public void changed(ObservableValue observableValue, String oldValue, String newValue) {
-		// 		System.out.print("Selection changed event");
-		// 	}
-		// });
 
+		//New game button sends data to game scene
 		newGameButton.setOnAction((event) ->{
+			//Make sure they choose 4 different colored players
 			LinkedList<String> usedColors = new LinkedList<String>();
 			for(ComboBox<String> dropdown : colorDropDowns){
 				if(usedColors.contains(dropdown.getValue())){
@@ -91,7 +73,6 @@ public class MenuController extends BaseController implements Initializable{
 			if(computer1Smart.isSelected()){
 				computer1Smartness = true;
 			}
-			// System.out.println("c1 smart="+computer1Smartness+" mean="+computer1Meanness);
 
 			boolean computer2Meanness = false;
 			if(computer2Mean.isSelected()){
@@ -101,7 +82,6 @@ public class MenuController extends BaseController implements Initializable{
 			if(computer2Smart.isSelected()){
 				computer2Smartness = true;
 			}
-			// System.out.println("c2 smart="+computer2Smartness+" mean="+computer2Meanness);
 
 			boolean computer3Meanness = false;
 			if(computer3Mean.isSelected()){
@@ -111,20 +91,19 @@ public class MenuController extends BaseController implements Initializable{
 			if(computer3Smart.isSelected()){
 				computer3Smartness = true;
 			}
-			// System.out.println("c3 smart="+computer3Smartness+" mean="+computer3Meanness);
-			// System.out.println();
 
 
-			gameController.receiveHumanData(new HumanData(playerName.getText(), stringToColor(playerColor.getValue())));
+			gameController.receiveHumanData(new HumanData(playerName.getText(), ColorFunctions.stringToColor(playerColor.getValue())));
 			gameController.receiveComputerData(
-				new ComputerData(computer1Name.getText(), stringToColor(computer1Color.getValue()), computer1Smartness, computer1Meanness),
-				new ComputerData(computer2Name.getText(), stringToColor(computer2Color.getValue()), computer2Smartness, computer2Meanness),
-				new ComputerData(computer3Name.getText(), stringToColor(computer3Color.getValue()), computer3Smartness, computer3Meanness)
+				new ComputerData(computer1Name.getText(), ColorFunctions.stringToColor(computer1Color.getValue()), computer1Smartness, computer1Meanness),
+				new ComputerData(computer2Name.getText(), ColorFunctions.stringToColor(computer2Color.getValue()), computer2Smartness, computer2Meanness),
+				new ComputerData(computer3Name.getText(), ColorFunctions.stringToColor(computer3Color.getValue()), computer3Smartness, computer3Meanness)
 			);
 			gameController.initializeFromMenu();
 
 			changeScene(gameScene, event);
 		});
+
 		statsButton.setOnAction((event) -> changeScene(statsScene, event));
 		helpButton.setOnAction((event) -> changeScene(helpScene, event));
 	}
@@ -144,22 +123,5 @@ public class MenuController extends BaseController implements Initializable{
 	public void linkGameController(GameController controller){
 		gameController = controller;
 	}
-
-	private Color stringToColor(String stringColor){
-		if(stringColor.equals("RED")){
-			return Color.RED;
-		}
-		else if(stringColor.equals("BLUE")){
-			return Color.BLUE;
-		}
-		else if(stringColor.equals("YELLOW")){
-			return Color.YELLOW;
-		}
-		else if(stringColor.equals("GREEN")){
-			return Color.GREEN;
-		}
-		return Color.ANY;
-	}
-
 
 }

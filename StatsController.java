@@ -1,6 +1,4 @@
 import java.net.URL;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
@@ -11,8 +9,6 @@ import java.sql.SQLException;
 import java.util.*;
 import javafx.collections.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
-import javafx.util.Callback;
 
 public class StatsController extends BaseController implements Initializable{
 	private Scene menuScene;
@@ -78,7 +74,6 @@ public class StatsController extends BaseController implements Initializable{
 		} catch (SQLException e) {
 			throw new IllegalStateException("Cannot connect the database!", e);
 		}
-
 	}
 
 	public void buildTable(){
@@ -105,7 +100,6 @@ public class StatsController extends BaseController implements Initializable{
 			ObservableList<StatsModel> statsData=FXCollections.observableArrayList();
 
 			while(rs.next()){
-
 					StatsModel pastGame = new StatsModel();
 					pastGame.gameId.set(rs.getString("pmkGameId"));
 					pastGame.playerName.set(rs.getString("fldPlayerName"));
@@ -118,15 +112,11 @@ public class StatsController extends BaseController implements Initializable{
 
 					statsData.add(pastGame);
 				}
-
 			tableView.setItems(statsData);
 			connection.close();
-
 		} catch (SQLException e) {
 			System.out.println("Database failed. proceeding. ");
 		}
-
-
 	}
 
 }

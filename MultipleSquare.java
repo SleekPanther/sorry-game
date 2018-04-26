@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
+//Parent class for HomeSquare and StartSquare to handle a single square holding multiple pawns with an internal gridpane
 public class MultipleSquare extends Square {
 	protected Text backgroundText = new Text();
 	protected GridPane grid = new GridPane();
@@ -15,10 +16,10 @@ public class MultipleSquare extends Square {
 		getStyleClass().addAll("circle");
 		setId(cssId);
 		
-		this.getChildren().add(backgroundText);
-		this.getChildren().add(grid);
+		this.getChildren().addAll(backgroundText, grid);
 	}
 
+	//Convert between the number of pawns currently in the gridpane to a new gridpane location so they don't overlap
 	protected int[] getGridPaneLocation(int pawnPosition){
 		if(pawnPosition==0){
 			return new int[]{0, 0};
@@ -42,6 +43,7 @@ public class MultipleSquare extends Square {
 		isOccupied = true;		//kind of unnecessary
 		pawn.setCurrentParentSquare(this);
 		this.pawns.add(pawn);
+		
 		lastPawnPosition++;		//added 1 more pawn
 		int[] coordinates = getGridPaneLocation(lastPawnPosition);
 		int column = coordinates[0];

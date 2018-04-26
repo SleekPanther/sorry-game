@@ -1,10 +1,7 @@
 import exceptions.*;
 import Functions.ColorFunctions;
 import enums.Color;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
 
 public class Computer extends Player{
 	private boolean smartness;
@@ -16,21 +13,19 @@ public class Computer extends Player{
 		this.meanness = meanness;
 	}
 
+	/*
+	Creates a list of moves by checking all pawns to see if they can move
+	Chooses an optimal move based on smartness and meanness and executes the move
+	*/
 	@Override
 	public void executeAutomaticTurn(int numSpaces){
-		//Pause execution before computer moves (currently also looks like it prevents the user from finishing)
-		// try {
-		// 	Thread.sleep(400);
-		// } catch (InterruptedException e1) {
-		// 	e1.printStackTrace();
-		// }
-
 		LinkedList<Move> moves = new LinkedList<Move>();
-		int numSpacesAdjusted = numSpaces;	//in case leaving start changes 2 to 1
+		int numSpacesAdjusted = numSpaces;	//new variable in case leaving start changes a 2 to 1 or a 4 to -4
 		if(numSpacesAdjusted==4){	//4 moves backwards
 			numSpacesAdjusted = -4;
 		}
 
+		//Find moves for all pawns
 		for(Pawn pawn : pawns){
 			if(!pawn.getCurrentParentSquare().getClass().getSimpleName().equals("HomeSquare")){
 				try{
@@ -74,6 +69,7 @@ public class Computer extends Player{
 
 					moves.add(new Move(pawn, landingSquare, leavesStart, slide, bumpCount, movesToHome));
 				}
+				//Catch blocks are unhandled since any exception means it's an invalid move so go on to the next pawn
 				catch(OvershotHomeException e){
 				}
 				catch(LandedOnSquareOccupiedByPlayersOwnPawnException e){
@@ -83,11 +79,6 @@ public class Computer extends Player{
 			}
 		}
 
-		// System.out.println("\n"+color+" Moves Before removing");
-		// for(Move move : moves){
-		// 	System.out.println(move);
-		// }
-
 		//Remove "duplicate" moves that leave start so only the last pawn in the ArrayList for the MultipleSquare is allowed to move from start
 		for(int i=moves.size()-1; i>=0; i--){	//loop backwards since remmoving a move shifts the list
 			if(moves.get(i).leavesStart && moves.get(i).pawnToMove.getPawnId()!=startSquares.get(ColorFunctions.colorToPlayerIndex(color)).getPawn().getPawnId()){
@@ -95,12 +86,13 @@ public class Computer extends Player{
 			}
 		}
 
+		//Pick a move and execute it if one exists
 		if(moves.isEmpty()){
-			//or skip turn
-			Popup popup = new Popup("No moves for "+name);
-			popup.show();
+			completedMove = false;
 		}
 		else{
+			completedMove = true;
+
 			if(smartness){
 				Collections.sort(moves);	//sort by moves closes to home first (smart)
 			}
@@ -151,30 +143,6 @@ public class Computer extends Player{
 				}
 			}
 			System.out.println("Chosen move="+chosenMove);
-
-			// try {
-			// 	Square nextHighlighSquare = chosenMove.pawnToMove.getCurrentParentSquare().getImmediateNextSquare();	//normal square
-			// 	//Check if currently sitting on safety entry square
-			// 	if(chosenMove.pawnToMove.getCurrentParentSquare().getClass().getSimpleName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)chosenMove.pawnToMove.getCurrentParentSquare()).getNextSafetySquare().getColor()){
-			// 		nextHighlighSquare = ((SafetyEntrySquare)chosenMove.pawnToMove.getCurrentParentSquare()).getNextSafetySquare();
-			// 	}
-
-			// 	while(nextHighlighSquare.getSquareId() != chosenMove.landingSquare.getSquareId()){
-			// 		nextHighlighSquare.highlight();
-			// 		System.out.println("Highlighting");
-			// 		TimeUnit.MILLISECONDS.sleep(600);
-			// 		// Thread.sleep(600);
-			// 		nextHighlighSquare.unHighlight();
-			// 		if(nextHighlighSquare.getClass().getSimpleName().equals("SafetyEntrySquare") && color==((SafetyEntrySquare)nextHighlighSquare).getNextSafetySquare().getColor()){
-			// 			nextHighlighSquare = ((SafetyEntrySquare)nextHighlighSquare).getNextSafetySquare();
-			// 		}
-			// 		else{
-			// 			nextHighlighSquare = nextHighlighSquare.getImmediateNextSquare();
-			// 		}
-			// 	}
-			// } catch (InterruptedException e) {
-			// 	e.printStackTrace();
-			// }
 
 			actuallyMove(numSpacesAdjusted);
 		}

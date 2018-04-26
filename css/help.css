@@ -1,28 +1,27 @@
 .middle{
-    -fx-background-color: #be55ff;
+	-fx-background-color: #be55ff;
 }
 
 .title{
-    -fx-font-size: 14;
-    -fx-font-weight: bold;
-    -fx-alignment: left;
+	-fx-font-size: 14;
+	-fx-font-weight: bold;
+	-fx-alignment: left;
 }
 .header{
-    -fx-font-size: 16;
-    -fx-font-weight: bold;
-    -fx-alignment: left;
+	-fx-font-size: 16;
+	-fx-font-weight: bold;
+	-fx-alignment: left;
 }
 
 .text-area .content{
-    -fx-background-color: #87cefa;
-
-
+	-fx-background-color: #87cefa;
 }
+
 .helpText{
-    -fx-font-size: 12;
-    -fx-alignment: left;
+	-fx-font-size: 12;
+	-fx-alignment: left;
 }
 
 .text-area .scroll-bar:vertical:disabled {
-    -fx-opacity: 0;
+	-fx-opacity: 0;
 }

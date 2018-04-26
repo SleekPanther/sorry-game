@@ -9,6 +9,7 @@ public class BaseController {
 		changeScene(scene, (Stage)((Node)actionEvent.getSource()).getScene().getWindow());
 	}
 
+	//Scenes are loaded from FXML and this method allows controllers to switch to another scene
 	public void changeScene(Scene scene, Stage stage) {
 		stage.setScene(scene);
 	}
