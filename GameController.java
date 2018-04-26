@@ -157,33 +157,13 @@ public class GameController extends BaseController implements Initializable {
 	}
 
 	public void receiveComputerData(ComputerData computer1Data, ComputerData computer2Data, ComputerData computer3Data){
-		//Must check if null when user selects less than 3 opponents
 		this.computer1Data=computer1Data;
 		this.computer2Data=computer2Data;
 		this.computer3Data=computer3Data;
 	}
 
-	public void pickCard(){
-		playerCardIsNew = true;	//computers don't care about this
 
-		if (cards.isEmpty()){
-			swapDecks();
-		}
-		moveCard = cards.poll();
-		discards.add(moveCard);
-		numberArea.setText(moveCard.getType()+"");
-
-		String cardValue = moveCard.getType() +"";
-		discardLabel.getStyleClass().addAll("largeDiscardFont");		//assume normal card, change text to be smaller if it's a sorry card
-		discardLabel.getStyleClass().removeAll("smallDiscardFont");
-		if(cardValue.equals("0")){
-			discardLabel.getStyleClass().removeAll("largeDiscardFont");
-			discardLabel.getStyleClass().addAll("smallDiscardFont");
-			cardValue = "Sorry";
-		}
-		discardLabel.setText(cardValue);
-	}
-
+	//Essentially a constructor for FXML files
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		createCards();
@@ -229,6 +209,7 @@ public class GameController extends BaseController implements Initializable {
 		players.get(ColorFunctions.colorToPlayerIndex(Color.GREEN)).addPawn(testPawnGreen1, greenParentSquare1);
 
 		createPlayerSettingsDisplays();
+
 		lastMoveLabels = new ArrayList<Label>(Arrays.asList(redPlayerLastMove, bluePlayerLastMove, yellowPlayerLastMove, greenPlayerLastMove));
 
 		drawPile.addEventFilter(MouseEvent.MOUSE_PRESSED, (e)->{
@@ -241,14 +222,8 @@ public class GameController extends BaseController implements Initializable {
 			}
 		});
 
-		//Mostly for testing, update moveCard any time the value changes, but doesn't matter since moveCard is no longer in the deck
-		numberArea.textProperty().addListener((observable, oldValue, newValue) -> {
-			playerCardIsNew = true;
-			moveCard = new Card(Integer.parseInt(newValue));
-			discardLabel.setText(moveCard.getType()+"");
-		});
-
 		switchButton.setOnAction((event) -> changeScene(helpScene, event));
+
 		skipTurnButton.setOnAction((event) -> {
 			activePlayer.skipTurn();
 			incrementTurn();
@@ -256,10 +231,18 @@ public class GameController extends BaseController implements Initializable {
 
 		statsSwitchButton.setOnAction((event) -> changeScene(statsScene, event));
 
+		//Mostly for testing, update moveCard any time the value changes, but doesn't matter since moveCard is no longer in the deck
+		numberArea.textProperty().addListener((observable, oldValue, newValue) -> {
+			playerCardIsNew = true;
+			moveCard = new Card(Integer.parseInt(newValue));
+			discardLabel.setText(moveCard.getType()+"");
+		});
+
 		//Uncomment to enable testing
 		// testingComponents.setVisible(false);
 	}
 
+	//Load player data & create players
 	public void initializeFromMenu(){
 		setUpPlayerColors();
 		createPlayerSettingsDisplays();
@@ -305,7 +288,7 @@ public class GameController extends BaseController implements Initializable {
 
 		int activePlayerIndexTemp = ColorFunctions.colorToPlayerIndex(playerDataList.get(0).color);			//activePlayer is always human and starts
 
-		//Hardcode Players
+		//Hardcode Players to override menu screen and start directly in game scene
 		// activePlayerIndexTemp = 0;
 		// players.set(0, new Human(playerDataList.get(0).name, playerDataList.get(0).color, redPawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset));
 		// players.set(1, new Computer(playerDataList.get(1).name, playerDataList.get(1).color, bluePawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset, playerDataList.get(1).smartness, playerDataList.get(1).meanness));
@@ -385,15 +368,6 @@ public class GameController extends BaseController implements Initializable {
 		Collections.shuffle(cards);
 	}
 
-	private void swapDecks(){
-		for(Card card : discards){
-			cards.add(card);
-		}
-		Collections.shuffle(cards);
-
-		discards.clear();
-	}
-
 	private void createPawns(){
 		for(int i=0; i<4; i++){
 			redPawns.add(new Pawn(pawnRadius, Color.RED));
@@ -413,6 +387,7 @@ public class GameController extends BaseController implements Initializable {
 		}
 	}
 
+	//Horizontal rows actually contain 2 corner squares so they are edded on either end
 	private void createHorizontalRow(HBox containingRow, HBox parentContainer, Color slideColor, boolean reverseCreationDirection){
 		Square cornerSquare1 = new Square(squareHeightWidth);
 		if(reverseCreationDirection){
@@ -471,13 +446,13 @@ public class GameController extends BaseController implements Initializable {
 
 		//Link to the next square forward in the list
 		for(int i=0; i<squares.size()-1; i++){	//1 less than list length since last square must be linked to a corner square
-			Square currentSquare = (Square)squares.get(i);
-			currentSquare.setImmediateNextSquare((Square)squares.get(i+1));	//set pointer to next square on a side
+			Square currentSquare = squares.get(i);
+			currentSquare.setImmediateNextSquare(squares.get(i+1));	//set pointer to next square on a side
 		}
 
 		for(int i=squares.size()-1; i>0; i--){		//stop before 0
-			Square currentSquare = (Square)squares.get(i);
-			currentSquare.setPreviousSquare((Square)squares.get(i-1));	//set pointer to next square on a side
+			Square currentSquare = squares.get(i);
+			currentSquare.setPreviousSquare(squares.get(i-1));	//set pointer to next square on a side
 		}
 
 
@@ -654,6 +629,7 @@ public class GameController extends BaseController implements Initializable {
 		}
 	}
 
+
 	//Click handler for all square panes. Processes a user move to select or finalize. Movement taken care of in Player and Human
 	private void createSquareClickHandlers(){
 		for(Square square : allSquares){
@@ -677,6 +653,36 @@ public class GameController extends BaseController implements Initializable {
 				}
 			});
 		}
+	}
+
+	public void pickCard(){
+		playerCardIsNew = true;	//computers don't care about this
+
+		if (cards.isEmpty()){
+			swapDecks();
+		}
+		moveCard = cards.poll();
+		discards.add(moveCard);
+		numberArea.setText(moveCard.getType()+"");
+
+		String cardValue = moveCard.getType() +"";
+		discardLabel.getStyleClass().addAll("largeDiscardFont");		//assume normal card, change text to be smaller if it's a sorry card
+		discardLabel.getStyleClass().removeAll("smallDiscardFont");
+		if(cardValue.equals("0")){
+			discardLabel.getStyleClass().removeAll("largeDiscardFont");
+			discardLabel.getStyleClass().addAll("smallDiscardFont");
+			cardValue = "Sorry";
+		}
+		discardLabel.setText(cardValue);
+	}
+
+	private void swapDecks(){
+		for(Card card : discards){
+			cards.add(card);
+		}
+		Collections.shuffle(cards);
+
+		discards.clear();
 	}
 
 	private void checkIfGameWon(){
