@@ -2,11 +2,12 @@ import enums.Color;
 import Functions.ColorFunctions;
 import java.util.ArrayList;
 
+//Parent class for Human and Computer
 public class Player{
 	protected String name;
 	protected Color color;
 	protected ArrayList<Pawn> pawns = new ArrayList<Pawn>();
-	protected ArrayList<Pawn> allPawns;
+	protected ArrayList<Pawn> allPawns;		//all pawns on the board, not just their color
 	protected ArrayList<HomeSquare> homeSquares;
 	protected ArrayList<StartSquare> startSquares;
 	protected int slideSquareDestinationForwardOffset;
@@ -36,24 +37,27 @@ public class Player{
 		return pawns;
 	}
 
+	public void setPawns(ArrayList<Pawn> pawns){
+		this.pawns=pawns;
+	}
+
+	//Mostly for testing pawns so that they belong to a player since not linked initally when game is started
 	public void addPawn(Pawn pawn, Square parentSquare){
 		pawn.setCurrentParentSquare(parentSquare);
 		pawns.add(pawn);
 		allPawns.add(pawn);
 	}
 
-	public void setPawns(ArrayList<Pawn> pawns){
-		this.pawns=pawns;
-	}
-
 	public int getNumPawnsInHome(){
 		return numPawnsInHome;
 	}
 
+	//overridden in Human, ignored in Computer
 	public String handleSquareClick(Square clickedSquare, int numSpaces){
 		return "player";
 	}
 
+	//Only used in computer
 	public void executeAutomaticTurn(int cardValue){
 	}
 

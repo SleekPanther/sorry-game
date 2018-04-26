@@ -1,9 +1,7 @@
 import exceptions.*;
 import Functions.ColorFunctions;
 import enums.Color;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
+import java.util.*;
 
 public class Computer extends Player{
 	private boolean smartness;
@@ -15,14 +13,19 @@ public class Computer extends Player{
 		this.meanness = meanness;
 	}
 
+	/*
+	Creates a list of moves by checking all pawns to see if they can move
+	Chooses an optimal move based on smartness and meanness and executes the move
+	*/
 	@Override
 	public void executeAutomaticTurn(int numSpaces){
 		LinkedList<Move> moves = new LinkedList<Move>();
-		int numSpacesAdjusted = numSpaces;	//in case leaving start changes 2 to 1
+		int numSpacesAdjusted = numSpaces;	//new variable in case leaving start changes a 2 to 1 or a 4 to -4
 		if(numSpacesAdjusted==4){	//4 moves backwards
 			numSpacesAdjusted = -4;
 		}
 
+		//Find moves for all pawns
 		for(Pawn pawn : pawns){
 			if(!pawn.getCurrentParentSquare().getClass().getSimpleName().equals("HomeSquare")){
 				try{
@@ -66,6 +69,7 @@ public class Computer extends Player{
 
 					moves.add(new Move(pawn, landingSquare, leavesStart, slide, bumpCount, movesToHome));
 				}
+				//Catch blocks are unhandled since any exception means it's an invalid move so go on to the next pawn
 				catch(OvershotHomeException e){
 				}
 				catch(LandedOnSquareOccupiedByPlayersOwnPawnException e){
@@ -82,6 +86,7 @@ public class Computer extends Player{
 			}
 		}
 
+		//Pick a move and execute it if one exists
 		if(moves.isEmpty()){
 			completedMove = false;
 		}

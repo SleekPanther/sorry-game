@@ -11,7 +11,7 @@ public class Card {
 
 	@Override
 	public String toString(){
-		return type+"";
+		return "Card="+type;
 	}
 
 }

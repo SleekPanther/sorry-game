@@ -4,7 +4,7 @@ import exceptions.*;
 
 public class Human extends Player{
 	private Square selectedSquare;
-	private LinkedList<Move> moves;
+	private LinkedList<Move> moves;		//moves for an active pawn, not all moves for all pawns
 	
 	public Human(String name, Color color, ArrayList<Pawn> pawns, ArrayList<Pawn> allPawns, ArrayList<StartSquare> startSquares, ArrayList<HomeSquare> homeSquares, int slideSquareDestinationForwardOffset){
 		super(name, color, pawns, allPawns, startSquares, homeSquares, slideSquareDestinationForwardOffset);
@@ -20,7 +20,7 @@ public class Human extends Player{
 			else if(!clickedSquare.isOccupied()){	//Square Must have a pawn
 				return "error";
 			}
-			else if(clickedSquare.getPawn().getColor() != color){	//Players can only move their pieces
+			else if(clickedSquare.getPawn().getColor() != color){	//Players can only move their pawns
 				return "error";
 			}
 
@@ -36,6 +36,7 @@ public class Human extends Player{
 				}
 			}
 
+			//At this point they have clicked a square with 1 of their pawns
 			selectedSquare=clickedSquare;
 
 			moves = new LinkedList<Move>();
@@ -66,13 +67,14 @@ public class Human extends Player{
 					}
 				}
 			}
-			else{
+			else{	//Find normal moves
 				try{
 					Square landingSquare = selectedSquare.getPawn().calculateLandingSquare(numSpaces);
 					int bumpCount = 0;
 					if(landingSquare.isOccupied() && landingSquare.getPawn().getColor()!=color){
 						bumpCount++;
 					}
+
 					boolean slide = false;
 					if(numSpaces>0 && landingSquare.getClass().getSimpleName().equals("SlideStartSquare") && landingSquare.getColor()!=color){	//only slide on other player's slides
 						bumpCount = 0;
@@ -90,10 +92,12 @@ public class Human extends Player{
 							landingSquare = slideDestinationSquare;
 						}
 					}
+
 					boolean leftStart = false;
 					if(selectedSquare.getClass().getSimpleName().equals("StartSquare")){
 						leftStart = true;
 					}
+
 					int movesToHome = selectedSquare.getPawn().calculateMovesToHome();
 					moves.add(new Move(selectedSquare.getPawn(), landingSquare, leftStart, slide, bumpCount, movesToHome));
 
@@ -112,10 +116,13 @@ public class Human extends Player{
 				}
 			}
 		}
+
 		//A second square was clicked to finalize a move or cancel
 		else{
 			if(!moves.isEmpty()){
 				chosenMove = moves.getFirst();
+
+				//Check if they clicked a square that is where a move should land
 				boolean clickedValidLandingSquare = false;
 				for(int i=0; i<moves.size(); i++){
 					if(moves.get(i).landingSquare.getSquareId() == clickedSquare.getSquareId()){
@@ -124,7 +131,7 @@ public class Human extends Player{
 						break;
 					}
 				}
-				if(clickedValidLandingSquare){		//Make sure clicked square is the correct destination
+				if(clickedValidLandingSquare){
 					completedMove = true;
 					actuallyMove(numSpaces);
 
