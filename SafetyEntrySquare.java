@@ -1,11 +1,8 @@
 import enums.Color;
 
+//Has a normal next square as well as a special square that can only be entered if the pawn color matches
 public class SafetyEntrySquare extends Square {
 	private SafetySquare nextSafetySquare;
-
-	public SafetyEntrySquare(double sideLength) {
-		super(sideLength);
-	}
 
 	public SafetyEntrySquare(double sideLength, Color color) {
 		super(sideLength, color);

@@ -8,7 +8,7 @@ public class StartSquare extends MultipleSquare {
 
 		backgroundText.setText("Start");
 
-		//Calling add() copies over playerPawns into pawns
+		//Calling add() copies over each pawn in the parameter playerPawns into pawns
 		for(int i=0; i<playerPawns.size(); i++){
 			add(playerPawns.get(i));
 		}
