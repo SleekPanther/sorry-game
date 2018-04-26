@@ -44,7 +44,7 @@ public class Computer extends Player{
 
 					//Check simple bumping (move lands on another pawn)
 					int bumpCount = 0;
-					if(landingSquare.isOccupied() && landingSquare.getColor()!=color){
+					if(landingSquare.isOccupied() && landingSquare.getPawn().getColor()!=color){
 						bumpCount++;
 					}
 
