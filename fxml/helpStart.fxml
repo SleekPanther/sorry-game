@@ -3,32 +3,22 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import java.util.*?>
-<?import javafx.collections.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-
 <FlowPane fx:controller='HelpStartController' stylesheets='css/help.css' xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" >
-
-    <Button text='Go back to menu' fx:id='switchButton'/>
+	<Button text='Go back to menu' fx:id='switchButton'/>
 
 	<ScrollPane maxHeight="400" minWidth="427" >
-	<FlowPane styleClass="middle" >
+		<FlowPane styleClass="middle" >
 			<Text styleClass="header">It seems that you need some help with the start menu!</Text>
 
-				<Text styleClass="title">Starting a New Game</Text>
-				<TextArea styleClass="helpText" prefWidth="350" maxHeight="60"  text="${'
+			<Text styleClass="title">Starting a New Game</Text>
+			<TextArea styleClass="helpText" prefWidth="350" maxHeight="60"  text="${'
 				To start a new game, choose the color you like \n
 				and then select the difficulties for the computer\n
 				players or select none to turn off that computer.
 				'
 			}" />
 
-		<Text styleClass="title">Choosing Computer Difficulty</Text>
+			<Text styleClass="title">Choosing Computer Difficulty</Text>
 			<TextArea styleClass="helpText" prefWidth="350" maxHeight="80"  text="${'
 				For Computer Difficulty, there are two settings with\n
 				two options each. First, select the skill level of the\n
@@ -59,8 +49,6 @@
 				completing a game.
 			'
 			}" />
-	</FlowPane>
-		</ScrollPane>
-
-
+		</FlowPane>
+	</ScrollPane>
 </FlowPane>
