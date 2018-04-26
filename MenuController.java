@@ -1,5 +1,4 @@
 import structures.*;
-import enums.Color;
 import structures.HumanData;
 import Functions.ColorFunctions;
 import java.net.URL;

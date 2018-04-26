@@ -115,9 +115,6 @@ public class GameController extends BaseController implements Initializable {
 	private ArrayList<Square> allSquares = new ArrayList<Square>();
 
 	private ArrayList<Square> cornersSquares = new ArrayList<Square>();
-
-	private ArrayList<String> colorStrings = new ArrayList<String>(Arrays.asList(new String[]{"RED", "BLUE", "YELLOW", "GREEN"}));
-
 	private Player activePlayer;
 	private ArrayList<Player> players;
 	private ArrayList<PlayerData> playerDataList;
@@ -144,10 +141,6 @@ public class GameController extends BaseController implements Initializable {
 
 	public void setHelpScene(Scene scene) {
 		helpScene = scene;
-	}
-
-	public void setMenuScene(Scene scene) {
-		menuScene = scene;
 	}
 
 	public void setStatsScene(Scene scene) {
@@ -325,10 +318,12 @@ public class GameController extends BaseController implements Initializable {
 	}
 
 	private void setUpColorSwitcher(){
+		ArrayList<String> colorStrings = new ArrayList<String>(Arrays.asList(new String[]{"RED", "BLUE", "YELLOW", "GREEN"}));
 		//Create dropdown to switch between active player for testing
 		activePlayerColorDropdown.setItems(FXCollections.observableArrayList(colorStrings));
 		activePlayerColorDropdown.setVisibleRowCount(colorStrings.size());
 		activePlayerColorDropdown.setValue(colorStrings.get(ColorFunctions.colorToPlayerIndex(activePlayer.getColor())));
+		
 		activePlayerColorDropdown.valueProperty().addListener(new ChangeListener<String>() {
 			@Override public void changed(ObservableValue observableValue, String oldValue, String newValue) {
 				activePlayer = players.get(ColorFunctions.colorToPlayerIndex(newValue));
@@ -737,8 +732,8 @@ public class GameController extends BaseController implements Initializable {
 
 		activePlayer = players.get(turn);
 
-		activePlayerColorDisplay.setText("Current Player: "+colorStrings.get(turn));
-		activePlayerColorDropdown.setValue(colorStrings.get(turn));
+		activePlayerColorDisplay.setText("Current Player: "+activePlayer.getColor());
+		activePlayerColorDropdown.setValue(activePlayer.getColor()+"");
 
 		if(activePlayer.getClass().getSimpleName().equals("Computer")){
 			runComputerTurn();
