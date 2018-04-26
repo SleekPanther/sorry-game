@@ -135,7 +135,7 @@ public class GameController extends BaseController implements Initializable {
 	private LinkedList<Card> discards;
 	private Card moveCard = new Card(1);
 
-	private boolean playerCardIsNew = true;
+	private boolean playerCardIsNew = false;
 
 	private int turn = 0;	//numbers correspond to indexes in players ArrayList
 
