@@ -239,7 +239,7 @@ public class GameController extends BaseController implements Initializable {
 		});
 
 		//Uncomment to enable testing
-		// testingComponents.setVisible(false);
+		testingComponents.setVisible(false);
 	}
 
 	//Load player data & create players
