@@ -721,6 +721,7 @@ public class GameController extends BaseController implements Initializable {
 	}
 
 	private void incrementTurn(){
+		checkIfGameWon();
 		if(activePlayer.executedMove()){
 			String lastMoveDisplayText = moveCard.getType() +"";
 			if(moveCard.getType()==0){
@@ -752,6 +753,7 @@ public class GameController extends BaseController implements Initializable {
 		pickCard();
 		activePlayer.executeAutomaticTurn(moveCard.getType());
 		playerCardIsNew = false;
+		checkIfGameWon();
 		//Only increment computer turn if it's NOT a 2 (otherwise they get another turn)
 		if(moveCard.getType()!=2){
 			incrementTurn();	//Moves to the next computer or back to player
