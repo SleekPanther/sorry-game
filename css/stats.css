@@ -1,7 +1,7 @@
 .table-view{
-    -fx-background-color: red;
+	-fx-background-color: red;
 }
 
 .table-view .column-header {
-    -fx-background-color: cyan;
+	-fx-background-color: cyan;
 }
