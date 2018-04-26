@@ -671,6 +671,7 @@ public class GameController extends BaseController implements Initializable {
 					String moveResult = activePlayer.handleSquareClick(square, moveCard.getType());
 					if(moveResult.equals("done")){
 						playerCardIsNew = false;
+						discardLabel.setText("");	//update UI & clear the previous card from being displayed. Must be here for users since 2 cards give another turn
 						checkIfGameWon();
 						//Don't increment turn if user got a 2 (they get another turn)
 						if(enableTurnsCheckbox.isSelected() && moveCard.getType()!=2){
@@ -742,7 +743,7 @@ public class GameController extends BaseController implements Initializable {
 		if(activePlayer.getClass().getSimpleName().equals("Computer")){
 			runComputerTurn();
 		}
-		discardLabel.setText("");
+		discardLabel.setText("");	//update UI & clear the previous card from being displayed
 	}
 
 	private void runComputerTurn(){
