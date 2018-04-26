@@ -26,28 +26,36 @@
 			}" />
 
 			<Text styleClass="title">How To Play</Text>
-			<TextArea styleClass="helpText" prefWidth="370" maxHeight="110"  text="${'
-				When it is your turn, draw a card, then click the pawn\n
-				you want to move. If the move is possible, the \n
-				destination square will get highlighted, and click on\n
+			<TextArea styleClass="helpText" prefWidth="370" maxHeight="150"  text="${'
+				When it is your turn, click the deck to draw a card, then \n
+				click the pawn you want to move. If the move is possible, \n
+				the destination square will get highlighted, and click on \n
 				the destination square to confirm your move. If you want \n
 				to move another pawn, click that one instead of clicking \n
-				the confirmation square.
+				the confirmation square. After your turn, the computers \n
+				will have their turns and the deck will go blank when it \n
+				is your turn again.
 				'
 			}" />
-			<Text styleClass="title">Saving the Game</Text>
-			<TextArea styleClass="helpText" prefWidth="370" maxHeight="60"  text="${'
-				If you want to save the game to be played later, click\n
-				on SAVE GAME. When you restart the program, you can \n
-				resume that game.
-			'
-			}" />
-			<Text styleClass="title">Quitting the Game</Text>
-			<TextArea styleClass="helpText" prefWidth="370" maxHeight="20"  text="${'
-				If you want to quit the game, just click QUIT GAME.
+			<Text styleClass="title">Special Cards</Text>
+			<TextArea styleClass="helpText" prefWidth="370" maxHeight="100"  text="${'
+				There are a few special cards in the deck. You can only \n
+				move from home after drawing a 1 or 2. The 4 card is 4 \n
+				spaces backwards. The SORRY! card enables you to move a \n
+				pawn from start and switch places with anyone on the board.\n
+				The 2 card also lets you have another turn.
 
 			'
 			}" />
+			<Text styleClass="title">Skipping your Turn</Text>
+			<TextArea styleClass="helpText" prefWidth="370" maxHeight="45"  text="${'
+				If there are no turns available to you, you must skip your\n
+				turn. You can also skip your turn for strategic reasons.
+
+			'
+			}" />
+
+
 
 		</FlowPane>
 	</ScrollPane>
