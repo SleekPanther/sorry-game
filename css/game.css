@@ -15,14 +15,25 @@
 	-fx-background-color: #fffb71;
 }
 
-.boardMiddle{
-	-fx-background-color: #FFFFFF;
-}
-
 .border{
 	-fx-border-width: 1;
 	-fx-border-color: black;
 	-fx-border-style: solid;
+}
+
+.circle{
+	/*rounded corners 100% to make circle*/
+	-fx-background-radius: 100%;
+	-fx-border-radius: 100%;
+}
+
+.bold{
+	-fx-font-weight: bold;
+}
+
+
+.boardMiddle{
+	-fx-background-color: #FFFFFF;
 }
 
 .playerSettingsVertical{
@@ -33,6 +44,7 @@
 	-fx-padding: 0 0 0 250;
 }
 .playerSettingsHorizontal Label{
+	/*Put padding between horizontal labels since contained in HBox and otherwise will be right next to each other*/
 	-fx-padding: 0 10 0 10;
 }
 
@@ -60,12 +72,6 @@ SlideDestinationSquare{
 	-fx-border-style: dotted;
 }
 
-.circle{
-	/*rounded corners 100% to make circle*/
-	-fx-background-radius: 100%;
-	-fx-border-radius: 100%;
-}
-
 HomeSquare GridPane, StartSquare GridPane{
 	-fx-alignment: center;
 	/*this separates the 4 pawns and makes them take up the containing circle by adding a spacer/gap in the shape of a + sign in the middle*/
@@ -76,16 +82,6 @@ HomeSquare GridPane, StartSquare GridPane{
 HomeSquare Text, StartSquare Text{
 	-fx-font-weight: bold;
 	-fx-font-size: 25;
-}
-
-#drawCards{
-	-fx-pref-width: 200;
-	-fx-pref-height: 50;
-	-fx-background-color: #00ff00;
-
-	-fx-border-width: 1;
-	-fx-border-color: black;
-	-fx-border-style: solid;
 }
 
 .cardPane{
@@ -99,16 +95,11 @@ HomeSquare Text, StartSquare Text{
 }
 
 #drawLabel {
-	-fx-font-weight: bold;
 	-fx-font-size: 25;
 }
 
 #drawInstructions{
 	-fx-font-size: 15;
-}
-
-#discardLabel {
-	-fx-font-weight: bold;
 }
 
 .largeDiscardFont{

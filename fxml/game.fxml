@@ -64,12 +64,12 @@
 						<StackPane styleClass='green, circle' fx:id='greenStartContainer'></StackPane>
 
 						<StackPane fx:id='discardPile' styleClass='cardPane, border' AnchorPane.topAnchor='180' AnchorPane.leftAnchor='180'>
-							<Label fx:id='discardLabel' styleClass='largeDiscardFont' text='1'/>
+							<Label fx:id='discardLabel' styleClass='largeDiscardFont, bold' text='1'/>
 						</StackPane>
 
 						<StackPane fx:id='drawPile' styleClass='cardPane, border' AnchorPane.topAnchor='180' AnchorPane.rightAnchor='180'>
 							<VBox>
-								<Label fx:id='drawLabel' text='Sorry!'/>
+								<Label fx:id='drawLabel' styleClass='bold' text='Sorry!'/>
 								<Label fx:id='drawInstructions' text='Click for card'/>
 							</VBox>
 						</StackPane>
