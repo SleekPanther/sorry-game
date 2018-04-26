@@ -685,7 +685,7 @@ public class GameController extends BaseController implements Initializable {
 		discards.clear();
 	}
 
-	private void checkIfGameWon(){
+	private boolean checkIfGameWon(){
 		if(activePlayer.getNumPawnsInHome()==PAWNS_TO_WIN){
 			String jdbcUrl = "jdbc:mysql://104.154.51.240/sorrygame";
 			String username = "root";
@@ -717,11 +717,17 @@ public class GameController extends BaseController implements Initializable {
 
 			Stage containingStage = (Stage)topRowContainer.getScene().getWindow();
 			changeScene(statsScene, containingStage);
+
+			return true;	//game was won
 		}
+		return false;
 	}
 
 	private void incrementTurn(){
-		checkIfGameWon();
+		if(checkIfGameWon()){
+			return;
+		}
+
 		if(activePlayer.executedMove()){
 			String lastMoveDisplayText = moveCard.getType() +"";
 			if(moveCard.getType()==0){
@@ -753,7 +759,11 @@ public class GameController extends BaseController implements Initializable {
 		pickCard();
 		activePlayer.executeAutomaticTurn(moveCard.getType());
 		playerCardIsNew = false;
-		checkIfGameWon();
+
+		if(checkIfGameWon()){
+			return;
+		}
+
 		//Only increment computer turn if it's NOT a 2 (otherwise they get another turn)
 		if(moveCard.getType()!=2){
 			incrementTurn();	//Moves to the next computer or back to player
